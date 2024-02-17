@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboard\User\UserController;
 use App\Http\Controllers\Dashboard\Batiment\BatimentController;
 
 /*
@@ -32,14 +33,20 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
      */
     Route::group(['prefix'=> 'batiments','as'=>'batiments.'], function () {
         Route::resource('/', BatimentController::class);
-        Route::get('/batiments/create_ajax/get', [BatimentController::class ,'create_ajax' ])->name('create_ajax');
-        Route::post('/batiments/store_ajax', [BatimentController::class ,'store_ajax'])->name('store_ajax');
-
-        // Route::get('/batiment/{Num_batiment}', [BatimentController::class ,'show'])->name('batiment.show');
-        // Route::get('/batiments/create', [BatimentController::class ,'create'])->name('batiments.create');
-
-        // Route::get('get_stages', [StageController::class, 'getStages'])->name('stages.get_stages');
+        Route::get('/create_ajax/get', [BatimentController::class ,'create_ajax' ])->name('create_ajax');
+        Route::post('/store_ajax', [BatimentController::class ,'store_ajax'])->name('store_ajax');
     });
+
+        /**
+     * Batiment Management
+     */
+    Route::group(['prefix'=> 'users','as'=>'users.'], function () {
+        Route::resource('/', UserController::class);
+    });
+
+
+
+  
 });
 
 

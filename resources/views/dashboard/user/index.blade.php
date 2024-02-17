@@ -30,12 +30,51 @@ LISTE DES UTILISATEURS
         <div class="card card-statistics h-100">
             <div class="card-body">
                 <button type="button"class="button x-small"  data-toggle="modal" data-target="#createUserModal">
-                    INSERTION UTILISATEUR
+                    Create User
                 </button>
                 <br><br>
-                {{-- <div class="table-responsive">
+                <br><br>
+                <div class="table-responsive">
+                    <table id="datatable" class="table  table-hover table-sm table-bordered p-0" data-page-length="50" style="text-align: center">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>NOM & PRENOM</th>
+                                <th>COMPTE</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($users as $key => $user)
+                            <tr>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{ ucfirst($user->name) }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>
+                                    <a href="#" data-ajax-popup="true" data-title="Edit User" data-size="lg" data-url="{{route('users.edit', $user->id)}}"
+                                        class="btn btn-info btn-sm">Edit
+                                    </a>
 
-                </div> --}}
+{{-- 
+                                    <button type="button" class="btn btn-sm btn-neutral Num_batiment" data-toggle="modal" data-target="#batimentModal" data-id="{{$batiment->Num_Bat}}">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-danger delete_batiment" data-toggle="modal" data-target="#batimentModal" data-id="{{$batiment->Num_Bat}}">
+                                        <i class="fa fa-trash"></i>
+                                    </button> 
+
+                                    <button type="button" class="btn btn-success btn-sm Num_batiment" data-toggle="modal"
+                                        data-target="#editBatimentModal"  data-id="{{$batiment->Num_Bat}}" title="Edit">
+                                        <i class="fa fa-edit"></i>
+                                    </button> --}}
+                                </td>
+                            </tr>
+                            @endforeach
+
+                        </tbody>
+                    </table>
+                    {{ $batiments->links() }}                                            
+                </div>
             </div>
         </div>
     </div>
