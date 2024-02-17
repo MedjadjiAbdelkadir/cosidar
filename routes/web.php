@@ -50,7 +50,7 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
         Route::post('/store_ajax', [BatimentController::class ,'store_ajax'])->name('store_ajax');
     });
 
-        /**
+    /**
      * Batiment Management
      */
     Route::group(['prefix'=> 'users','as'=>'users.'], function () {
