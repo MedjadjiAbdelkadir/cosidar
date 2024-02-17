@@ -1,3 +1,14 @@
+@if (session('error'))
+    <script>
+        Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: "{{ session('error') }}",
+        showConfirmButton: false,
+        timer: 5500
+        })
+    </script>
+@endif
 <!-- jquery -->
 <script src="{{ URL::asset('assets/js/jquery-3.3.1.min.js') }}"></script>
 <!-- plugins-jquery -->
@@ -27,7 +38,7 @@
 <!-- custom -->
 <script src="{{ URL::asset('assets/js/custom.js') }}"></script>
 
-{{-- 
+{{--
 <script>
     $(document).ready(function() {
         $('#datatable').DataTable();

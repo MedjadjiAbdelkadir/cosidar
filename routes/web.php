@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Dashboard\Ilots\IlotController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\User\UserController;
 use App\Http\Controllers\Dashboard\Batiment\BatimentController;
@@ -16,14 +19,24 @@ use App\Http\Controllers\Dashboard\Batiment\BatimentController;
 */
 
 define('PAGINATE_COUNT',7);
+Auth::routes();
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['prefix' => 'dashboard','as' => 'dashboard.','middleware' => ['auth', 'verified']],function(){
+
+    Route::get('/', function () {
+        return view('dashboard');
+    });
+
+
+    Route::get('/users', function () {
+        return view('dashboard.user.index');
+    });
 });
 
-
-Route::get('/dashboard/users', function () {
-    return view('dashboard.user.index');
+Route::middleware(["auth"])->group(function() {
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
 
 Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
@@ -46,7 +59,7 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
 
 
 
-  
+
 });
 
 
