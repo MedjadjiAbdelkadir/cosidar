@@ -25,7 +25,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="chat-page.html">
+                        <a href="{{ route('dashboard.batiments.index') }}">
                             {{-- <i class="ti-building"></i> --}}
                             <i class="fa fa-building" aria-hidden="true"></i>
                             <span class="right-nav-text">Batiments</span>
