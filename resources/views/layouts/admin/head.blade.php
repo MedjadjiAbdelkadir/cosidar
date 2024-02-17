@@ -17,3 +17,6 @@
 @else
     <link href="{{ asset('assets/css/rtl.css') }}" rel="stylesheet">
 @endif
+
+{{-- Sweetalert --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

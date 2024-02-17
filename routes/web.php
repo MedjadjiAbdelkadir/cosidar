@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,12 +14,21 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['prefix' => 'dashboard','as' => 'admin.','middleware' => ['auth', 'verified']],function(){
+
+    Route::get('/', function () {
+        return view('dashboard');
+    });
+
+    Route::get('/users', function () {
+        return view('dashboard.user.index');
+    });
 });
 
-
-Route::get('/dashboard/users', function () {
-    return view('dashboard.user.index');
+Route::middleware(["auth"])->group(function() {
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
