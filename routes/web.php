@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Dashboard\Ilots\IlotController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,11 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.','middleware' => ['aut
 
     Route::get('/', function () {
         return view('dashboard');
+    });
+
+    Route::group(['prefix' => 'ilots'], function(){
+        Route::resource('/', [IlotController::class]);
+
     });
 
     Route::get('/users', function () {
