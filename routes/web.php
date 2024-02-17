@@ -18,7 +18,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(['prefix' => 'dashboard','as' => 'admin.','middleware' => ['auth', 'verified']],function(){
+Route::group(['prefix' => 'dashboard','as' => 'dashboard.','middleware' => ['auth', 'verified']],function(){
 
     Route::get('/', function () {
         return view('dashboard');
