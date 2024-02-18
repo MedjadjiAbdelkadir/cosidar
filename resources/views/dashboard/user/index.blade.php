@@ -33,7 +33,6 @@ LISTE DES UTILISATEURS
                     Create User
                 </button>
                 <br><br>
-                <br><br>
                 <div class="table-responsive">
                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0" data-page-length="50" style="text-align: center">
                         <thead>
@@ -51,9 +50,22 @@ LISTE DES UTILISATEURS
                                 <td>{{ ucfirst($user->name) }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
-                                    <a href="#" data-ajax-popup="true" data-title="Edit User" data-size="lg" data-url="{{route('users.edit', $user->id)}}"
-                                        class="btn btn-info btn-sm">Edit
-                                    </a>
+                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editUserModal{{ $user->id }}">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteUserModal{{ $user->id }}">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+
+                                    {{-- <a href="#" class="btn @if($user->user_status == 1) btn-success @else btn-danger @endif btn-sm" data-toggle="sweet-alert"
+                                        data-confirm="{{ __('Are You Sure?') }}|{{ __('Do you want to continue?') }}"
+                                        data-button-text="Change"
+                                        data-confirm-yes="document.getElementById('status-form-{{$user->id}}').submit();"> @if($user->user_status == 1) {{__('Active')}} @else {{__('Deactive')}} @endif 
+                                    </a> 
+                                    <form action="{{  route('dashboard.users.status',$user->id)}}" method="post">
+                                        @method('PATCH')
+                                    </form> --}}
+
 
 {{-- 
                                     <button type="button" class="btn btn-sm btn-neutral Num_batiment" data-toggle="modal" data-target="#batimentModal" data-id="{{$batiment->Num_Bat}}">
@@ -69,11 +81,14 @@ LISTE DES UTILISATEURS
                                     </button> --}}
                                 </td>
                             </tr>
+                            @include('dashboard.user.edit')
+                            @include('dashboard.user.delete')
+
                             @endforeach
 
                         </tbody>
                     </table>
-                    {{ $batiments->links() }}                                            
+                    {{ $users->links() }}                                            
                 </div>
             </div>
         </div>

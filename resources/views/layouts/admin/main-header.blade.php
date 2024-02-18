@@ -1,3 +1,4 @@
+use Illuminate\Support\Facades\Auth;
         <!--=================================
  header start-->
         <nav class="admin-header navbar navbar-default col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -87,9 +88,13 @@
                     <div class="dropdown-menu dropdown-menu-right">
                         <div class="dropdown-header">
                             <div class="media">
-                                <div class="media-body">
+                                {{-- <div class="media-body">
                                     <h5 class="mt-0 mb-0">{{ Auth::user()->name }}</h5>
                                     <span>{{ Auth::user()->email }}</span>
+                                </div> --}}
+                                <div class="media-body">
+                                    <h5 class="mt-0 mb-0">Medjadji/h5>
+                                    <span>medjadji@gmail.com</span>
                                 </div>
                             </div>
                         </div>

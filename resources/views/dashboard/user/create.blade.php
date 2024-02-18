@@ -67,24 +67,24 @@
             </div>
             <div class="modal-body">
                 <!-- add_form -->
-                <form action="" method="POST">
+                <form action="{{ route('dashboard.users.store') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label for="Name" class="mr-sm-2">Nom & Prénom :</label>
-                            <input id="Name" type="text" name="Name" class="form-control" placeholder="Enter new user name">
+                            <label for="name" class="mr-sm-2">Nom & Prénom :</label>
+                            <input id="name" type="text" name="name" class="form-control" placeholder="Enter new user name">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="Name_en" class="mr-sm-2">Compte (Compte@gmail.com) :</label>
-                            <input type="text" class="form-control" name="Name_en" placeholder="Enter new Email Address">
+                            <label for="email" class="mr-sm-2">Compte (Compte@gmail.com) :</label>
+                            <input type="text" class="form-control" name="email" placeholder="Enter new Email Address">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="Name" class="mr-sm-2">Mot de Passe :</label>
-                            <input id="Name" type="text" name="Name" class="form-control" placeholder="Enter new Password">
+                            <label for="password" class="mr-sm-2">Mot de Passe :</label>
+                            <input id="password" type="password" name="password" class="form-control" placeholder="Enter new Password">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="Name_en" class="mr-sm-2">Confirmation de Mot de Passe :</label>
-                            <input type="text" class="form-control" name="Name_en" placeholder="Confirm Password">
+                            <label for="password_confirmation" class="mr-sm-2">Confirmation de Mot de Passe :</label>
+                            <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm Password">
                         </div>
                     </div>
                     <br><br>
