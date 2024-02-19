@@ -19,7 +19,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="chat-page.html">
+                        <a href="{{ route('dashboard.ilots.index') }}">
                             <i class="ti-comments"></i>
                             <span class="right-nav-text">Ilots</span>
                         </a>
@@ -68,7 +68,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="chat-page.html">
+                        <a href="{{ route('dashboard.ilots.activityUsers') }}">
                             <i class="fa fa-area-chart" aria-hidden="true"></i>
                             <span class="right-nav-text">Bilan</span>
                         </a>

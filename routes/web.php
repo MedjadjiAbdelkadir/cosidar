@@ -27,8 +27,20 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.','middleware' => ['aut
 
     Route::get('/', function () {
         return view('dashboard');
-    });
+    })->name('dashboard');
 
+    // ? Router for Ilots Management
+    Route::group(['prefix' => 'ilots', 'as' => 'ilots.'], function () {
+        Route::resource('/', IlotController::class);
+        Route::delete('/deleted', [IlotController::class, 'deleted'])->name('deleted');
+        Route::put('/ilot/update/{id}', [IlotController::class, 'updated'])->name('updated');
+        Route::get('/{user_id}/getIliotsByIdUser', [IlotController::class, 'getIliotsByIdUser'])->name('');
+        Route::get('/{Num_ilot}/getChildreenOfIlot', [IlotController::class, 'getChildreenOfIlot'])->name('');
+        Route::get('/activity-users', [IlotController::class, 'activity_users'])->name('activityUsers');
+        Route::post('/update-validation/{ilot}',[IlotController::class, 'updateValidation'])->name('updateValidation');
+        Route::post('/filter/activity', [IlotController::class, 'filterActivityByDate'])->name('filterActivityByDate');
+    });
+    //*  End Ilots Management ****************************************************************
 
     Route::get('/users', function () {
         return view('dashboard.user.index');
@@ -51,7 +63,7 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
     });
 
         /**
-     * Batiment Management
+     * Users Management
      */
     Route::group(['prefix'=> 'users','as'=>'users.'], function () {
         Route::resource('/', UserController::class);
