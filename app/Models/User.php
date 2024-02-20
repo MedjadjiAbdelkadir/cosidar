@@ -16,7 +16,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use Notifiable;
-    use HasRoles;
+    // use HasRoles;
 
     protected $fillable = [
         'name',
@@ -32,7 +32,7 @@ class User extends Authenticatable
         'is_active',
         'user_status',
         'role',
-       
+
     ];
 
     protected $hidden = [
@@ -190,11 +190,11 @@ class User extends Authenticatable
     public static function countPaidOwners()
     {
         return User::where('parent_id', '!=', '0')
-                   ->where('branch_id', '=', '0')
-                   ->where('cash_register_id', '=', '0')
-                   ->where('parent_id', '=', Auth::user()->id)
-                   ->whereNotIn( 'plan_id', [ 0, 1 ] )
-                   ->count();
+                    ->where('branch_id', '=', '0')
+                    ->where('cash_register_id', '=', '0')
+                    ->where('parent_id', '=', Auth::user()->id)
+                    ->whereNotIn( 'plan_id', [ 0, 1 ] )
+                    ->count();
     }
 
     public function assignPlan($plan_id)

@@ -1,3 +1,35 @@
+@if (session('error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "{{ session('error') }}"
+        })
+    </script>
+@endif
+
+@if (session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'succès',
+            text: "{{ session('success') }}"
+        })
+    </script>
+@endif
+
+@if (session('success'))
+    <script>
+        Swal.fire({
+            // position: "top-end",
+        icon: 'success',
+        title: 'Success',
+        text: "{{ session('success') }}",
+        showConfirmButton: false,
+        timer: 3000
+        })
+    </script>
+@endif
 <!-- jquery -->
 <script src="{{ URL::asset('assets/js/jquery-3.3.1.min.js') }}"></script>
 <!-- plugins-jquery -->
@@ -27,7 +59,7 @@
 <!-- custom -->
 <script src="{{ URL::asset('assets/js/custom.js') }}"></script>
 
-{{-- 
+{{--
 <script>
     $(document).ready(function() {
         $('#datatable').DataTable();

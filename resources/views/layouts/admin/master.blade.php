@@ -46,7 +46,7 @@
             <!--=================================
  footer -->
 
-            @include('layouts.admin.footer')
+            {{-- @include('layouts.admin.footer') --}}
         </div><!-- main content wrapper end-->
     </div>
     </div>

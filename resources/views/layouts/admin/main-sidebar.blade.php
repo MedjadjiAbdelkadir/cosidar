@@ -13,44 +13,44 @@
                         </a>
                     </li>
                     <li>
-                        <a href="chat-page.html">
+                        <a href="{{ route('dashboard.users.index') }}">
                             <i class="fa fa-user" aria-hidden="true"></i>
                             <span class="right-nav-text">Utilisateurs</span>
                         </a>
                     </li>
                     <li>
-                        <a href="chat-page.html">
+                        <a href="{{ route('dashboard.ilots.index') }}">
                             <i class="ti-comments"></i>
                             <span class="right-nav-text">Ilots</span>
                         </a>
                     </li>
                     <li>
-                        <a href="chat-page.html">
+                        <a href="{{ route('dashboard.batiments.index') }}">
                             {{-- <i class="ti-building"></i> --}}
                             <i class="fa fa-building" aria-hidden="true"></i>
                             <span class="right-nav-text">Batiments</span>
                         </a>
                     </li>
                     <li>
-                        <a href="chat-page.html">
+                        <a href="{{ route('dashboard.inventaires.index') }}">
                             <i class="ti-comments"></i>
                             <span class="right-nav-text">Inventaire</span>
                         </a>
                     </li>
                     <li>
-                        <a href="chat-page.html">
+                        <a href="{{ route('dashboard.locaux.index') }}">
                             <i class="fa fa-archive" aria-hidden="true"></i>
                             <span class="right-nav-text">Locaux</span>
                         </a>
                     </li>
                     <li>
-                        <a href="chat-page.html">
+                        <a href="{{ route('dashboard.proprietaires.index') }}">
                             <i class="fa fa-users" aria-hidden="true"></i>
                             <span class="right-nav-text">Proprietaires</span>
                         </a>
                     </li>
                     <li>
-                        <a href="chat-page.html">
+                        <a href="{{ route('dashboard.actes.index') }}">
                             <i class="ti-comments"></i>
                             <span class="right-nav-text">Réference acte</span>
                         </a>
@@ -68,7 +68,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="chat-page.html">
+                        <a href="{{ route('dashboard.ilots.activityUsers') }}">
                             <i class="fa fa-area-chart" aria-hidden="true"></i>
                             <span class="right-nav-text">Bilan</span>
                         </a>

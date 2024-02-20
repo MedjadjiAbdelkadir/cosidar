@@ -30,12 +30,57 @@ LISTE DES UTILISATEURS
         <div class="card card-statistics h-100">
             <div class="card-body">
                 <button type="button"class="button x-small"  data-toggle="modal" data-target="#createUserModal">
-                    INSERTION UTILISATEUR
+                    Create User
                 </button>
                 <br><br>
-                {{-- <div class="table-responsive">
+                <div class="table-responsive">
+                    <table id="datatable" class="table  table-hover table-sm table-bordered p-0" data-page-length="50" style="text-align: center">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>NOM & PRENOM</th>
+                                <th>COMPTE</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($users as $key => $user)
+                            <tr>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{ ucfirst($user->name) }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>
+                                    <button type="button" class="btn @if($user->user_status == 1) btn-success @else btn-danger @endif btn-sm" data-toggle="modal" data-target="#changeStatusUserModal{{ $user->id }}">
+                                        @if($user->user_status == 1)
+                                        Active
+                                        @else
+                                        Deactive
+                                        @endif
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editUserModal{{ $user->id }}">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteUserModal{{ $user->id }}">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                    {{-- <button type="button"  class="btn btn-info btn-sm" data-toggle="modal" data-target="#showUserModal{{ $user->id }}">
+                                        <i class="fa fa-eye"></i>
+                                    </button> --}}
+                                </td>
+                            </tr>
+                            @include('dashboard.user.edit')
+                            {{-- @include('dashboard.user.show') --}}
+                            @include('dashboard.user.delete')
+                            @include('dashboard.user.changeStatus')
+                            @endforeach
 
-                </div> --}}
+                        </tbody>
+                    </table>
+                    {{ $users->links() }}                                            
+                </div>
             </div>
         </div>
     </div>
