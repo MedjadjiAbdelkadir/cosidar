@@ -58,25 +58,22 @@ Batiments
                                 <td>{{ $batiment->sup_bati_cons }}</td>
                                 <td>{{ $batiment->nom_bat }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-neutral Num_batiment" data-toggle="modal" data-target="#batimentModal" data-id="{{$batiment->Num_Bat}}">
+                                    <button type="button"  class="btn btn-info btn-sm" data-toggle="modal" data-target="#showBatimentModal{{$batiment->Num_Bat}}">
                                         <i class="fa fa-eye"></i>
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-danger delete_batiment" data-toggle="modal" data-target="#batimentModal" data-id="{{$batiment->Num_Bat}}">
-                                        <i class="fa fa-trash"></i>
-                                    </button> 
-
-                                    <button type="button" class="btn btn-success btn-sm Num_batiment" data-toggle="modal"
-                                        data-target="#editBatimentModal"  data-id="{{$batiment->Num_Bat}}" title="Edit">
+                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editBatimentModal{{$batiment->Num_Bat}}">
                                         <i class="fa fa-edit"></i>
                                     </button>
-
-
-
-                                    {{-- <button type="button" class="btn btn-sm btn-success edit_batiment" data-toggle="modal" data-target="#batimentModal" data-id="{{$batiment->Num_Bat}}">
-                                        <i class="fa fa-pencil-alt"></i>
-                                    </button>  --}}
+                                    <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteBatimentModal{{$batiment->Num_Bat}}">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
                                 </td>
                             </tr>
+                            @include('dashboard.batiment.edit')
+                            @include('dashboard.batiment.show')
+                            @include('dashboard.batiment.delete')
+                            {{-- @include('dashboard.user.changeStatus') --}}
+                            {{-- batiment --}}
                             @endforeach
 
                         </tbody>

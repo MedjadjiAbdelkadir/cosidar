@@ -19,8 +19,8 @@ class BatimentController extends Controller
     public function index()
     {
         $batiments =  DB::table('dbo_batiment')->select('dbo_batiment.*')->paginate(PAGINATE_COUNT);
-            
-        return view('dashboard.batiment.index')->with('batiments', $batiments);
+        $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
+        return view('dashboard.batiment.index',compact(['batiments','ilotOptions']));
     }
 
     /**

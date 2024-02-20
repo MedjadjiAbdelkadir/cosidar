@@ -12,8 +12,10 @@
             </div>
             <div class="modal-body">
                 <!-- add_form -->
-                <form action="" method="POST">
+                <form action="{{ route('dashboard.users.update' , 'test') }}" method="POST">
                     @csrf
+                    @method('PATH')
+                    <input type="hidden" name="id" value="{{ $user->id }}" class="form-control">
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="name" class="mr-sm-2">Nom & Prénom :</label>
