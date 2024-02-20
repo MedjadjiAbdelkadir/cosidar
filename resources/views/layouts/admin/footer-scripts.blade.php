@@ -9,6 +9,19 @@
         })
     </script>
 @endif
+
+@if (session('success'))
+    <script>
+        Swal.fire({
+            // position: "top-end",
+        icon: 'success',
+        title: 'Success',
+        text: "{{ session('success') }}",
+        showConfirmButton: false,
+        timer: 3000
+        })
+    </script>
+@endif
 <!-- jquery -->
 <script src="{{ URL::asset('assets/js/jquery-3.3.1.min.js') }}"></script>
 <!-- plugins-jquery -->

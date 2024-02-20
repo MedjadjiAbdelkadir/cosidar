@@ -2,7 +2,7 @@
 @section('css')
 
 @section('title')
-Batiments
+ORIGINE DES DROITS
 @stop
 @endsection
 @section('page-header')
@@ -15,7 +15,7 @@ Batiments
         <div class="col-sm-6">
             <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
                 <li class="breadcrumb-item"><a href="#" class="default-color">Dashboard</a></li>
-                <li class="breadcrumb-item active">Batiments</li>
+                <li class="breadcrumb-item active">ORIGINE DES DROITS</li>
             </ol>
         </div>
     </div>
@@ -31,7 +31,7 @@ Batiments
         <div class="card card-statistics h-100">
             <div class="card-body">
                 <button type="button"class="button x-small"  data-toggle="modal" data-target="#createUserModal">
-                    Create
+                    Ajouter ORIGINE DES DROITS
                 </button>
                 <br><br>
                 <div class="table-responsive">
@@ -39,46 +39,46 @@ Batiments
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>N°BATIMENT</th>
-                                <th>N° BIEN</th>
-                                <th>NBR NIVEAU</th>
-                                <th>SUPERFICIE CONSTRUITE</th>
-                                <th>NOM BATIMENT</th>
+                                <th>N°ACTE</th>
+                                <th>N° BIEN</th> 
+                                <th>NATURE ACTE</th>
+                                <th>CONSTRUCTION ACTE</th>
+                                <th>ORIGINE ACTE</th>
+                                <th>DATE PUBLICATION</th>
+                                <th>VOLUME</th>
+                                <th>CASE</th>
+                                <th>Ref_JRN</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($batiments as $key => $batiment)
+                            @foreach ($actes as $key => $acte)
                             {{-- @foreach ($batimentas;$batiment) --}}
                             <tr>
+
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{ $batiment->Num_Bat }}</td>
-                                <td>{{ ucfirst($batiment->bat_no) }}</td>
-                                <td>{{ $batiment->Nbr_Niveau }}</td>
-                                <td>{{ $batiment->sup_bati_cons }}</td>
-                                <td>{{ $batiment->nom_bat }}</td>
+                                <td>{{ $acte->id }}</td>
+                                <td>{{ $acte->Num_ilot }}</td>
+                                <td>{{ $acte->nature_acte }}</td>
+                                <td>{{ $acte->Construction_Acte }}</td>
+                                <td>{{ $acte->Origine_Acte }}</td>
+                                <td>{{ \Carbon\Carbon::parse($acte->date_pub)->format('Y-m-d') }}</td>
+                                <td>{{ $acte->volume1 }}</td>
+                                <td>{{ $acte->case11 }}</td>
+                                <td>{{ $acte->Ref_JRN }}</td> 
                                 <td>
-                                    <button type="button"  class="btn btn-info btn-sm" data-toggle="modal" data-target="#showBatimentModal{{$batiment->Num_Bat}}">
-                                        <i class="fa fa-eye"></i>
+
+                                    <button type="button" class="btn btn-sm btn-neutral Num_acte" data-toggle="modal" data-target="#acteModal" data-id="{{$acte->id}}">                                                 
                                     </button>
-                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editBatimentModal{{$batiment->Num_Bat}}">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteBatimentModal{{$batiment->Num_Bat}}">
-                                        <i class="fa fa-trash"></i>
+                                    <button type="button" class="btn btn-sm btn-success edit_acte" data-toggle="modal" data-target="#acteModal" data-id="{{$acte->id}}">                                                 
                                     </button>
                                 </td>
                             </tr>
-                            @include('dashboard.batiment.edit')
-                            @include('dashboard.batiment.show')
-                            @include('dashboard.batiment.delete')
-                            {{-- @include('dashboard.user.changeStatus') --}}
-                            {{-- batiment --}}
                             @endforeach
 
                         </tbody>
                     </table>
-                    {{ $batiments->links() }}                                            
+                    {{ $actes->links() }}                                            
                 </div>
             </div>
         </div>

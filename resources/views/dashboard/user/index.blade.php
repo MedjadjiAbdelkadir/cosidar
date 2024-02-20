@@ -33,7 +33,6 @@ LISTE DES UTILISATEURS
                     Create User
                 </button>
                 <br><br>
-                <br><br>
                 <div class="table-responsive">
                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0" data-page-length="50" style="text-align: center">
                         <thead>
@@ -41,6 +40,7 @@ LISTE DES UTILISATEURS
                                 <th>#</th>
                                 <th>NOM & PRENOM</th>
                                 <th>COMPTE</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -51,29 +51,35 @@ LISTE DES UTILISATEURS
                                 <td>{{ ucfirst($user->name) }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
-                                    <a href="#" data-ajax-popup="true" data-title="Edit User" data-size="lg" data-url="{{route('users.edit', $user->id)}}"
-                                        class="btn btn-info btn-sm">Edit
-                                    </a>
-
-{{-- 
-                                    <button type="button" class="btn btn-sm btn-neutral Num_batiment" data-toggle="modal" data-target="#batimentModal" data-id="{{$batiment->Num_Bat}}">
-                                        <i class="fa fa-eye"></i>
+                                    <button type="button" class="btn @if($user->user_status == 1) btn-success @else btn-danger @endif btn-sm" data-toggle="modal" data-target="#changeStatusUserModal{{ $user->id }}">
+                                        @if($user->user_status == 1)
+                                        Active
+                                        @else
+                                        Deactive
+                                        @endif
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-danger delete_batiment" data-toggle="modal" data-target="#batimentModal" data-id="{{$batiment->Num_Bat}}">
-                                        <i class="fa fa-trash"></i>
-                                    </button> 
-
-                                    <button type="button" class="btn btn-success btn-sm Num_batiment" data-toggle="modal"
-                                        data-target="#editBatimentModal"  data-id="{{$batiment->Num_Bat}}" title="Edit">
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editUserModal{{ $user->id }}">
                                         <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteUserModal{{ $user->id }}">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                    {{-- <button type="button"  class="btn btn-info btn-sm" data-toggle="modal" data-target="#showUserModal{{ $user->id }}">
+                                        <i class="fa fa-eye"></i>
                                     </button> --}}
                                 </td>
                             </tr>
+                            @include('dashboard.user.edit')
+                            {{-- @include('dashboard.user.show') --}}
+                            @include('dashboard.user.delete')
+                            @include('dashboard.user.changeStatus')
                             @endforeach
 
                         </tbody>
                     </table>
-                    {{ $batiments->links() }}                                            
+                    {{ $users->links() }}                                            
                 </div>
             </div>
         </div>
