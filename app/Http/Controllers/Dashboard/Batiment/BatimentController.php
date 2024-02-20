@@ -21,6 +21,8 @@ class BatimentController extends Controller
         $batiments =  DB::table('dbo_batiment')->select('dbo_batiment.*')->paginate(PAGINATE_COUNT);
         $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
         return view('dashboard.batiment.index',compact(['batiments','ilotOptions']));
+
+        return view('dashboard.batiment.index')->with('batiments', $batiments);
     }
 
     /**
@@ -57,36 +59,35 @@ class BatimentController extends Controller
     {
         $maxNumBat = Batiment::max('Num_Bat');
         $maxNumBat = $maxNumBat + 1;
-    
-       
+
         $validatedData = $request->validate([
-        
+
             //////////////////////
-            // 'Num_Bat' => '', 
-            'bat_no'=> '', 
-            'Num_ilot'=> '', 
-            'Nbr_Niveau'=> '', 
-            'sup_bati_cons'=> '', 
+            // 'Num_Bat' => '',
+            'bat_no'=> '',
+            'Num_ilot'=> '',
+            'Nbr_Niveau'=> '',
+            'sup_bati_cons'=> '',
             'sup_SDHO'=> '',
-            //'lot_bat'=> '', 
-            'nom_bat'=> '', 
-            'bat_desc'=> '', 
+            //'lot_bat'=> '',
+            'nom_bat'=> '',
+            'bat_desc'=> '',
             //'nbr_loc'=> '',
-        
+
         ]);
 
             // Créez un nouveau modèle Ilot avec le nouveau Num_ilot
         $batiment =  Batiment::create([
             ///////////////////
-            'Num_Bat' => $maxNumBat, 
-            'bat_no'=> $validatedData['bat_no'], 
-            'Num_ilot'=> $validatedData['Num_ilot'], 
-            'Nbr_Niveau'=> $validatedData['Nbr_Niveau'], 
-            'sup_bati_cons'=> $validatedData['sup_bati_cons'], 
+            'Num_Bat' => $maxNumBat,
+            'bat_no'=> $validatedData['bat_no'],
+            'Num_ilot'=> $validatedData['Num_ilot'],
+            'Nbr_Niveau'=> $validatedData['Nbr_Niveau'],
+            'sup_bati_cons'=> $validatedData['sup_bati_cons'],
             'sup_SDHO'=> $validatedData['sup_SDHO'],
-            //'lot_bat'=> $validatedData['lot_bat'], 
-            'nom_bat'=> $validatedData['nom_bat'], 
-            'bat_desc'=> $validatedData['bat_desc'], 
+            //'lot_bat'=> $validatedData['lot_bat'],
+            'nom_bat'=> $validatedData['nom_bat'],
+            'bat_desc'=> $validatedData['bat_desc'],
             //'nbr_loc'=> $validatedData['nbr_loc'],
                 ////////////////
         ]);
@@ -102,29 +103,29 @@ class BatimentController extends Controller
         $maxNumBat = $maxNumBat + 1;
         $validatedData = $request->validate([
             //////////////////////
-            // 'Num_Bat' => '', 
-            'bat_no'=> '', 
-            'Num_ilot'=> '', 
-            'Nbr_Niveau'=> '', 
-            'sup_bati_cons'=> '', 
+            // 'Num_Bat' => '',
+            'bat_no'=> '',
+            'Num_ilot'=> '',
+            'Nbr_Niveau'=> '',
+            'sup_bati_cons'=> '',
             'sup_SDHO'=> '',
-            //'lot_bat'=> '', 
-            'nom_bat'=> '', 
-            'bat_desc'=> '', 
+            //'lot_bat'=> '',
+            'nom_bat'=> '',
+            'bat_desc'=> '',
             //'nbr_loc'=> '',
         ]);
         // Créez un nouveau modèle Ilot avec le nouveau Num_ilot
         $batiment = Batiment::create([
         ///////////////////
-            'Num_Bat' => $maxNumBat, 
-            'bat_no'=> $validatedData['bat_no'], 
-            'Num_ilot'=> $validatedData['Num_ilot'], 
-            'Nbr_Niveau'=> $validatedData['Nbr_Niveau'], 
-            'sup_bati_cons'=> $validatedData['sup_bati_cons'], 
+            'Num_Bat' => $maxNumBat,
+            'bat_no'=> $validatedData['bat_no'],
+            'Num_ilot'=> $validatedData['Num_ilot'],
+            'Nbr_Niveau'=> $validatedData['Nbr_Niveau'],
+            'sup_bati_cons'=> $validatedData['sup_bati_cons'],
             'sup_SDHO'=> $validatedData['sup_SDHO'],
-        //'lot_bat'=> $validatedData['lot_bat'], 
-            'nom_bat'=> $validatedData['nom_bat'], 
-            'bat_desc'=> $validatedData['bat_desc'], 
+        //'lot_bat'=> $validatedData['lot_bat'],
+            'nom_bat'=> $validatedData['nom_bat'],
+            'bat_desc'=> $validatedData['bat_desc'],
         //'nbr_loc'=> $validatedData['nbr_loc'],
             ////////////////
         ]);
@@ -142,14 +143,14 @@ class BatimentController extends Controller
     public function show($Num_batiment)
     {
         $batiment = DB::table('dbo_batiment')
-           
+
             ->where('dbo_batiment.Num_Bat', $Num_batiment)
-           
+
             ->first();
-    
+
         $nombreLocaux = Local::where('Num_Bat', $Num_batiment)->count();
-    
-    
+
+
         return view('dashboard.batiment.show', compact('batiment','nombreLocaux'));
     }
 
@@ -162,9 +163,9 @@ class BatimentController extends Controller
     public function edit($Num_batiment)
     {
         $batiment = Batiment::where('Num_Bat', $Num_batiment)->first();
-    
+
         $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot'); // Remplacez 'Ilot' par le nom de votre modèle d'îlot si nécessaire
-    
+
         return view('dashboard.batiment.edit', compact('batiment', 'ilotOptions'));
     }
 
