@@ -31,13 +31,13 @@ class ProprietaireController extends Controller
         ->paginate(PAGINATE_COUNT);;
 
 
-        $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
+        // $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
         $deciaffect = Deciaffect::pluck('Intitule_fr','Deci_Af' );
         $anx_statut = AnxStatut::pluck('Intitule','bi_natjur' );
         $anx_tutelle = AnxTutelle::pluck('Intitule','bi_natjur' );
         $anx_text_creati = AnxTextCreati::pluck('Intitule','bi_natjur' );
 
-        return view('dashboard.proprietaire.index', compact('proprietaires', 'ilotOptions','deciaffect','anx_statut','anx_tutelle','anx_text_creati'));
+        return view('dashboard.proprietaire.index', compact('proprietaires','deciaffect','anx_statut','anx_tutelle','anx_text_creati'));
 
         // return view('dashboard.proprietaire.index')->with('proprietaires', $proprietaires);
     }
@@ -49,25 +49,25 @@ class ProprietaireController extends Controller
      */
     public function create()
     {
-        $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
+        // $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
         $deciaffect = Deciaffect::pluck('Intitule_fr','Deci_Af' );
         $anx_statut = AnxStatut::pluck('Intitule','bi_natjur' );
         $anx_tutelle = AnxTutelle::pluck('Intitule','bi_natjur' );
         $anx_text_creati = AnxTextCreati::pluck('Intitule','bi_natjur' );
 
-        return view('dashboard.proprietaire.create', compact('ilotOptions','deciaffect','anx_statut','anx_tutelle','anx_text_creati'));
+        return view('dashboard.proprietaire.create', compact('deciaffect','anx_statut','anx_tutelle','anx_text_creati'));
     }
     
     public function create_ajax()
     {
 
-        $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
+        // $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
         $deciaffect = Deciaffect::pluck('Intitule_fr','Deci_Af' );
         $anx_statut = AnxStatut::pluck('Intitule','bi_natjur' );
         $anx_tutelle = AnxTutelle::pluck('Intitule','bi_natjur' );
         $anx_text_creati = AnxTextCreati::pluck('Intitule','bi_natjur' );
 
-        return view('dashboard.proprietaire.create_ajax', compact('ilotOptions','deciaffect','anx_statut','anx_tutelle','anx_text_creati'));
+        return view('dashboard.proprietaire.create_ajax', compact('deciaffect','anx_statut','anx_tutelle','anx_text_creati'));
 
     }
 
@@ -84,8 +84,7 @@ class ProprietaireController extends Controller
         $maxNumPropretaire = Proprietaire::max('pe_num');
         $maxNumPropretaire = $maxNumPropretaire + 1;
         $request->validate([
-                //'pe_num' => '',
-            'Num_ilot'=> '',       
+                //'pe_num' => '',  
             'Denomination_fr'=> '',
             'Statut'=> '', 
             'Tutelle'=> '',
@@ -93,12 +92,19 @@ class ProprietaireController extends Controller
             'Decision_affectation'=> '',  
             'Date_Decision_affectation'=> '',
             'Date_txt_creation' =>'',
+
+            'CODE_II'=> '',
+            'NOMENCLATURE'=> '',
+            'paye_name'=> '',
+            'paye_region'=> '',
+            'paye_code'=> '',
+            'Ref_JRN'=> '',
         ]);
 
         Proprietaire::create([
 
             'pe_num' => $maxNumPropretaire,
-            'Num_ilot' => $request->input('Num_ilot'),
+            // 'Num_ilot' => $request->input('Num_ilot'),
             'Denomination_fr'=> $request->input('Denomination_fr'),
             'Statut'=> $request->input('Statut'),
             'Tutelle'=> $request->input('Tutelle'),
@@ -106,7 +112,14 @@ class ProprietaireController extends Controller
             'Decision_affectation'=> $request->input('Decision_affectation'),  
             'Date_Decision_affectation'=> $request->input('Date_Decision_affectation'), 
             //'Date_txt_creation' => now(),
-            'Date_txt_creation'=> $request->input('Date_txt_creation'), 
+            'Date_txt_creation'=> $request->input('Date_txt_creation'),
+            
+            'CODE_II'=> $request->input('CODE_II'),
+            'NOMENCLATURE'=> $request->input('NOMENCLATURE'),
+            'paye_name'=> $request->input('paye_name'),
+            'paye_region'=> $request->input('paye_region'),
+            'paye_code'=> $request->input('paye_code'),
+            'Ref_JRN'=> $request->input('Ref_JRN'),
         ]);
         // Redirigez l'utilisateur avec un message de succès
         return redirect()->route('dashboard.proprietaire.index')->with('success', 'Le Proprietaire a été créé avec succès.');
@@ -117,7 +130,7 @@ class ProprietaireController extends Controller
         $maxNumPropretaire = $maxNumPropretaire + 1;
         $request->validate([
                 //'pe_num' => '',
-            'Num_ilot'=> '',       
+            // 'Num_ilot'=> '',       
             'Denomination_fr'=> '',
             'Statut'=> '', 
             'Tutelle'=> '',
@@ -129,7 +142,7 @@ class ProprietaireController extends Controller
  
         Proprietaire::create([
             'pe_num' => $maxNumPropretaire,
-            'Num_ilot' => $request->input('Num_ilot'),
+            // 'Num_ilot' => $request->input('Num_ilot'),
             'Denomination_fr'=> $request->input('Denomination_fr'),
             'Statut'=> $request->input('Statut'),
             'Tutelle'=> $request->input('Tutelle'),
@@ -138,6 +151,13 @@ class ProprietaireController extends Controller
             'Date_Decision_affectation'=> $request->input('Date_Decision_affectation'), 
             //'Date_txt_creation' => now(),
             'Date_txt_creation'=> $request->input('Date_txt_creation'), 
+
+            'CODE_II'=> $request->input('CODE_II'),
+            'NOMENCLATURE'=> $request->input('NOMENCLATURE'),
+            'paye_name'=> $request->input('paye_name'),
+            'paye_region'=> $request->input('paye_region'),
+            'paye_code'=> $request->input('paye_code'),
+            'Ref_JRN'=> $request->input('Ref_JRN'),
         ]);
 
         return redirect()->route('dashboard.proprietaires.index')->with('success', 'Le Proprietaire a été créé avec succès.');
@@ -215,6 +235,13 @@ class ProprietaireController extends Controller
             'type_enquete' => '',
             'nb_piece' => '',
             'NNatLoc' => '',
+
+            'CODE_II'=> '',
+            'NOMENCLATURE'=> '',
+            'paye_name'=> '',
+            'paye_region'=>'',
+            'paye_code'=> '',
+            'Ref_JRN'=> '',
         ]);
 
         $proprietaire = Proprietaire::where('pe_num', $request->id)->first();

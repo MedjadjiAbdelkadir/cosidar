@@ -30,10 +30,10 @@ ORIGINE DES DROITS
         <div class="card card-statistics h-100">
             <div class="card-body">
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    {{-- <div class="form-group col-md-6">
                         <label for="Num_ilot" class="mr-sm-2">Numéro de l'îlot :</label>
                         <input type="text" class="form-control" disabled name="Num_ilot"  value="{{ $proprietaire->Num_ilot }}">
-                    </div>
+                    </div> --}}
                     <div class="form-group col-md-6">
                         <label for="Denomination_fr" class="mr-sm-2">Dénomination (fr) :</label>
                         <input type="text" class="form-control" disabled name="Denomination_fr"  value="{{ $proprietaire->Denomination_fr }}">

@@ -69,6 +69,7 @@ class IlotController extends Controller
         $maxNumIlot = Ilot::max('Num_ilot');
         $newNumIlot = $maxNumIlot + 1;
         $validatedData = $request->validate([
+            'proprietaire_id' => '',
             'N_ilot' => '',
             'Denom_Ilot' => '',
             'Nature' => '',
@@ -108,6 +109,7 @@ class IlotController extends Controller
         $ilot = new Ilot([
             'Num_ilot' => $newNumIlot,
             'N_ilot' => $validatedData['N_ilot'],
+            'proprietaire_id' => $validatedData['proprietaire_id'],
             'Denom_Ilot' => $validatedData['Denom_Ilot'],
             'Nature' => $validatedData['Nature'],
             'Utlisation' => $validatedData['Utlisation'],
@@ -230,6 +232,7 @@ class IlotController extends Controller
         // Mettez à jour les données de l'îlot avec les nouvelles valeurs
         $ilotData = [
             'N_ilot' => $request->input('N_ilot'),
+            'proprietaire_id' => $request->input('proprietaire_id'),
             'Denom_Ilot' => $request->input('Denom_Ilot'),
             'Nature' => $request->input('Nature'),
             'Utlisation' => $request->input('Utlisation'),

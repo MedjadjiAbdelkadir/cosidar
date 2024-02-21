@@ -19,7 +19,7 @@ class Ilot extends Model
     protected $table = 'dbo_ilot';
 
     protected $fillable = [
-
+        'proprietaire_id',
         'Num_ilot',
         'N_ilot',
         'Denom_Ilot',
@@ -82,7 +82,7 @@ class Ilot extends Model
 
     public function proprietaire()
     {
-        return $this->hasOne(Proprietaire::class, 'Num_ilot', 'Num_ilot');
+        return $this->belongsTo(Proprietaire::class, 'proprietaire_id', 'proprietaire_id');
     }
 
     public function acteReference()

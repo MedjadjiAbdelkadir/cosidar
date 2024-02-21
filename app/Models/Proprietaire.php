@@ -17,9 +17,8 @@ class Proprietaire extends Model
     public $timestamps = false;
     protected $table = 'dbo_personne';
      protected $fillable = [
- 
-        'pe_num',
-        'Num_ilot',        
+
+        'pe_num',      
         'Denomination_fr',
         'Denomination_ar', 
         'Statut', 
@@ -38,11 +37,18 @@ class Proprietaire extends Model
         'N_Decision_affectation',  
         'Num_Statut',  
         'Num_tutelle', 
+
+        'CODE_II',
+        'NOMENCLATURE',
+        'paye_name',
+        'paye_region',
+        'paye_code',
+        'Ref_JRN',
     ];
 
     public function ilot()
     {
-        return $this->belongsTo(Ilot::class, 'Num_ilot', 'Num_ilot');
+        return $this->hasMany(Ilot::class, 'proprietaire_id', 'proprietaire_id');
     }
  
  

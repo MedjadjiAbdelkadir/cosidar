@@ -16,6 +16,15 @@
                 <form action="{{ route('dashboard.ilots.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
+                        {{-- <div class="form-group col-md-6">
+                            <label for="Num_ilot" class="mr-sm-2">Numéro de l'îlot :</label>
+                            <select class="form-control" name="Num_ilot">
+                                <option disabled >Select Numéro de l'îlot</option>
+                                @foreach ( $ilotOptions as $ilot)
+                                    <option value="{{ $ilot }}">{{ $ilot }}</option>
+                                @endforeach
+                            </select>
+                        </div> --}}
                         <div class="form-group col-md-6">
                             <label class="mr-sm-2">Numéro d'ilot</label>
                             <input type="text"  name="N_ilot" class="form-control" required placeholder="Enter Numéro d'ilot">

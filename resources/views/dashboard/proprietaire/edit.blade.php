@@ -18,7 +18,7 @@
                     <input type="hidden" name="id" value="{{ $proprietaire->pe_num }}" class="form-control">
 
                     <div class="row">
-                        <div class="form-group col-md-6">
+                        {{-- <div class="form-group col-md-6">
                             <label for="Num_ilot" class="mr-sm-2">Numéro de l'îlot :</label>
                             <select class="form-control" name="Num_ilot">
                                 <option disabled value="{{ $proprietaire->Num_ilot }}">{{  $proprietaire->Num_ilot }}</option>
@@ -26,7 +26,7 @@
                                     <option value="{{ $ilot }}">{{ $ilot }}</option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
                         <div class="form-group col-md-6">
                             <label for="Denomination_fr" class="mr-sm-2">Dénomination (fr) :</label>
                             <input type="text" class="form-control" name="Denomination_fr" value="{{ $proprietaire->Denomination_fr }}">
