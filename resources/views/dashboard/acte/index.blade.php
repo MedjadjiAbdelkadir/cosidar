@@ -25,12 +25,12 @@ ORIGINE DES DROITS
 @section('content')
 <!-- row -->
 <div class="row">
-    {{-- @include('dashboard.user.create') --}}
+    @include('dashboard.acte.create')
 
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                <button type="button"class="button x-small"  data-toggle="modal" data-target="#createUserModal">
+                <button type="button"class="button x-small"  data-toggle="modal" data-target="#createActeModal">
                     Ajouter ORIGINE DES DROITS
                 </button>
                 <br><br>
@@ -67,13 +67,20 @@ ORIGINE DES DROITS
                                 <td>{{ $acte->case11 }}</td>
                                 <td>{{ $acte->Ref_JRN }}</td> 
                                 <td>
-
-                                    <button type="button" class="btn btn-sm btn-neutral Num_acte" data-toggle="modal" data-target="#acteModal" data-id="{{$acte->id}}">                                                 
+                                    <a class="btn btn-info btn-sm" href="{{ route('dashboard.actes.show' , $acte->id) }}">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editActeModal{{$acte->id}}">
+                                        <i class="fa fa-edit"></i>
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-success edit_acte" data-toggle="modal" data-target="#acteModal" data-id="{{$acte->id}}">                                                 
+                                    <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteActeModal{{$acte->id}}">
+                                        <i class="fa fa-trash"></i>
                                     </button>
                                 </td>
                             </tr>
+                            @include('dashboard.acte.edit')
+                            {{-- @include('dashboard.acte.show') --}}
+                            @include('dashboard.acte.delete')
                             @endforeach
 
                         </tbody>

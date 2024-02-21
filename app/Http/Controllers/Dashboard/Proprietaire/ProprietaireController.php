@@ -30,7 +30,16 @@ class ProprietaireController extends Controller
         ->select('dbo_personne.*', 'dbo_anx_statut.intitule as anx_statut_intitule', 'dbo_deciaffect.intitule_fr as deciaffect_intitule' , 'dbo_anx_tutelle.intitule as tutelle_intitule' , 'dbo_anx_text_creati.intitule as text_creati_intitule')
         ->paginate(PAGINATE_COUNT);;
 
-        return view('dashboard.proprietaire.index')->with('proprietaires', $proprietaires);
+
+        $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
+        $deciaffect = Deciaffect::pluck('Intitule_fr','Deci_Af' );
+        $anx_statut = AnxStatut::pluck('Intitule','bi_natjur' );
+        $anx_tutelle = AnxTutelle::pluck('Intitule','bi_natjur' );
+        $anx_text_creati = AnxTextCreati::pluck('Intitule','bi_natjur' );
+
+        return view('dashboard.proprietaire.index', compact('proprietaires', 'ilotOptions','deciaffect','anx_statut','anx_tutelle','anx_text_creati'));
+
+        // return view('dashboard.proprietaire.index')->with('proprietaires', $proprietaires);
     }
 
     /**
@@ -193,7 +202,7 @@ class ProprietaireController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $Num_proprietaire)
+    public function update(Request $request)
     {
         $request->validate([
             'Num_ilot' => '', 
@@ -208,7 +217,7 @@ class ProprietaireController extends Controller
             'NNatLoc' => '',
         ]);
 
-        $proprietaire = Proprietaire::where('pe_num', $Num_proprietaire)->first();
+        $proprietaire = Proprietaire::where('pe_num', $request->id)->first();
         $proprietaire->Num_ilot = $request->input('Num_ilot');
         $proprietaire->Denomination_fr = $request->input('Denomination_fr');
         $proprietaire->Statut = $request->input('Statut');
@@ -230,9 +239,9 @@ class ProprietaireController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($Num_proprietaire)
+    public function destroy(Request $request)
     {
-        Proprietaire::where('pe_num', $Num_proprietaire)->delete();
+        Proprietaire::where('pe_num', $request->id)->delete();
         return redirect()->route('dashboard.proprietaires.index')->with('success', 'Proprietaire supprimé avec succès.');
     }
 

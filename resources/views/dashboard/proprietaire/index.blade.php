@@ -25,12 +25,12 @@ SERVICE AFFECTATAIRE
 @section('content')
 <!-- row -->
 <div class="row">
-    {{-- @include('dashboard.user.create') --}}
+    @include('dashboard.proprietaire.create')
 
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                <button type="button"class="button x-small"  data-toggle="modal" data-target="#createUserModal">
+                <button type="button"class="button x-small"  data-toggle="modal" data-target="#createProprietaireModal">
                     AJOUTER SERVICE AFFECTATAIRE
                 </button>
                 
@@ -73,19 +73,21 @@ SERVICE AFFECTATAIRE
                                 <th>{{ $proprietaire->text_creati_intitule }}</th>
                                 <th>{{ $proprietaire->deciaffect_intitule }}</th> 
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-neutral Num_proprietaire" data-toggle="modal" data-target="#proprietaireModal" data-id="{{$proprietaire->pe_num}}">
+                                    {{-- deleteProprietaireModal --}}
+                                    <a class="btn btn-info btn-sm" href="{{ route('dashboard.proprietaires.show' , $proprietaire->pe_num) }}">
                                         <i class="fa fa-eye"></i>
-                                    </button>
-
-                                    <a href="{{ route('dashboard.proprietaires.destroy', $proprietaire->pe_num) }}" class="btn btn-sm btn-danger delete_proprietaire" data-toggle="modal" data-target="#proprietaireModal" data-url="{{ route('dashboard.proprietaires.destroy', $proprietaire->pe_num) }}">
-                                        <i class="fa fa-trash"></i>                                                
                                     </a>
-
-                                    <button type="button" class="btn btn-sm btn-success edit_proprietaire" data-toggle="modal" data-target="#proprietaireModal" data-id="{{$proprietaire->pe_num}}">
-                                        <i class="fa fa-pencil-alt"></i>                                                 
-                                    </button>                                        
+                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editProprietaireModal{{$proprietaire->pe_num}}">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteProprietaireModal{{$proprietaire->pe_num}}">
+                                        <i class="fa fa-trash"></i>
+                                    </button> 
                                 </td>
                             </tr>
+                            @include('dashboard.proprietaire.edit')
+
+                            {{-- @include('dashboard.proprietaire.delete') --}}
                             @endforeach
 
                         </tbody>

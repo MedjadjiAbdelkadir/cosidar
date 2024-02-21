@@ -25,13 +25,13 @@ Batiments
 @section('content')
 <!-- row -->
 <div class="row">
-    {{-- @include('dashboard.user.create') --}}
+    @include('dashboard.batiment.create')
 
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                <button type="button"class="button x-small"  data-toggle="modal" data-target="#createUserModal">
-                    Create
+                <button type="button"class="button x-small"  data-toggle="modal" data-target="#createBatimentModal">
+                    Create Batiment
                 </button>
                 <br><br>
                 <div class="table-responsive">
@@ -58,9 +58,9 @@ Batiments
                                 <td>{{ $batiment->sup_bati_cons }}</td>
                                 <td>{{ $batiment->nom_bat }}</td>
                                 <td>
-                                    <button type="button"  class="btn btn-info btn-sm" data-toggle="modal" data-target="#showBatimentModal{{$batiment->Num_Bat}}">
+                                    <a class="btn btn-info btn-sm" href="{{ route('dashboard.batiments.show' , $batiment->Num_Bat) }}">
                                         <i class="fa fa-eye"></i>
-                                    </button>
+                                    </a>
                                     <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editBatimentModal{{$batiment->Num_Bat}}">
                                         <i class="fa fa-edit"></i>
                                     </button>
@@ -70,7 +70,7 @@ Batiments
                                 </td>
                             </tr>
                             @include('dashboard.batiment.edit')
-                            @include('dashboard.batiment.show')
+                           
                             @include('dashboard.batiment.delete')
                             {{-- @include('dashboard.user.changeStatus') --}}
                             {{-- batiment --}}

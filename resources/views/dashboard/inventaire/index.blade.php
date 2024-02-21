@@ -79,34 +79,13 @@ Inventaires
                                 <td>{{ $proprietaire->ilot->Ville }}</td>
 
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-neutral Num_ilot" data-toggle="modal" data-target="#ilotModal" data-id="{{$proprietaire->ilot->Num_ilot}}">
+                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#showInventaireModal{{$proprietaire->ilot->Num_ilot}}">
                                         <i class="fa fa-eye"></i>
                                     </button>
-                                    <script>
-                                        function openNewFrameAndShowModal(numIlot) {
-                                            openNewFrame(numIlot);
-                                            $('#ilotModal').modal('show1');
-                                        }
-                                    </script>
-                                    {{-- <button type="button" class="btn btn-sm btn-neutral Num_batiment" data-toggle="modal" data-target="#batimentModal" data-id="{{$batiment->Num_Bat}}">
-                                        <i class="fa fa-eye"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-danger delete_batiment" data-toggle="modal" data-target="#batimentModal" data-id="{{$batiment->Num_Bat}}">
-                                        <i class="fa fa-trash"></i>
-                                    </button> 
-
-                                    <button type="button" class="btn btn-success btn-sm Num_batiment" data-toggle="modal"
-                                        data-target="#editBatimentModal"  data-id="{{$batiment->Num_Bat}}" title="Edit">
-                                        <i class="fa fa-edit"></i>
-                                    </button> --}}
-
-
-
-                                    {{-- <button type="button" class="btn btn-sm btn-success edit_batiment" data-toggle="modal" data-target="#batimentModal" data-id="{{$batiment->Num_Bat}}">
-                                        <i class="fa fa-pencil-alt"></i>
-                                    </button>  --}}
                                 </td>
                             </tr>
+                            {{-- @include('dashboard.inventaire.show') --}}
+
                             @endforeach
 
                         </tbody>

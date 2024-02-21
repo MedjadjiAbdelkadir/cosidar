@@ -14,7 +14,7 @@ LISTE DES ILOTS
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
-                <li class="breadcrumb-item"><a href="{{ route('dashboard.dashboard') }}" class="default-color">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="default-color">Dashboard</a></li>
                 <li class="breadcrumb-item active">Ilots</li>
             </ol>
         </div>
@@ -86,9 +86,10 @@ LISTE DES ILOTS
                                     </th>
                                 @endif
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-neutral Num_batiment" data-toggle="modal" data-target="#showBienModal{{ $ilot->Num_ilot }}" data-id="{{$ilot->Num_ilot}}">
+                                    <a class="btn btn-info btn-sm" href="{{ route('dashboard.ilots.show' , $ilot->Num_ilot) }}">
                                         <i class="fa fa-eye"></i>
-                                    </button>
+                                    </a>
+
                                     <button type="button" class="btn btn-sm btn-danger delete_batiment" data-toggle="modal" data-target="#deleteBienModal{{ $ilot->Num_ilot }}" data-id="{{$ilot->Num_ilot}}">
                                         <i class="fa fa-trash"></i>
                                     </button>
@@ -104,7 +105,7 @@ LISTE DES ILOTS
                             </tr>
                             @include('dashboard.Ilots.deleted')
                             @include('dashboard.Ilots.edit')
-                            @include('dashboard.Ilots.show')
+                            {{-- @include('dashboard.Ilots.show') --}}
                             @endforeach
 
                         </tbody>

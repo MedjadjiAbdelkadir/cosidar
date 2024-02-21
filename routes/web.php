@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Dashboard\Acte\ActeController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\User\UserController;
 use App\Http\Controllers\Dashboard\Ilots\IlotController;
 use App\Http\Controllers\Dashboard\Local\LocalController;
@@ -27,14 +28,16 @@ define('PAGINATE_COUNT',7);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/', function () {
+//     return view('dashboard');
+// })->name('dashboard');
 
 Route::group(['prefix' => 'dashboard','as' => 'dashboard.','middleware' => ['auth', 'verified']],function(){
 
-    Route::get('/', function () {
-        return view('dashboard');
-    })->name('dashboard');
+
 
     // ? Router for Ilots Management
+    Route::resource('ilots', IlotController::class)->only('show');
     Route::group(['prefix' => 'ilots', 'as' => 'ilots.'], function () {
         Route::resource('/', IlotController::class);
         Route::delete('/deleted', [IlotController::class, 'deleted'])->name('deleted');
@@ -47,22 +50,27 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.','middleware' => ['aut
     });
     //*  End Ilots Management ****************************************************************
 
-    Route::get('/users', function () {
-        return view('dashboard.user.index');
-    });
 });
 
 Route::middleware(["auth"])->group(function() {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
 
+Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard'], function (){
+    /**
+     * Dashboard Management
+     */
+    Route::get('/', DashboardController::class);
+});
+
 Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
 
+    
     /**
      * Batiment Management
      */
+    Route::resource('batiments', BatimentController::class);
     Route::group(['prefix'=> 'batiments','as'=>'batiments.'], function () {
-        Route::resource('/', BatimentController::class);
         Route::get('/create_ajax/get', [BatimentController::class ,'create_ajax' ])->name('create_ajax');
         Route::post('/store_ajax', [BatimentController::class ,'store_ajax'])->name('store_ajax');
     });
@@ -70,8 +78,8 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
         /**
      * Users Management
      */
+    Route::resource('users', UserController::class);
     Route::group(['prefix'=> 'users','as'=>'users.'], function () {
-        Route::resource('/', UserController::class);
         Route::post('changeuserstatus/{id}', [UserController::class ,'changeUserStatus'])->name('changeStatus');
 
         // Route::patch('changeuserstatus/{id}', 'UserController@changeUserStatus')->name('user.status')->middleware(['auth', 'xss']);
@@ -89,23 +97,26 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
     /**
      * Locaux Management
      */
+    Route::resource('locaux', LocalController::class);
+
     Route::group(['prefix'=> 'locaux','as'=>'locaux.'], function () {
-        Route::resource('/', LocalController::class);
+        // Route::resource('locaux', LocalController::class);
     });
 
 
     /**
      * Proprietaire Management
      */
+    Route::resource('proprietaires', ProprietaireController::class);
+
     Route::group(['prefix'=> 'proprietaires','as'=>'proprietaires.'], function () {
-        Route::resource('/', ProprietaireController::class);
     });
 
     /**
      * Actes Management
      */
+    Route::resource('actes', ActeController::class);
     Route::group(['prefix'=> 'actes','as'=>'actes.'], function () {
-        Route::resource('/', ActeController::class);
     });
 
     // Route::resource('actes', 'ActeController')->middleware(['auth', 'xss']);

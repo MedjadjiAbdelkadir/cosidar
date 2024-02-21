@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard\Batiment;
 
 use App\Models\Ilot;
+use App\Models\Local;
 use App\Models\Batiment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,8 +22,6 @@ class BatimentController extends Controller
         $batiments =  DB::table('dbo_batiment')->select('dbo_batiment.*')->paginate(PAGINATE_COUNT);
         $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
         return view('dashboard.batiment.index',compact(['batiments','ilotOptions']));
-
-        return view('dashboard.batiment.index')->with('batiments', $batiments);
     }
 
     /**
@@ -57,6 +56,8 @@ class BatimentController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
+        
         $maxNumBat = Batiment::max('Num_Bat');
         $maxNumBat = $maxNumBat + 1;
 

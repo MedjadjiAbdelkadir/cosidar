@@ -25,12 +25,12 @@ Locaux
 @section('content')
 <!-- row -->
 <div class="row">
-    {{-- @include('dashboard.user.create') --}}
+    @include('dashboard.locaux.create')
 
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                <button type="button"class="button x-small"  data-toggle="modal" data-target="#createUserModal">
+                <button type="button"class="button x-small"  data-toggle="modal" data-target="#createLocauxModal">
                     Ajouter Local
                 </button>
                 <br><br>
@@ -63,19 +63,19 @@ Locaux
                                 <td>{{ $local->nb_piece }}</td> 
 
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-neutral Num_local" data-toggle="modal" data-target="#localModal" data-id="{{$local->lot_no}}">
-                                        <i class="fa fa-eye"></i>                                                
-                                    </button>
-
-                                    <a href="{{ route('dashboard.locaux.destroy', $local->lot_no) }}" class="btn btn-sm btn-danger delete_local" data-toggle="modal" data-target="#localModal" data-url="{{ route('dashboard.locaux.destroy', $local->lot_no) }}">
-                                        <i class="fa fa-trash"></i>                                                
+                                    <a class="btn btn-info btn-sm" href="{{ route('dashboard.locaux.show' , $local->lot_no) }}">
+                                        <i class="fa fa-eye"></i>
                                     </a>
-
-                                    <button type="button" class="btn btn-sm btn-success edit_local" data-toggle="modal" data-target="#localModal" data-id="{{$local->lot_no}}">
-                                        <i class="fa fa-pencil-alt"></i>                                                 
-                                    </button>                                        
+                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editLocauxModal{{$local->lot_no}}">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLocauxModal{{$local->lot_no}}">
+                                        <i class="fa fa-trash"></i>
+                                    </button>                                      
                                 </td>
                             </tr>
+                            @include('dashboard.locaux.edit')
+                            @include('dashboard.locaux.delete')
                             @endforeach
 
                         </tbody>
