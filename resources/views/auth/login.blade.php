@@ -4,8 +4,8 @@
 <div class="content">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                <img src="{{ asset('Auth/images/undraw_remotely_2j6y.svg') }}" alt="Image" class="img-fluid">
+            <div class="col-md-6 d-flex align-content-center h-100">
+                <img src="{{ asset('cosidar/logo.png') }}" alt="Image" class="img-fluid">
             </div>
             <div class="col-md-6 contents">
                 <div class="row justify-content-center">

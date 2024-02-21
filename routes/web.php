@@ -11,6 +11,7 @@ use App\Http\Controllers\Dashboard\Local\LocalController;
 use App\Http\Controllers\Dashboard\Batiment\BatimentController;
 use App\Http\Controllers\Dashboard\Inventaire\InventaireController;
 use App\Http\Controllers\Dashboard\Proprietaire\ProprietaireController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,12 +27,10 @@ use App\Http\Controllers\Dashboard\Proprietaire\ProprietaireController;
 define('PAGINATE_COUNT',7);
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-// Route::get('/', function () {
-//     return view('dashboard');
-// })->name('dashboard');
-
+// ? Router for home pages starting
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/template', [HomeController::class, 'template']);
+// * end
 Route::group(['prefix' => 'dashboard','as' => 'dashboard.','middleware' => ['auth', 'verified']],function(){
 
 
@@ -65,7 +64,7 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard'], function (){
 
 Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
 
-    
+
     /**
      * Batiment Management
      */
@@ -124,6 +123,4 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
     // Route::resource('locaux', 'localController')->middleware(['auth', 'xss']);
 
 });
-
-
 
