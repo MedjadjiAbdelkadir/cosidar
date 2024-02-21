@@ -7,7 +7,7 @@
                     <!-- menu title -->
                     <li class="mt-10 mb-10 text-muted pl-4 font-medium menu-title">Dashboard</li>
                     <li>
-                        <a href="chat-page.html">
+                        <a href="{{ route('dashboard') }}">
                             <i class="fa fa-tachometer" aria-hidden="true"></i>
                             <span class="right-nav-text">Dashboard</span>
                         </a>

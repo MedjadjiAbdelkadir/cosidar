@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Models\Utility;
 use App\Models\Batiment;
 use App\Models\AnxEntretien;
+use App\Models\AnxNatureImm;
 use App\Models\Proprietaire;
+use App\Models\ReferenceActe;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -85,12 +87,12 @@ class Ilot extends Model
 
     public function acteReference()
     {
-        return $this->hasOne(Reference_acte::class, 'Num_ilot', 'Num_ilot');
+        return $this->hasOne(ReferenceActe::class, 'Num_ilot', 'Num_ilot');
     }
 
     public function anx_nature_imm()
     {
-        return $this->belongsTo(Anx_nature_imm::class, 'Nature', 'Num_Nat_imm');
+        return $this->belongsTo(AnxNatureImm::class, 'Nature', 'Num_Nat_imm');
     }
 
 

@@ -177,7 +177,7 @@ class IlotController extends Controller
 
 
 
-        return view('ilots.show', compact('ilot', 'nombreBatiments', 'nombreLocaux'));
+        return view('dashboard.ilots.show', compact('ilot', 'nombreBatiments', 'nombreLocaux'));
     }
 
     public function edit($ilot_Num)
