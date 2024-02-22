@@ -17,7 +17,7 @@
                     <div class="row">
                         <div class="form-group col-md-3">
                             <label for="Num_ilot" class="mr-sm-2">Numéro de l'îlot :</label>
-                            <select class="form-control" name="Num_ilot">
+                            <select class="custom-select" name="Num_ilot">
                                 <option disabled >Select Numéro de l'îlot</option>
                                 @foreach ( $ilotOptions as $ilot)
                                     <option value="{{ $ilot }}">{{ $ilot }}</option>
@@ -27,7 +27,7 @@
 
                         <div class="form-group col-md-3">
                             <label for="Num_Bat" class="mr-sm-2">Numéro du Bâtiment :</label>
-                            <select class="form-control" name="Num_Bat">
+                            <select class="custom-select" name="Num_Bat">
                                 <option disabled>Select Numéro du Bâtiment</option>
                                 @foreach ( $ilotOptions as $Num_Bat)
                                     <option value="{{ $Num_Bat }}">{{ $Num_Bat }}</option>
@@ -36,7 +36,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="Nature_Loc" class="mr-sm-2">Nature du Local :</label>
-                            <select class="form-control" name="Nature_Loc">
+                            <select class="custom-select" name="Nature_Loc">
                                 <option disabled>Select Nature du Local</option>
                                 @foreach ( $nature_locaux as $Nature_Loc)
                                     <option value="{{ $Nature_Loc }}">{{ $Nature_Loc }}</option>

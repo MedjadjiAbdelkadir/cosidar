@@ -13,6 +13,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('dashboard.proprietaires.index') }}">
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                            <span class="right-nav-text">Proprietaires</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('dashboard.users.index') }}">
                             <i class="fa fa-user" aria-hidden="true"></i>
                             <span class="right-nav-text">Utilisateurs</span>
@@ -41,12 +47,6 @@
                         <a href="{{ route('dashboard.locaux.index') }}">
                             <i class="fa fa-archive" aria-hidden="true"></i>
                             <span class="right-nav-text">Locaux</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('dashboard.proprietaires.index') }}">
-                            <i class="fa fa-users" aria-hidden="true"></i>
-                            <span class="right-nav-text">Proprietaires</span>
                         </a>
                     </li>
                     <li>

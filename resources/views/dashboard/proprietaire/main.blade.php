@@ -25,23 +25,14 @@ SERVICE AFFECTATAIRE
 @section('content')
 <!-- row -->
 <div class="row">
-    {{-- @include('dashboard.proprietaire.create') --}}
+    @include('dashboard.proprietaire.create')
 
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                {{-- <button type="button"class="btn btn-sm"  data-toggle="modal" data-target="#createProprietaireModal">
-                    <i class="fa fa-plus"></i>
+                <button type="button"class="button x-small"  data-toggle="modal" data-target="#createProprietaireModal">
                     AJOUTER SERVICE AFFECTATAIRE
-                </button> --}}
-                {{-- <a class="btn btn-info btn-sm" href="{{ route('dashboard.proprietaires.create') }}">
-                    <i class="fa fa-plus"></i>
-                    AJOUTER SERVICE AFFECTATAIRE
-                </a> --}}
-                <a class="btn btn-info btn-sm" href="{{ route('dashboard.proprietaires.create') }}">
-                    <i class="fa fa-plus"></i>
-                    AJOUTER SERVICE AFFECTATAIRE
-                </a>
+                </button>
                 
                 {{-- <h3 class="mb-0">
                     @if(Auth::user()->parent_id == 0) 

@@ -33,8 +33,7 @@ class BatimentController extends Controller
     {
         $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
 
-
-        return view('batiments.create', compact('ilotOptions'));
+        return view('dashboard.batiments.create', compact('ilotOptions'));
     }
 
     public function create_ajax()
@@ -56,7 +55,7 @@ class BatimentController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         
         $maxNumBat = Batiment::max('Num_Bat');
         $maxNumBat = $maxNumBat + 1;
@@ -95,7 +94,7 @@ class BatimentController extends Controller
 
         $idBatimentAjoute =$batiment->Num_Bat;
         // Redirigez vers l'index avec un message de succès
-        return redirect()->route('batiments.index')->with('success', "Batiment ajouté avec succès ! (ID : $idBatimentAjoute)");// il faut retourner que json
+        return redirect()->route('dashboard.locaux.create')->with('success', "Batiment ajouté avec succès ! (ID : $idBatimentAjoute)");// il faut retourner que json
     }
 
     public function store_ajax(Request $request)
@@ -133,7 +132,7 @@ class BatimentController extends Controller
 
 
         // Redirigez vers l'index avec un message de succès
-        return redirect()->route('dashboard.batiment.index')->with('success', 'Batiment ajouté avec succès !'); // il faut retourner que json
+        return redirect()->route('dashboard.locaux.create')->with('success', 'Batiment ajouté avec succès !'); // il faut retourner que json
     }
     /**
      * Display the specified resource.

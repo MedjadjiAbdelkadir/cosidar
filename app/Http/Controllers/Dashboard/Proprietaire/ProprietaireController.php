@@ -122,7 +122,7 @@ class ProprietaireController extends Controller
             'Ref_JRN'=> $request->input('Ref_JRN'),
         ]);
         // Redirigez l'utilisateur avec un message de succès
-        return redirect()->route('dashboard.proprietaire.index')->with('success', 'Le Proprietaire a été créé avec succès.');
+        return redirect()->route('dashboard.ilots.create')->with('success', 'Le Proprietaire a été créé avec succès.');
     }
 
     public function store_ajax(Request $request){

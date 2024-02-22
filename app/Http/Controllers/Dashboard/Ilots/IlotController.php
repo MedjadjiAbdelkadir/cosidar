@@ -56,7 +56,7 @@ class IlotController extends Controller
             $dayraNames = array_combine($dayraNames, $dayraNames);
 
 
-            return view('ilots.create', compact('wilayaNames','dayraNames','pays'));
+            return view('dashboard.ilots.create', compact('wilayaNames','dayraNames','pays'));
     }
 
     public function store(Request $request)
@@ -160,7 +160,48 @@ class IlotController extends Controller
 
 
         $idIlotAjoute = $ilot->Num_ilot;
-        return redirect()->route('dashboard.ilots.index')->with('success', "Ilot ajouté avec succès ! (ID : $idIlotAjoute)");
+
+        $request->validate([
+            'date_pub'=> '',
+            'volume1'=> '',
+            'case11'=> '',
+            'Ref_JRN'=> '',
+            'nature_acte'=> '',
+            'Num_Nat_Acte'=> '',
+            'Construction_Acte'=> '',
+            'Origine_Acte'=> '',
+        ]);  
+        if($request->input('nature_acte') == 'Loi'){
+            $Num_Nat_Acte=1;
+        }
+        if($request->input('nature_acte') == 'Décret'){
+            $Num_Nat_Acte=2;
+        } 
+        if($request->input('nature_acte') == 'Arrêté'){
+            $Num_Nat_Acte=3;
+        }
+        if($request->input('nature_acte') == 'Acte'){
+            $Num_Nat_Acte=4;
+        }
+        if($request->input('nature_acte') == 'Convention bilatérale'){
+            $Num_Nat_Acte=5;
+        }
+        if($request->input('nature_acte') == 'Non renseigner'){
+            $Num_Nat_Acte=6;
+        }
+
+        Reference_acte::create([
+            'Num_ilot' => $idIlotAjoute,
+            'date_pub'=> $request->input('date_pub'),
+            'volume1'=> $request->input('volume1'),
+            'case11'=> $request->input('case11'),
+            'Ref_JRN'=> $request->input('Ref_JRN'),    
+            'nature_acte'=> $request->input('nature_acte'),
+            'Num_Nat_Acte'   => $Num_Nat_Acte,
+            'Construction_Acte'=> $request->input('Construction_Acte'), 
+            'Origine_Acte' => $request->input('Origine_Acte'), 
+        ]);
+        return redirect()->route('dashboard.batiments.create')->with('success', "Ilot ajouté avec succès ! (ID : $idIlotAjoute)");
         // Redirigez vers l'index avec un message de succès
         //return redirect()->route('ilots.index')->with('success', 'Ilot ajouté avec succès !');
     }
