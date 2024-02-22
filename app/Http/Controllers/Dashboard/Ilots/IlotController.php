@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Batiment;
 use App\Models\Ilot;
 use App\Models\Local;
+use App\Models\Pays;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,37 +27,30 @@ class IlotController extends Controller
             ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom')
             ->paginate(PAGINATE_COUNT);
 
-        // $jsonPath = public_path('country.json');
-        // $jsonData = File::get($jsonPath);
-        // $pays = json_decode($jsonData, true);
+        $jsonPath = public_path('country.json');
+        $jsonData = File::get($jsonPath);
+        $pays = json_decode($jsonData, true);
 
         return view('dashboard.Ilots.index', compact('ilots'));
     }
 
     public function create()
     {
-        if (!Auth::check()) {
-            abort(403, 'Accès non autorisé'); // Rejette l'accès si l'utilisateur n'est pas authentifié
-        }
+        // if (!Auth::check()) {
+        //     abort(403, 'Accès non autorisé'); // Rejette l'accès si l'utilisateur n'est pas authentifié
+        // }
+        $pays = Pays::all();
+        $jsonPath = public_path('algeria_cities.json');
+        $jsonData = File::get($jsonPath);
+        $cities = json_decode($jsonData, true);
 
-            $jsonPath = public_path('algeria_cities.json');
-            $jsonData = File::get($jsonPath);
-            $cities = json_decode($jsonData, true);
-
-
-            $jsonPath = public_path('country.json');
-            $jsonData = File::get($jsonPath);
-            $pays = json_decode($jsonData, true);
-
-
-            $wilayaNames = array_unique(array_column($cities, 'wilaya_name_ascii'));
-            $dayraNames = array_unique(array_column($cities, 'daira_name_ascii'));
+        $wilayaNames = array_unique(array_column($cities, 'wilaya_name_ascii'));
+        $dayraNames = array_unique(array_column($cities, 'daira_name_ascii'));
         // Créez un tableau associatif avec les mêmes valeurs que clés
-            $wilayaNames = array_combine($wilayaNames, $wilayaNames);
-            $dayraNames = array_combine($dayraNames, $dayraNames);
+        $wilayaNames = array_combine($wilayaNames, $wilayaNames);
+        $dayraNames = array_combine($dayraNames, $dayraNames);
 
-
-            return view('ilots.create', compact('wilayaNames','dayraNames','pays'));
+        return view('dashboard.Ilots.create', compact('pays'));
     }
 
     public function store(Request $request)

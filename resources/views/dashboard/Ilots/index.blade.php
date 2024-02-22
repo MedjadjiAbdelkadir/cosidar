@@ -42,10 +42,9 @@ LISTE DES ILOTS
                             </button>
                         </div>
                         <div>
-                            <button type="button"class="button x-small"  data-toggle="modal" data-target="#createBienModal">
+                            <a href="{{ route('dashboard.ilots.create') }}" class="button x-small" >
                                 Créer Bien
-                            </button>
-                            @include('dashboard.Ilots.create')
+                            </a>
                         </div>
                     </div>
                 @endif

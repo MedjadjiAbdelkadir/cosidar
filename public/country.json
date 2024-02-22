@@ -74,7 +74,9 @@
     "name": "Anguilla"
   },
   {
+    "capital": "Antarctica",
     "code": "aq",
+    "continent": "Antarctica",
     "flag_1x1": "flags/1x1/aq.svg",
     "flag_4x3": "flags/4x3/aq.svg",
     "iso": true,
@@ -189,7 +191,9 @@
     "name": "Barbados"
   },
   {
+    "capital": "Basque Country",
     "code": "es-pv",
+    "continent": "Basque Country",
     "flag_1x1": "flags/1x1/es-pv.svg",
     "flag_4x3": "flags/4x3/es-pv.svg",
     "iso": false,
@@ -286,7 +290,9 @@
     "name": "Botswana"
   },
   {
+    "capital": "Bouvet Island",
     "code": "bv",
+    "continent": "Canary Islands",
     "flag_1x1": "flags/1x1/bv.svg",
     "flag_4x3": "flags/4x3/bv.svg",
     "iso": true,
@@ -383,14 +389,18 @@
     "name": "Canada"
   },
   {
+    "capital": "capital",
     "code": "ic",
+    "continent": "Canary Islands",
     "flag_1x1": "flags/1x1/ic.svg",
     "flag_4x3": "flags/4x3/ic.svg",
     "iso": false,
     "name": "Canary Islands"
   },
   {
+    "capital": "capital",
     "code": "es-ct",
+    "continent": "Catalonia",
     "flag_1x1": "flags/1x1/es-ct.svg",
     "flag_4x3": "flags/4x3/es-ct.svg",
     "iso": false,
@@ -415,7 +425,9 @@
     "name": "Central African Republic"
   },
   {
+    "capital": "capital",
     "code": "cefta",
+    "continent": "Central European Free Trade Agreement",
     "flag_1x1": "flags/1x1/cefta.svg",
     "flag_4x3": "flags/4x3/cefta.svg",
     "iso": false,
@@ -458,7 +470,9 @@
     "name": "Christmas Island"
   },
   {
+    "capital": "capital",
     "code": "cp",
+    "continent": "Clipperton Island",
     "flag_1x1": "flags/1x1/cp.svg",
     "flag_4x3": "flags/4x3/cp.svg",
     "iso": false,
@@ -582,7 +596,9 @@
     "name": "Denmark"
   },
   {
+    "capital": "capital",
     "code": "dg",
+    "continent": "Diego Garcia",
     "flag_1x1": "flags/1x1/dg.svg",
     "flag_4x3": "flags/4x3/dg.svg",
     "iso": false,
@@ -616,7 +632,9 @@
     "name": "Dominican Republic"
   },
   {
+    "capital": "capital",
     "code": "eac",
+    "continent": "East African Community",
     "flag_1x1": "flags/1x1/eac.svg",
     "flag_4x3": "flags/4x3/eac.svg",
     "iso": false,
@@ -704,7 +722,9 @@
     "name": "Ethiopia"
   },
   {
+    "capital": "capital",
     "code": "eu",
+    "continent": "Europe",
     "flag_1x1": "flags/1x1/eu.svg",
     "flag_4x3": "flags/4x3/eu.svg",
     "iso": false,
@@ -801,7 +821,9 @@
     "name": "Gabon"
   },
   {
+    "capital": "capital",
     "code": "es-ga",
+    "continent": "Asia",
     "flag_1x1": "flags/1x1/es-ga.svg",
     "flag_4x3": "flags/4x3/es-ga.svg",
     "iso": false,
@@ -952,7 +974,9 @@
     "name": "Haiti"
   },
   {
+    "capital": "capital",
     "code": "hm",
+    "continent": "Asia",
     "flag_1x1": "flags/1x1/hm.svg",
     "flag_4x3": "flags/4x3/hm.svg",
     "iso": true,
@@ -1175,7 +1199,9 @@
     "name": "Latvia"
   },
   {
+    "capital": "capital",
     "code": "arab",
+    "continent": "Asia",
     "flag_1x1": "flags/1x1/arab.svg",
     "flag_4x3": "flags/4x3/arab.svg",
     "iso": false,
@@ -2136,7 +2162,9 @@
     "name": "Trinidad and Tobago"
   },
   {
+    "capital": "capital",
     "code": "ta",
+    "continent": "Assia",
     "flag_1x1": "flags/1x1/ta.svg",
     "flag_4x3": "flags/4x3/ta.svg",
     "iso": false,
@@ -2224,7 +2252,9 @@
     "name": "United Kingdom"
   },
   {
+    "capital": "capital",
     "code": "un",
+    "continent": "Eroup",
     "flag_1x1": "flags/1x1/un.svg",
     "flag_4x3": "flags/4x3/un.svg",
     "iso": false,
@@ -2249,7 +2279,9 @@
     "name": "United States of America"
   },
   {
+    "capital": "capital",
     "code": "xx",
+    "continent": "Assia",
     "flag_1x1": "flags/1x1/xx.svg",
     "flag_4x3": "flags/4x3/xx.svg",
     "iso": false,
