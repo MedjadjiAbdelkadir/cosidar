@@ -12,6 +12,8 @@ use App\Http\Controllers\Dashboard\Batiment\BatimentController;
 use App\Http\Controllers\Dashboard\Inventaire\InventaireController;
 use App\Http\Controllers\Dashboard\Proprietaire\ProprietaireController;
 use App\Http\Controllers\HomeController;
+use App\Models\Pays;
+use Illuminate\Support\Facades\File;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,14 +33,12 @@ Auth::routes();
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/template', [HomeController::class, 'template']);
 // * end
-Route::group(['prefix' => 'dashboard','as' => 'dashboard.','middleware' => ['auth', 'verified']],function(){
-
-
+Route::group(['prefix' => 'dashboard','as' => 'dashboard.'],function(){
 
     // ? Router for Ilots Management
-    Route::resource('ilots', IlotController::class)->only('show');
+    // Route::resource('ilots', IlotController::class)->only('show');
+    Route::resource('/ilots', IlotController::class);
     Route::group(['prefix' => 'ilots', 'as' => 'ilots.'], function () {
-        Route::resource('/', IlotController::class);
         Route::delete('/deleted', [IlotController::class, 'deleted'])->name('deleted');
         Route::put('/ilot/update/{id}', [IlotController::class, 'updated'])->name('updated');
         Route::get('/{user_id}/getIliotsByIdUser', [IlotController::class, 'getIliotsByIdUser'])->name('');
@@ -46,6 +46,7 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.','middleware' => ['aut
         Route::get('/activity-users', [IlotController::class, 'activity_users'])->name('activityUsers');
         Route::post('/update-validation/{ilot}',[IlotController::class, 'updateValidation'])->name('updateValidation');
         Route::post('/filter/activity', [IlotController::class, 'filterActivityByDate'])->name('filterActivityByDate');
+        // Route::get('/create', [IlotController::class, 'create'])->name();
     });
     //*  End Ilots Management ****************************************************************
 
@@ -121,6 +122,7 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
     // Route::resource('actes', 'ActeController')->middleware(['auth', 'xss']);
     // proprietaires
     // Route::resource('locaux', 'localController')->middleware(['auth', 'xss']);
+
 
 });
 

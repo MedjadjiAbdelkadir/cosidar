@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Batiment;
 use App\Models\Ilot;
 use App\Models\Local;
+use App\Models\Pays;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,37 +27,30 @@ class IlotController extends Controller
             ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom')
             ->paginate(PAGINATE_COUNT);
 
-        // $jsonPath = public_path('country.json');
-        // $jsonData = File::get($jsonPath);
-        // $pays = json_decode($jsonData, true);
+        $jsonPath = public_path('country.json');
+        $jsonData = File::get($jsonPath);
+        $pays = json_decode($jsonData, true);
 
         return view('dashboard.Ilots.index', compact('ilots'));
     }
 
     public function create()
     {
-        if (!Auth::check()) {
-            abort(403, 'Accès non autorisé'); // Rejette l'accès si l'utilisateur n'est pas authentifié
-        }
+        // if (!Auth::check()) {
+        //     abort(403, 'Accès non autorisé'); // Rejette l'accès si l'utilisateur n'est pas authentifié
+        // }
+        $pays = Pays::all();
+        $jsonPath = public_path('algeria_cities.json');
+        $jsonData = File::get($jsonPath);
+        $cities = json_decode($jsonData, true);
 
-            $jsonPath = public_path('algeria_cities.json');
-            $jsonData = File::get($jsonPath);
-            $cities = json_decode($jsonData, true);
-
-
-            $jsonPath = public_path('country.json');
-            $jsonData = File::get($jsonPath);
-            $pays = json_decode($jsonData, true);
-
-
-            $wilayaNames = array_unique(array_column($cities, 'wilaya_name_ascii'));
-            $dayraNames = array_unique(array_column($cities, 'daira_name_ascii'));
+        $wilayaNames = array_unique(array_column($cities, 'wilaya_name_ascii'));
+        $dayraNames = array_unique(array_column($cities, 'daira_name_ascii'));
         // Créez un tableau associatif avec les mêmes valeurs que clés
-            $wilayaNames = array_combine($wilayaNames, $wilayaNames);
-            $dayraNames = array_combine($dayraNames, $dayraNames);
+        $wilayaNames = array_combine($wilayaNames, $wilayaNames);
+        $dayraNames = array_combine($dayraNames, $dayraNames);
 
-
-            return view('dashboard.ilots.create', compact('wilayaNames','dayraNames','pays'));
+        return view('dashboard.Ilots.create', compact('pays'));
     }
 
     public function store(Request $request)
@@ -170,13 +164,13 @@ class IlotController extends Controller
             'Num_Nat_Acte'=> '',
             'Construction_Acte'=> '',
             'Origine_Acte'=> '',
-        ]);  
+        ]);
         if($request->input('nature_acte') == 'Loi'){
             $Num_Nat_Acte=1;
         }
         if($request->input('nature_acte') == 'Décret'){
             $Num_Nat_Acte=2;
-        } 
+        }
         if($request->input('nature_acte') == 'Arrêté'){
             $Num_Nat_Acte=3;
         }
@@ -195,11 +189,11 @@ class IlotController extends Controller
             'date_pub'=> $request->input('date_pub'),
             'volume1'=> $request->input('volume1'),
             'case11'=> $request->input('case11'),
-            'Ref_JRN'=> $request->input('Ref_JRN'),    
+            'Ref_JRN'=> $request->input('Ref_JRN'),
             'nature_acte'=> $request->input('nature_acte'),
             'Num_Nat_Acte'   => $Num_Nat_Acte,
-            'Construction_Acte'=> $request->input('Construction_Acte'), 
-            'Origine_Acte' => $request->input('Origine_Acte'), 
+            'Construction_Acte'=> $request->input('Construction_Acte'),
+            'Origine_Acte' => $request->input('Origine_Acte'),
         ]);
         return redirect()->route('dashboard.batiments.create')->with('success', "Ilot ajouté avec succès ! (ID : $idIlotAjoute)");
         // Redirigez vers l'index avec un message de succès

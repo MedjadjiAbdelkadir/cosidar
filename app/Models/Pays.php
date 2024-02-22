@@ -10,8 +10,15 @@ class Pays extends Model
     use HasFactory;
     public $timestamps = false;
 
-    protected $table = 'dbo_pays';
+    protected $table = 'paya';
     protected $fillable = [
-        'pay_nom_fr', 
+        'id',
+        'capital',
+        'code',
+        'continent',
+        'flag_1x1',
+        'flag_4x3',
+        'iso',
+        'name',
     ];
 }
