@@ -9,6 +9,7 @@ use App\Models\Local;
 use BaconQrCode\Writer;
 use App\Models\Batiment;
 use App\Models\Proprietaire;
+use App\Models\ReferenceActe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
