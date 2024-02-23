@@ -2,21 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard\Ilots;
 
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\Controller;
-use App\Models\Batiment;
-use App\Models\Ilot;
-use App\Models\Local;
-use App\Models\Pays;
-use App\Models\ReferenceActe;
-use App\Models\Proprietaire;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
->>>>>>> mohamed
-
 use App\Models\Ilot;
 use App\Models\Pays;
 use App\Models\Local;
@@ -25,7 +11,6 @@ use App\Models\Batiment;
 use App\Models\Proprietaire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -454,7 +439,7 @@ class IlotController extends Controller
             return $group->count();
         });
 
-        
+
         return view('dashboard.ilots.details', compact('ilots','pays_flags', 'ilotsGroupedByPays'));
     }
 
@@ -466,7 +451,7 @@ class IlotController extends Controller
         $proprietaires = Proprietaire::with('ilot')->where('paye_name',$pays)
                        ->paginate(PAGINATE_COUNT);
 
-        // dd($proprietaires->ili);             
+        // dd($proprietaires->ili);
         // dd($proprietaire);
         // $ilots = Ilot::where('Pays', $pays)->get();
         return view('dashboard.ilots.ilots_by_pays', compact('proprietaires'));
