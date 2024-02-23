@@ -1,19 +1,22 @@
 <?php
 
+use App\Models\Pays;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Dashboard\Acte\ActeController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\User\UserController;
 use App\Http\Controllers\Dashboard\Ilots\IlotController;
 use App\Http\Controllers\Dashboard\Local\LocalController;
+use App\Http\Controllers\Dashboard\Article\ArticleController;
 use App\Http\Controllers\Dashboard\Batiment\BatimentController;
 use App\Http\Controllers\Dashboard\Inventaire\InventaireController;
+use App\Http\Controllers\Dashboard\Fournisseur\FournisseurController;
 use App\Http\Controllers\Dashboard\Proprietaire\ProprietaireController;
-use App\Http\Controllers\HomeController;
-use App\Models\Pays;
-use Illuminate\Support\Facades\File;
+use App\Http\Controllers\Dashboard\EtatInventaire\EtatInventaireController;
 
 /*
 |--------------------------------------------------------------------------
@@ -137,6 +140,11 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
     // Route::resource('locaux', 'localController')->middleware(['auth', 'xss']);
 
 
-    
+    Route::resource('fournisseurs', FournisseurController::class);
+
+    Route::resource('articles', ArticleController::class);
+
+    Route::resource('etats', EtatInventaireController::class);
+
 });
 

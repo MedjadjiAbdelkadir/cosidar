@@ -40,9 +40,22 @@
                     <li>
                         <a href="{{ route('dashboard.inventaires.index') }}">
                             <i class="ti-comments"></i>
-                            <span class="right-nav-text">Inventaire</span>
+                            <span class="right-nav-text">Inventaires</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('dashboard.fournisseurs.index') }}">
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                            <span class="right-nav-text">Fournisseurs</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('dashboard.articles.index') }}">
+                            <i class="ti-comments"></i>
+                            <span class="right-nav-text">Articles</span>
+                        </a>
+                    </li>
+
                     <li>
                         <a href="{{ route('dashboard.locaux.index') }}">
                             <i class="fa fa-archive" aria-hidden="true"></i>
@@ -50,15 +63,21 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('dashboard.etats.index') }}">
+                            <i class="ti-comments"></i>
+                            <span class="right-nav-text">Etat Inventaire</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('dashboard.actes.index') }}">
                             <i class="ti-comments"></i>
-                            <span class="right-nav-text">Réference acte</span>
+                            <span class="right-nav-text">Réference Actes</span>
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('dashboard.ilots.details') }}">
                             <i class="ti-comments"></i>
-                            <span class="right-nav-text">Identification détaillée</span>
+                            <span class="right-nav-text">Identification Détaillées</span>
                         </a>
                     </li>
                     <li>
@@ -91,18 +110,7 @@
                             <span class="right-nav-text">Mutation Partielle</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="chat-page.html">
-                            <i class="ti-comments"></i>
-                            <span class="right-nav-text">Article</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="chat-page.html">
-                            <i class="fa fa-users" aria-hidden="true"></i>
-                            <span class="right-nav-text">Fournisseur</span>
-                        </a>
-                    </li>
+
                 </ul>
             </div>
         </div>

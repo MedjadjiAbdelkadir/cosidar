@@ -8,6 +8,7 @@ use App\Models\Proprietaire;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Gd\Commands\InvertCommand;
 
 class InventaireController extends Controller
 {
@@ -51,7 +52,8 @@ class InventaireController extends Controller
      */
     public function create()
     {
-        //
+        $ilotOptions = Ilot::get();
+        return view('dashboard.inventaire.create', compact('ilotOptions'));
     }
 
     /**
@@ -62,7 +64,8 @@ class InventaireController extends Controller
      */
     public function store(Request $request)
     {
-        Inventaire::create([
+        // dd($request->N_ilot);
+        $inventaire = Inventaire::create([
             'num_ilot' => $request->N_ilot,
             'date_inv' => $request->date_inv,
             'designation'=> $request->designation,
@@ -72,8 +75,9 @@ class InventaireController extends Controller
             // 'vedio'      => $request->vedio,
             'observation'=> $request->observation
         ]);
-        return redirect()->route('dashboard.inventaires.index')->with('success', 'Le Inventaires a été créé avec succès.');
+        
 
+        return redirect()->route('dashboard.fournisseurs.create', compact('inventaire'))->with('success', 'Le Inventaires a été créé avec succès.');
     }
 
     /**
