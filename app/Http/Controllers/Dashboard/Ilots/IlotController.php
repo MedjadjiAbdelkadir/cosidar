@@ -114,7 +114,7 @@ class IlotController extends Controller
             'Rue_fr' => $validatedData['Rue_fr'],
             'Localite' => $validatedData['Localite'],
             'Ville' => $validatedData['Ville'],
-            'Pays' => $validatedData['Pays'],
+            // 'Pays' => $validatedData['Pays'],
             'il_surf_cadastree' => $il_surf_cadastree,
             'Num_Rue' => $validatedData['Num_Rue'],
             'mantVV' => $validatedData['mantVV'],
