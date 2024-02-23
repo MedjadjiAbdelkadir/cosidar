@@ -25,7 +25,7 @@ class LocalController extends Controller
 
         $locaux =  DB::table('dbo_locaux')->join('dbo_anx_nature_locaux', 'dbo_locaux.Nature_Loc', '=', 'dbo_anx_nature_locaux.NNatLoc')->select('dbo_locaux.*', 'dbo_anx_nature_locaux.intitule as nature_loc')
                     ->paginate(PAGINATE_COUNT);
-        
+
         $local = Local::join('dbo_batiment', 'dbo_batiment.Num_Bat', '=', 'dbo_locaux.Num_Bat')
         // ->where('dbo_locaux.lot_no', $Num_local)
         ->select('dbo_locaux.*', 'dbo_batiment.bat_no')
@@ -34,10 +34,10 @@ class LocalController extends Controller
         if (!empty($local->Num_ilot)) {
             $batimentOptions = Batiment::where('Num_ilot', $local->Num_ilot)->pluck('bat_no', 'Num_Bat');
         }
-                
+
                     // Obtenez les options pour le champ Nature_Loc
         $nature_locaux = NatureLocaux::pluck('intitule', 'NNatLoc');
-                
+
         return view('dashboard.locaux.index',compact(['locaux','ilotOptions','batimentOptions', 'nature_locaux']));
     }
 
@@ -70,17 +70,18 @@ class LocalController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $maxNumLoc = local::max('lot_no');
-        $maxNumLoc = $maxNumLoc + 1;    
+        $maxNumLoc = $maxNumLoc + 1;
         $request->validate([
-            //'lot_no' => '', 
-            'Num_ilot' => '', 
-            'Num_Bat' => '', 
-            'lot_surface' => '', 
-            //'bat_no' => '', 
-            //'lot_bat' => '', 
-            'nb_indiv' => '', 
-            'Nature_Loc' => '', 
+            //'lot_no' => '',
+            'Num_ilot' => '',
+            'Num_Bat' => '',
+            'lot_surface' => '',
+            //'bat_no' => '',
+            //'lot_bat' => '',
+            'nb_indiv' => '',
+            'Nature_Loc' => '',
             'mode_approp' => '',
             'droit_charge' => '',
             'type_enquete' => '',
@@ -104,6 +105,7 @@ class LocalController extends Controller
            // 'NNatLoc' => $request->input('NNatLoc'),
             // Ajoutez ici les autres champs
         ]);
+
         return redirect()->route('dashboard.locaux.index')->with('success', 'Le Local a été créé avec succès.');
     }
 
@@ -132,23 +134,23 @@ class LocalController extends Controller
             ->where('dbo_locaux.lot_no', $Num_local)
             ->select('dbo_locaux.*', 'dbo_batiment.bat_no')
             ->first();
-    
-    
+
+
         // Obtenez les options pour le champ Num_ilot
         $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
-    
+
         // Obtenez les options pour le champ Num_Bat basées sur le Num_ilot actuel
         $batimentOptions = [];
         if (!empty($local->Num_ilot)) {
             $batimentOptions = Batiment::where('Num_ilot', $local->Num_ilot)->pluck('bat_no', 'Num_Bat');
         }
-    
+
         // Obtenez les options pour le champ Nature_Loc
         $nature_locaux = NatureLocaux::pluck('intitule', 'NNatLoc');
-    
+
         return view('dashboard.locaux.edit', compact('local', 'ilotOptions', 'batimentOptions', 'nature_locaux'));
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -160,14 +162,14 @@ class LocalController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            //'lot_no' => '', 
-            'Num_ilot' => '', 
-            'Num_Bat' => '', 
-            'lot_surface' => '', 
-            //'bat_no' => '', 
-            //'lot_bat' => '', 
-            'nb_indiv' => '', 
-            'Nature_Loc' => '', 
+            //'lot_no' => '',
+            'Num_ilot' => '',
+            'Num_Bat' => '',
+            'lot_surface' => '',
+            //'bat_no' => '',
+            //'lot_bat' => '',
+            'nb_indiv' => '',
+            'Nature_Loc' => '',
             // 'mode_approp' => '',
             'droit_charge' => '',
             //'type_enquete' => '',
@@ -198,7 +200,7 @@ class LocalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
     public function destroy(Request $request)
     {
         // Supprimez l'ilot en fonction de son Num_ilot

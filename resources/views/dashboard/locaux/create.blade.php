@@ -1,38 +1,46 @@
-<div class="modal fade" id="createLocauxModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">
-                    Ajouter Locaux
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- add_form -->
-                <form action="{{ route('dashboard.locaux.store') }}" method="POST">
+@extends('layouts.admin.master')
+@section('css')
+
+@section('title')
+Batiments
+@stop
+@endsection
+@section('page-header')
+<!-- breadcrumb -->
+<div class="page-title">
+    <div class="row">
+        <div class="col-sm-6">
+            <h4 class="mb-0">Dashboard</h4>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
+                <li class="breadcrumb-item"><a href="#" class="default-color">Dashboard</a></li>
+                <li class="breadcrumb-item active">Batiments</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb -->
+@endsection
+@section('content')
+<!-- row -->
+<div class="row">
+    <div class="col-md-12 mb-30">
+        <div class="card card-statistics h-100">
+            <form action="{{ route('dashboard.locaux.store') }}" method="POST">
+                <div class="card-body">
                     @csrf
                     <div class="row">
                         <div class="form-group col-md-3">
                             <label for="Num_ilot" class="mr-sm-2">Numéro de l'îlot :</label>
-                            <select class="custom-select" name="Num_ilot">
-                                <option disabled >Select Numéro de l'îlot</option>
-                                @foreach ( $ilotOptions as $ilot)
-                                    <option value="{{ $ilot }}">{{ $ilot }}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" hidden name="Num_ilot" value="{{ $batimentLoc->Num_ilot }}">
+                            <input type="text" class="form-control"   value="{{ $batimentLoc->Num_ilot }}" disabled >
                         </div>
 
                         <div class="form-group col-md-3">
                             <label for="Num_Bat" class="mr-sm-2">Numéro du Bâtiment :</label>
-                            <select class="custom-select" name="Num_Bat">
-                                <option disabled>Select Numéro du Bâtiment</option>
-                                @foreach ( $ilotOptions as $Num_Bat)
-                                    <option value="{{ $Num_Bat }}">{{ $Num_Bat }}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" hidden name="Num_Bat"  value="{{ $batimentLoc->id }}" >
+                            <input type="text" class="form-control"   value="{{ $batimentLoc->id }}"  disabled>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="Nature_Loc" class="mr-sm-2">Nature du Local :</label>
@@ -40,7 +48,7 @@
                                 <option disabled>Select Nature du Local</option>
                                 @foreach ( $nature_locaux as $Nature_Loc)
                                     <option value="{{ $Nature_Loc }}">{{ $Nature_Loc }}</option>
-                                @endforeach 
+                                @endforeach
                             </select>
                         </div>
 
@@ -64,15 +72,22 @@
                             <input type="text" class="form-control" name="droit_charge">
                         </div>
                     </div>
-                    <br><br>
+                </div>
+
+
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"
-                    data-dismiss="modal">Close</button>
+            <div class="card-footer">
+                <a href="{{ route('dashboard') }}" class="btn btn-secondary text-white" >Return Dashboard</a>
+                <a href="{{ route('dashboard.ilots.index') }}" class="btn btn-secondary text-white" >Return ILot</a>
                 <button type="submit" class="btn btn-success">Create</button>
             </div>
             </form>
-
         </div>
     </div>
 </div>
+<!-- row closed -->
+@endsection
+@section('js')
+
+@endsection
+

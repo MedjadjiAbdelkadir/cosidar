@@ -33,10 +33,13 @@ Batiments
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label for="name" class="mr-sm-2">Numéro interne du Bâtiment (bat_no) :</label>
-                        <input id="name" type="text" name="name" class="form-control">
+                        <input id="name" type="text" name="bat_no" class="form-control">
                     </div>
-                    
-                    <div class="form-group col-md-6">
+                    <div hidden class="form-group col-md-6">
+                        <label for="name" class="mr-sm-2"> (Num_ilot) :</label>
+                        <input id="name" type="text" name="Num_ilot" value="{{ $ilots->id }}" class="form-control">
+                    </div>
+                    {{-- <div class="form-group col-md-6">
                         <label for="Num_ilot" class="mr-sm-2">Sélectionnez un Numéro d\'îlot' :</label>
                         <select class="custom-select" name="Num_ilot">
                             <option disabled>Select Numéro dîlot</option>
@@ -44,7 +47,7 @@ Batiments
                                 <option value="{{ $ilot }}">{{ $ilot }}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group col-md-6">
                         <label for="Nbr_Niveau" class="mr-sm-2">Nombre de Niveaux :</label>

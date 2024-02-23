@@ -16,27 +16,26 @@ class Proprietaire extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'dbo_personne';
-     protected $fillable = [
-
-        'pe_num',      
+    protected $fillable = [
+        'pe_num',
         'Denomination_fr',
-        'Denomination_ar', 
-        'Statut', 
-        'Statut_ar',   
-        'Tutelle', 
-        'Tutelle_ar',  
-        'txt_creation',    
-        'txt_creation_ar',     
-        'Num_txt_creation',  
-        'Date_txt_creation',   
-        'Decision_affectation',    
-        'Decision_affectationAr',  
-        'Num_Decision_affectation',    
-        'Date_Decision_affectation',   
-        'N_creation',  
-        'N_Decision_affectation',  
-        'Num_Statut',  
-        'Num_tutelle', 
+        'Denomination_ar',
+        'Statut',
+        'Statut_ar',
+        'Tutelle',
+        'Tutelle_ar',
+        'txt_creation',
+        'txt_creation_ar',
+        'Num_txt_creation',
+        'Date_txt_creation',
+        'Decision_affectation',
+        'Decision_affectationAr',
+        'Num_Decision_affectation',
+        'Date_Decision_affectation',
+        'N_creation',
+        'N_Decision_affectation',
+        'Num_Statut',
+        'Num_tutelle',
 
         'CODE_II',
         'NOMENCLATURE',
@@ -51,28 +50,28 @@ class Proprietaire extends Model
         return $this->hasMany(Ilot::class, 'proprietaire_id', 'id');
         // return $this->hasMany(Ilot::class, 'id', 'proprietaire_id');
     }
- 
- 
+
+
     public function tutelle()
     {
         return $this->belongsTo(Tutelle::class, 'Tutelle', 'bi_natjur');
     }
- 
+
     public function statut()
     {
         return $this->belongsTo(AnxStatut::class, 'Statut', 'bi_natjur');
-    }   
- 
+    }
+
     public function deciaffect()
     {
         return $this->belongsTo(Deciaffect::class, 'Decision_affectation', 'Deci_Af');
-    }   
- 
+    }
+
     public function anx_text_creati()
     {
         return $this->belongsTo(AnxTextCreati::class, 'txt_creation', 'bi_natjur');
-    } 
- 
+    }
+
     public function dateFormat($date)
     {
         $settings = Utility::settings();

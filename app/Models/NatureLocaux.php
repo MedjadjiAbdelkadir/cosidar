@@ -8,13 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class NatureLocaux extends Model
 {
     use HasFactory;
-       
+
     public $timestamps = false;
 
     protected $table = 'dbo_anx_nature_locaux';
     protected $fillable = [
+<<<<<<< HEAD
         'NNatLoc', 
         'intitule', 
         
+=======
+        'NNatLoc',
+        'intitule',
+>>>>>>> mohamed
     ];
 }

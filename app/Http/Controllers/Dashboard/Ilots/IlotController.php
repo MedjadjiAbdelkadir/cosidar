@@ -2,6 +2,20 @@
 
 namespace App\Http\Controllers\Dashboard\Ilots;
 
+<<<<<<< HEAD
+=======
+use App\Http\Controllers\Controller;
+use App\Models\Batiment;
+use App\Models\Ilot;
+use App\Models\Local;
+use App\Models\Pays;
+use App\Models\ReferenceActe;
+use App\Models\Proprietaire;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+>>>>>>> mohamed
 
 use App\Models\Ilot;
 use App\Models\Pays;
@@ -42,6 +56,8 @@ class IlotController extends Controller
         //     abort(403, 'Accès non autorisé'); // Rejette l'accès si l'utilisateur n'est pas authentifié
         // }
         $pays = Pays::all();
+        $Proprietaire = Proprietaire::orderBy('id', 'DESC')->get();
+
         $jsonPath = public_path('algeria_cities.json');
         $jsonData = File::get($jsonPath);
         $cities = json_decode($jsonData, true);
@@ -52,7 +68,7 @@ class IlotController extends Controller
         $wilayaNames = array_combine($wilayaNames, $wilayaNames);
         $dayraNames = array_combine($dayraNames, $dayraNames);
 
-        return view('dashboard.Ilots.create', compact('pays'));
+        return view('dashboard.Ilots.create', compact('pays','Proprietaire'));
     }
 
     public function store(Request $request)
@@ -104,6 +120,7 @@ class IlotController extends Controller
         // Créez un nouveau modèle Ilot avec le nouveau Num_ilot
         $ilot = new Ilot([
             'Num_ilot' => $newNumIlot,
+            'proprietaire_id' => $validatedData['proprietaire_id'],
             'N_ilot' => $validatedData['N_ilot'],
             'proprietaire_id' => $validatedData['proprietaire_id'],
             'Denom_Ilot' => $validatedData['Denom_Ilot'],
@@ -155,13 +172,12 @@ class IlotController extends Controller
         $ilot->save();
 
 
-        $idIlotAjoute = $ilot->Num_ilot;
+        $idIlotAjoute = $ilot->id;
 
         $request->validate([
             'date_pub'=> '',
-            'volume1'=> '',
-            'case11'=> '',
-            'Ref_JRN'=> '',
+            'Volume'=> '',
+            'case'=> '',
             'nature_acte'=> '',
             'Num_Nat_Acte'=> '',
             'Construction_Acte'=> '',
@@ -186,18 +202,19 @@ class IlotController extends Controller
             $Num_Nat_Acte=6;
         }
 
-        Reference_acte::create([
+        ReferenceActe::create([
             'Num_ilot' => $idIlotAjoute,
             'date_pub'=> $request->input('date_pub'),
-            'volume1'=> $request->input('volume1'),
-            'case11'=> $request->input('case11'),
-            'Ref_JRN'=> $request->input('Ref_JRN'),
+            'volume1'=> $request->input('Volume'),
+            'case11'=> $request->input('case'),
             'nature_acte'=> $request->input('nature_acte'),
             'Num_Nat_Acte'   => $Num_Nat_Acte,
             'Construction_Acte'=> $request->input('Construction_Acte'),
             'Origine_Acte' => $request->input('Origine_Acte'),
         ]);
-        return redirect()->route('dashboard.batiments.create')->with('success', "Ilot ajouté avec succès ! (ID : $idIlotAjoute)");
+        $ilots = Ilot::orderBy('id', 'DESC')->first();
+        return view('dashboard.batiment.create',compact('ilots'))->with('success', 'Ilot ajouté avec succès ! (ID : $idIlotAjoute)');
+        // return redirect()->route('dashboard.batiments.create')->with('success', "Ilot ajouté avec succès ! (ID : $idIlotAjoute)");
         // Redirigez vers l'index avec un message de succès
         //return redirect()->route('ilots.index')->with('success', 'Ilot ajouté avec succès !');
     }
@@ -576,7 +593,7 @@ class IlotController extends Controller
 
         $writer->writeFile($ilot->Num_ilot, $outputPath);
 
-        return view('ilots.vue_generale', compact(
+        return view('dashboard.template.vue_genrale', compact(
             'ilot', 'sup_SDHO_total', 'sup_assiette',
             'nonRenseigneCount', 'bureauxCount', 'sallesArchivesCount', 'locauxHabitationsCount',
             'locauxCulturelsCount', 'enseignementCount', 'garagesCount', 'usagesDiversCount',

@@ -49,6 +49,7 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.'],function(){
         Route::get('/activity-users', [IlotController::class, 'activity_users'])->name('activityUsers');
         Route::post('/update-validation/{ilot}',[IlotController::class, 'updateValidation'])->name('updateValidation');
         Route::post('/filter/activity', [IlotController::class, 'filterActivityByDate'])->name('filterActivityByDate');
+        Route::get('/vue-generale/{Num_ilot}',[IlotController::class, 'vueGenerale'])->name('vuegenerale');
         // Route::get('/create', [IlotController::class, 'create'])->name();
     });
 
@@ -120,6 +121,8 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
     Route::resource('proprietaires', ProprietaireController::class);
 
     Route::group(['prefix'=> 'proprietaires','as'=>'proprietaires.'], function () {
+        Route::post('/pays', [ProprietaireController::class, 'payaSreach'])->name('pays.search');
+        Route::post('/postes/search', [ProprietaireController::class, 'postes'])->name('postes.search');
     });
 
     /**
