@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers\Dashboard\Ilots;
 
-use App\Http\Controllers\Controller;
-use App\Models\Batiment;
-use App\Models\Ilot;
-use App\Models\Local;
-use App\Models\Pays;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 
+use App\Models\Ilot;
+use App\Models\Pays;
+use App\Models\Local;
+use BaconQrCode\Writer;
+use App\Models\Batiment;
+use App\Models\Proprietaire;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use BaconQrCode\Renderer\ImageRenderer;
+use Illuminate\Support\Facades\Storage;
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
-use BaconQrCode\Writer;
-use Illuminate\Support\Facades\Storage;
 
 class IlotController extends Controller
 {
@@ -214,7 +216,7 @@ class IlotController extends Controller
 
 
 
-        return view('dashboard.ilots.show', compact('ilot', 'nombreBatiments', 'nombreLocaux'));
+        // return view('dashboard.ilots.show', compact('ilot', 'nombreBatiments', 'nombreLocaux'));
     }
 
     public function edit($ilot_Num)
@@ -417,6 +419,7 @@ class IlotController extends Controller
 
     public function details()
     {
+        // dd("details");
         $jsonPath = public_path('country.json');
         $jsonData = File::get($jsonPath);
         $pays_flags = json_decode($jsonData, true);
@@ -434,13 +437,28 @@ class IlotController extends Controller
             return $group->count();
         });
 
-        return view('ilots.details', compact('ilots','pays_flags', 'ilotsGroupedByPays'));
+        
+        return view('dashboard.ilots.details', compact('ilots','pays_flags', 'ilotsGroupedByPays'));
     }
+
 
     public function getIlotsByPays($pays)
     {
-        $ilots = Ilot::where('Pays', $pays)->get();
-        return view('ilots.ilots_by_pays', compact('ilots', 'pays'));
+        // dd("yes ...") ;
+
+        $proprietaires = Proprietaire::with('ilot')->where('paye_name',$pays)
+                       ->paginate(PAGINATE_COUNT);
+
+        // dd($proprietaires->ili);             
+        // dd($proprietaire);
+        // $ilots = Ilot::where('Pays', $pays)->get();
+        return view('dashboard.ilots.ilots_by_pays', compact('proprietaires'));
+    }
+
+    public function getIlotsByPproprietaire($proprietaire_id){
+        $ilots = Ilot::where('proprietaire_id' , $proprietaire_id)->paginate(PAGINATE_COUNT);
+        return view('dashboard.ilots.ilots_by_proprietaires', compact('ilots'));
+
     }
 
     public function vueGenerale($Num_ilot)
@@ -573,12 +591,35 @@ class IlotController extends Controller
     public function get_full_detail_ilot($Num_ilot)
     {
         //? Récupérez les données de l'ilot comme vous l'avez fait dans la méthode "show"
-        $ilot = Ilot::with('proprietaire.tutelle', 'acteReference', 'batiments.locaux', 'proprietaire.statut', 'proprietaire.deciaffect', 'proprietaire.anx_text_creati')
-            ->join('dbo_anx_nature_imm', 'dbo_ilot.Nature', '=', 'dbo_anx_nature_imm.Num_Nat_imm')
-            ->join('dbo_anx_entretien', 'dbo_anx_entretien.num_Lv', '=', 'dbo_ilot.intit_Entretien')
-            ->where('dbo_ilot.Num_ilot', $Num_ilot)
-            ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom', 'dbo_anx_entretien.intitule as entretien_intitule')
-            ->first();
+        // $ilot = Ilot::with('proprietaire.tutelle', 'acteReference', 'batiments.locaux', 'proprietaire.statut', 'proprietaire.deciaffect', 'proprietaire.anx_text_creati')
+        //     ->join('dbo_anx_nature_imm', 'dbo_ilot.Nature', '=', 'dbo_anx_nature_imm.Num_Nat_imm')
+        //     ->join('dbo_anx_entretien', 'dbo_anx_entretien.num_Lv', '=', 'dbo_ilot.intit_Entretien')
+        //     ->where('dbo_ilot.Num_ilot', $Num_ilot)
+        //     ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom', 'dbo_anx_entretien.intitule as entretien_intitule')
+        //     ->first();
+
+        // $ilot = Ilot::with('proprietaire.tutelle', 'acteReference', 'batiments.locaux', 'proprietaire.statut', 'proprietaire.deciaffect', 'proprietaire.anx_text_creati')
+        // ->join('dbo_anx_nature_imm', 'dbo_ilot.Nature', '=', 'dbo_anx_nature_imm.Num_Nat_imm')
+        // ->join('dbo_anx_entretien', 'dbo_anx_entretien.num_Lv', '=', 'dbo_ilot.intit_Entretien')
+        // ->where('dbo_ilot.Num_ilot', $Num_ilot)
+        // ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom', 'dbo_anx_entretien.intitule as entretien_intitule')
+        // ->first();
+
+        // $ilot = Ilot::with('proprietaire.tutelle', 'acteReference', 'batiments.locaux', 'proprietaire.statut', 'proprietaire.deciaffect', 'proprietaire.anx_text_creati')
+        // ->join('dbo_anx_nature_imm', 'dbo_ilot.Nature', '=', 'dbo_anx_nature_imm.Num_Nat_imm')
+        // ->join('dbo_anx_entretien', 'dbo_anx_entretien.num_Lv', '=', 'dbo_ilot.intit_Entretien')
+        // ->where('dbo_ilot.Num_ilot', $Num_ilot)
+        // ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom', 'dbo_anx_entretien.intitule as entretien_intitule')
+        // ->first();
+
+        $ilot = Ilot::with('proprietaire','anx_nature_imm','anx_entretien','acteReference', 'batiments.locaux')
+        ->join('dbo_anx_nature_imm', 'dbo_ilot.Nature', '=', 'dbo_anx_nature_imm.Num_Nat_imm')
+        ->join('dbo_anx_entretien', 'dbo_anx_entretien.num_Lv', '=', 'dbo_ilot.intit_Entretien')
+        ->where('dbo_ilot.Num_ilot', $Num_ilot)
+        ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom', 'dbo_anx_entretien.intitule as entretien_intitule')
+        ->first();
+        // $ilot = Ilot::find($Num_ilot);
+        // return response()->json($ilot);
 
         if (!$ilot) {
             return redirect()->back()->with('error', __('Ilot not found.'));

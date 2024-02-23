@@ -15,5 +15,6 @@ class AnxNatureImm extends Model
     protected $fillable = [
         'Num_Nat_imm',
         'intitule', 
+        // 'Intitule'
     ];
 }

@@ -25,13 +25,13 @@ Inventaires
 @section('content')
 <!-- row -->
 <div class="row">
-    {{-- @include('dashboard.user.create') --}}
+    @include('dashboard.inventaire.create')
 
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                <button type="button"class="button x-small"  data-toggle="modal" data-target="#createUserModal">
-                    Create
+                <button type="button"class="button x-small"  data-toggle="modal" data-target="#createInventaireModal">
+                    Create Inventaire
                 </button>
                 <br><br>
                 <div class="table-responsive">
@@ -63,12 +63,24 @@ Inventaires
                                 '22' => '22-AUTRE'
                             ];
                         @endphp
-                            @foreach ($proprietaires as $key => $proprietaire)
+                            @foreach ($Ilots as $key => $Ilot)
                             {{-- @foreach ($batimentas;$batiment) --}}
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{$proprietaire->ilot->Denom_Ilot }}</td>
-                                @if($proprietaire->ilot)
+                                {{-- <td>{{$proprietaire->ilot }}</td> --}}
+
+                                <td>{{$Ilot->Denom_Ilot }}</td>
+                                <td>{{$natureList[$Ilot->Nature] }}</td>
+                                <td>{{$Ilot->proprietaire->Denomination_fr }}</td>
+                                <td>{{$Ilot->Localite }}</td>
+                                <td>{{$Ilot->Pays }}</td>
+                                <td>{{$Ilot->Ville }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#showInventaireModal{{$Ilot->Num_ilot}}">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                </td>
+                                {{-- @if($proprietaire->Nature)
                                     <td>{{ $natureList[$proprietaire->ilot->Nature] ?? 'Unknown' }}</td>
                                 @else
                                     <td>No ilot associated</td>
@@ -76,13 +88,13 @@ Inventaires
                                 <td>{{ $proprietaire->Denomination_fr }}</td>
                                 <td>{{ $proprietaire->ilot->Localite }}</td>
                                 <td>{{ $proprietaire->ilot->Pays }}</td>
-                                <td>{{ $proprietaire->ilot->Ville }}</td>
+                                <td>{{ $proprietaire->ilot->Ville }}</td> --}}
 
-                                <td>
+                                {{-- <td>
                                     <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#showInventaireModal{{$proprietaire->ilot->Num_ilot}}">
                                         <i class="fa fa-eye"></i>
                                     </button>
-                                </td>
+                                </td> --}}
                             </tr>
                             {{-- @include('dashboard.inventaire.show') --}}
 
@@ -90,7 +102,7 @@ Inventaires
 
                         </tbody>
                     </table>
-                    {{ $proprietaires->links() }}                                            
+                    {{ $Ilots->links() }}                                            
                 </div>
             </div>
         </div>

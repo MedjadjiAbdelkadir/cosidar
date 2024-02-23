@@ -15,5 +15,6 @@ class NatureLocaux extends Model
     protected $fillable = [
         'NNatLoc', 
         'intitule', 
+        
     ];
 }

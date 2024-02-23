@@ -82,7 +82,7 @@ class Ilot extends Model
 
     public function proprietaire()
     {
-        return $this->belongsTo(Proprietaire::class, 'proprietaire_id', 'proprietaire_id');
+        return $this->belongsTo(Proprietaire::class, 'proprietaire_id', 'id');
     }
 
     public function acteReference()

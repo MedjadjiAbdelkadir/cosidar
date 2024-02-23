@@ -48,7 +48,8 @@ class Proprietaire extends Model
 
     public function ilot()
     {
-        return $this->hasMany(Ilot::class, 'proprietaire_id', 'proprietaire_id');
+        return $this->hasMany(Ilot::class, 'proprietaire_id', 'id');
+        // return $this->hasMany(Ilot::class, 'id', 'proprietaire_id');
     }
  
  

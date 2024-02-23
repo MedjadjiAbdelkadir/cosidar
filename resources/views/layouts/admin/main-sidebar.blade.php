@@ -56,7 +56,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="chat-page.html">
+                        <a href="{{ route('dashboard.ilots.details') }}">
                             <i class="ti-comments"></i>
                             <span class="right-nav-text">Identification détaillée</span>
                         </a>

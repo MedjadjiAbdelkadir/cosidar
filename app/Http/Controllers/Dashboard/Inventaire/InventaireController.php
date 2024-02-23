@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Dashboard\Inventaire;
 
+use App\Models\Ilot;
+use App\Models\Inventaire;
 use App\Models\Proprietaire;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+
 class InventaireController extends Controller
 {
     /**
@@ -15,7 +18,15 @@ class InventaireController extends Controller
      */
     public function index()
     {
-        $proprietaires = Proprietaire::has('ilot')->paginate(PAGINATE_COUNT);
+        // $Ilots = Ilot::paginate(PAGINATE_COUNT);
+// with('proprietaire','')->
+        // $proprietaires = Proprietaire::has('ilot')->with('ilot')->paginate(PAGINATE_COUNT);
+        // dd($proprietaires);
+
+        // $proprietaires = Proprietaire::where('id',17)->with('ilot')->get();
+
+        $ilotOptions = Ilot::get();
+        
 
         $jsonPath = public_path('country.json');
 
@@ -24,8 +35,13 @@ class InventaireController extends Controller
         } else {
             $jsonData = [];
         }
+        $Ilots = Ilot::with('proprietaire','anx_nature_imm','anx_entretien','acteReference', 'batiments.locaux')
+        ->join('dbo_anx_nature_imm', 'dbo_ilot.Nature', '=', 'dbo_anx_nature_imm.Num_Nat_imm')
+        ->join('dbo_anx_entretien', 'dbo_anx_entretien.num_Lv', '=', 'dbo_ilot.intit_Entretien')
+        ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom', 'dbo_anx_entretien.intitule as entretien_intitule')
+        ->paginate(PAGINATE_COUNT);
 
-        return view('dashboard.inventaire.index', compact('proprietaires', 'jsonData'));
+        return view('dashboard.inventaire.index', compact('ilotOptions' ,'Ilots', 'jsonData'));
     }
 
     /**
@@ -46,7 +62,18 @@ class InventaireController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Inventaire::create([
+            'num_ilot' => $request->N_ilot,
+            'date_inv' => $request->date_inv,
+            'designation'=> $request->designation,
+            'photos'     => 'img.png',
+            'vedio'      => 'video.mp4',
+            // 'photos'     => $request->photos,
+            // 'vedio'      => $request->vedio,
+            'observation'=> $request->observation
+        ]);
+        return redirect()->route('dashboard.inventaires.index')->with('success', 'Le Inventaires a été créé avec succès.');
+
     }
 
     /**

@@ -12,25 +12,25 @@ class Inventaire extends Model
     protected $table = 'inventaire';
 
     protected $fillable = [
-        'denomination',
-        'nature',
-        'service_affectataire',
-        'localite',
-        'pays',
-        'ville',
-        'id_inventaire',
+        // 'denomination',
+        // 'nature',
+        // 'service_affectataire',
+        // 'localite',
+        // 'pays',
+        // 'ville',
+        // 'id_inventaire',
         'num_ilot',
         'date_inv',
         'designation',
         'photos',
         'vedio',
-        'autre',
+        // 'autre',
         'observation',
-        'trial251',
-        'CtegoreDeBien',
-        'DateInventaire',
-        'idFournisseur',
-        'prixDacha',
+        // 'trial251',
+        // 'CtegoreDeBien',
+        // 'DateInventaire',
+        // 'idFournisseur',
+        // 'prixDacha',
     ];
 
     public function ilot()

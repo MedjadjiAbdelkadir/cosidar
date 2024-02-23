@@ -25,7 +25,7 @@ Batiments
 @section('content')
 <!-- row -->
 <div class="row">
-    @include('dashboard.batiment.create')
+    {{-- @include('dashboard.batiment.create') --}}
 
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">

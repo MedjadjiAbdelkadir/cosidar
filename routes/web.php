@@ -38,7 +38,10 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.'],function(){
     // ? Router for Ilots Management
     // Route::resource('ilots', IlotController::class)->only('show');
     Route::resource('/ilots', IlotController::class);
+
+    
     Route::group(['prefix' => 'ilots', 'as' => 'ilots.'], function () {
+       
         Route::delete('/deleted', [IlotController::class, 'deleted'])->name('deleted');
         Route::put('/ilot/update/{id}', [IlotController::class, 'updated'])->name('updated');
         Route::get('/{user_id}/getIliotsByIdUser', [IlotController::class, 'getIliotsByIdUser'])->name('');
@@ -48,6 +51,13 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.'],function(){
         Route::post('/filter/activity', [IlotController::class, 'filterActivityByDate'])->name('filterActivityByDate');
         // Route::get('/create', [IlotController::class, 'create'])->name();
     });
+
+    Route::get('details', [IlotController::class, 'details'])->name('ilots.details');
+    Route::get('/proprietaire/pays/{pays}', [IlotController::class, 'getIlotsByPays'])->name('ilots.proprietaireby_country');
+
+    Route::get('/proprietaire/{proprietaire_id}', [IlotController::class, 'getIlotsByPproprietaire'])->name('ilots.by_proprietaire');
+    Route::get('/ilots/get_full_detail_ilot/{Num_ilot}',[IlotController::class, 'get_full_detail_ilot'])->name('ilots.get_full_detail_ilot');
+    // Route::get('/ilots/pays/{pays}', 'IlotController@getIlotsByPays')->name('ilots.by_pays');
     //*  End Ilots Management ****************************************************************
 
 });
@@ -90,8 +100,8 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
     /**
      * inventaire Management
      */
+    Route::resource('inventaires', InventaireController::class);
     Route::group(['prefix'=> 'inventaires','as'=>'inventaires.'], function () {
-        Route::resource('/', InventaireController::class)->only(['index']);
     });
 
     /**
@@ -124,5 +134,6 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
     // Route::resource('locaux', 'localController')->middleware(['auth', 'xss']);
 
 
+    
 });
 
