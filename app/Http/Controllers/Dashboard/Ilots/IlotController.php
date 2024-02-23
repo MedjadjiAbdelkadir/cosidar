@@ -451,19 +451,12 @@ class IlotController extends Controller
     public function vueGenerale($Num_ilot)
     {
         //? Récupérez les données de l'ilot comme vous l'avez fait dans la méthode "show"
-        $ilot = Ilot::with('proprietaire.proprietaire_id','proprietaire.tutelle', 'acteReference', 'batiments.locaux', 'proprietaire.statut', 'proprietaire.deciaffect', 'proprietaire.anx_text_creati')
+        $ilot = Ilot::with('proprietaire.tutelle', 'acteReference', 'batiments.locaux', 'proprietaire.statut', 'proprietaire.deciaffect', 'proprietaire.anx_text_creati')
             ->join('dbo_anx_nature_imm', 'dbo_ilot.Nature', '=', 'dbo_anx_nature_imm.Num_Nat_imm')
             ->join('dbo_anx_entretien', 'dbo_anx_entretien.num_Lv', '=', 'dbo_ilot.intit_Entretien')
             ->where('dbo_ilot.Num_ilot', $Num_ilot)
             ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom', 'dbo_anx_entretien.intitule as entretien_intitule')
             ->first();
-
-        // $ilot = Ilot::with('proprietaire','anx_nature_imm','anx_entretien','acteReference', 'batiments.locaux')
-        //     ->join('dbo_anx_nature_imm', 'dbo_ilot.Nature', '=', 'dbo_anx_nature_imm.Num_Nat_imm')
-        //     ->join('dbo_anx_entretien', 'dbo_anx_entretien.num_Lv', '=', 'dbo_ilot.intit_Entretien')
-        //     ->where('dbo_ilot.Num_ilot', $Num_ilot)
-        //     // ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom', 'dbo_anx_entretien.intitule as entretien_intitule')
-        //     ->first();
 
         if (!$ilot) {
             return redirect()->back()->with('error', __('Ilot not found.'));

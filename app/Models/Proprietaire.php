@@ -17,7 +17,6 @@ class Proprietaire extends Model
     public $timestamps = false;
     protected $table = 'dbo_personne';
     protected $fillable = [
-
         'pe_num',
         'Denomination_fr',
         'Denomination_ar',

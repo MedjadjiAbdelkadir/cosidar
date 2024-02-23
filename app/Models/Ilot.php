@@ -80,15 +80,15 @@ class Ilot extends Model
         return $this->hasMany(Batiment::class, 'Num_ilot', 'Num_ilot');
     }
 
-    // public function proprietaire()
-    // {
-    //     return $this->belongsTo(Proprietaire::class, 'proprietaire_id', 'id');
-    // }
-
     public function proprietaire()
     {
-        return $this->belongsTo(Proprietaire::class, 'proprietaire_id', 'proprietaire_id');
+        return $this->belongsTo(Proprietaire::class, 'proprietaire_id', 'id');
     }
+
+    // public function proprietaire()
+    // {
+    //     return $this->belongsTo(Proprietaire::class, 'proprietaire_id', 'proprietaire_id');
+    // }
 
     public function acteReference()
     {
