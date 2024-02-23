@@ -27,10 +27,45 @@ LISTE DES ILOTS
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
+                {{-- <div class="d-flex justify-content-between">
+                    <div>
+                        <a href="{{ route('dashboard.ilots.create') }}" class="btn btn-primary x-small filter-ilots">
+                            <h5 class="card-title">Nouveau Ilot</h5>
+                        </a>
+                        <button type="button" class="btn btn-success x-small filter-ilots" data-validation="1" >
+
+                        </button>
+                        <button type="button" class="btn btn-danger x-small filter-ilots" data-validation="0" >
+
+                        </button>
+                    </div>
+                    <div>
+                        <a href="{{ route('dashboard.ilots.create') }}" class="button x-small" >
+                            Créer Bien
+                        </a>
+                    </div>
+                </div> --}}
                 <form action="{{ route('dashboard.ilots.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     {{-- Start create Ilot --}}
                     <div class="row">
+                        @if (!empty($proprietaires))
+                            <div class="form-group col-md-6">
+                                <label for="proprietaire_id" class="mr-sm-2">choose un Proprietaire</label>
+                                <input type="text" value="{{ $proprietaires->Denomination_fr }}">
+                            </div>
+                        @else
+                            <div class="form-group col-md-6">
+                                <label for="proprietaire_id" class="mr-sm-2">choose un Proprietaire</label>
+                                <select class="custom-select" name="proprietaire_id">
+                                    <option disabled value="">Select Proprietaire</option>
+                                    @foreach ($Proprietaire as $item)
+                                        <option value="{{ $item->id }}">{{ $item->Denomination_fr }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
+
                         <div class="form-group col-md-6">
                             <label class="mr-sm-2">Numéro d'ilot</label>
                             <input type="text"  name="N_ilot" class="form-control" required placeholder="Enter Numéro d'ilot">
@@ -126,14 +161,14 @@ LISTE DES ILOTS
                                 <option value="5">NON RENSEIGNIE</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-6">
+                        {{-- <div class="form-group col-md-6">
                             <label class="mr-sm-2">Sélectionnez un pays</label>
                             <select name="Pays" id="pays"  class="custom-select" required>
                                 @foreach ($pays as $pay)
                                     <option value="{{ $pay->name }}"><img src="{{ asset($pay->flag_1x1) }}" class="flag-icon" alt="{{ $pay->flag_1x1 }}"> -  {{ $pay->name }}</option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
                         <div class="form-group col-md-6">
                             <label class="mr-sm-2">Evaluation locative</label>
                             <select name="Int_VL" class="custom-select" required>
@@ -188,8 +223,8 @@ LISTE DES ILOTS
                             </select>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="volume1" class="mr-sm-2">Volume1 :</label>
-                            <input type="text" class="form-control" name="volume1">
+                            <label for="volume1" class="mr-sm-2">Volume :</label>
+                            <input type="text" class="form-control" name="volume" placeholder="enter Volume">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="Construction_Acte" class="mr-sm-2">Construction d'acte :</label>
@@ -216,14 +251,11 @@ LISTE DES ILOTS
                             </select>
                         </div>
 
-                        <div class="form-group col-md-6">
-                            <label for="Ref_JRN" class="mr-sm-2">Ref_JRN :</label>
-                            <input type="text" class="form-control" name="Ref_JRN">
-                        </div>
+
 
                         <div class="form-group col-md-6">
-                            <label for="case11" class="mr-sm-2">Case11 :</label>
-                            <input type="text" class="form-control" name="case11">
+                            <label for="case11" class="mr-sm-2">Case :</label>
+                            <input type="text" class="form-control" name="case" placeholder="enter Case11">
                         </div>
                     </div>
                     {{-- end create acte --}}

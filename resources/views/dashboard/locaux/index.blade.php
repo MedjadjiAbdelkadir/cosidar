@@ -25,7 +25,7 @@ Locaux
 @section('content')
 <!-- row -->
 <div class="row">
-    @include('dashboard.locaux.create')
+    {{-- @include('dashboard.locaux.create') --}}
 
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
@@ -40,7 +40,7 @@ Locaux
                             <tr>
                                 <th>#</th>
                                 <th>N°LOCAUX</th>
-                                <th>N°BIEN</th> 
+                                <th>N°BIEN</th>
                                 <th>N°BATIMENT</th>
                                 <th>SURFACE LOCAUX</th>
                                 <th>NBR LOCAUX</th>
@@ -60,7 +60,7 @@ Locaux
                                 <td>{{ $local->lot_surface }}</td>
                                 <td>{{ $local->nb_indiv }}</td>
                                 <td>{{ $local->nature_loc }}</td>
-                                <td>{{ $local->nb_piece }}</td> 
+                                <td>{{ $local->nb_piece }}</td>
 
                                 <td>
                                     <a class="btn btn-info btn-sm" href="{{ route('dashboard.locaux.show' , $local->lot_no) }}">
@@ -71,7 +71,7 @@ Locaux
                                     </button>
                                     <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLocauxModal{{$local->lot_no}}">
                                         <i class="fa fa-trash"></i>
-                                    </button>                                      
+                                    </button>
                                 </td>
                             </tr>
                             @include('dashboard.locaux.edit')
@@ -80,7 +80,7 @@ Locaux
 
                         </tbody>
                     </table>
-                    {{ $locaux->links() }}                                            
+                    {{ $locaux->links() }}
                 </div>
             </div>
         </div>

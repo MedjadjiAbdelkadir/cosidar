@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use App\Models\AnxTextCreati;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\NomenclaturePdc;
+use App\Models\Pays;
+use App\Models\Postes;
 
 class ProprietaireController extends Controller
 {
@@ -54,10 +57,13 @@ class ProprietaireController extends Controller
         $anx_statut = AnxStatut::pluck('Intitule','bi_natjur' );
         $anx_tutelle = AnxTutelle::pluck('Intitule','bi_natjur' );
         $anx_text_creati = AnxTextCreati::pluck('Intitule','bi_natjur' );
+        $pays = Pays::all();
+        $nomenclatures = NomenclaturePdc::all();
 
-        return view('dashboard.proprietaire.create', compact('deciaffect','anx_statut','anx_tutelle','anx_text_creati'));
+        return view('dashboard.proprietaire.create',
+        compact('deciaffect','anx_statut','anx_tutelle','anx_text_creati','pays','nomenclatures'));
     }
-    
+
     public function create_ajax()
     {
 
@@ -84,16 +90,16 @@ class ProprietaireController extends Controller
         $maxNumPropretaire = Proprietaire::max('pe_num');
         $maxNumPropretaire = $maxNumPropretaire + 1;
         $request->validate([
-                //'pe_num' => '',  
+                //'pe_num' => '',
             'Denomination_fr'=> '',
-            'Statut'=> '', 
+            'Statut'=> '',
             'Tutelle'=> '',
-            'txt_creation'=> '',    
-            'Decision_affectation'=> '',  
+            'txt_creation'=> '',
+            'Decision_affectation'=> '',
             'Date_Decision_affectation'=> '',
             'Date_txt_creation' =>'',
 
-            'CODE_II'=> '',
+            // 'CODE_II'=> '',
             'NOMENCLATURE'=> '',
             'paye_name'=> '',
             'paye_region'=> '',
@@ -101,28 +107,30 @@ class ProprietaireController extends Controller
             'Ref_JRN'=> '',
         ]);
 
-        Proprietaire::create([
+        // dd($request->all());
+        $proprietaires = Proprietaire::create([
 
             'pe_num' => $maxNumPropretaire,
             // 'Num_ilot' => $request->input('Num_ilot'),
             'Denomination_fr'=> $request->input('Denomination_fr'),
             'Statut'=> $request->input('Statut'),
             'Tutelle'=> $request->input('Tutelle'),
-            'txt_creation'=> $request->input('txt_creation'),    
-            'Decision_affectation'=> $request->input('Decision_affectation'),  
-            'Date_Decision_affectation'=> $request->input('Date_Decision_affectation'), 
+            'txt_creation'=> $request->input('txt_creation'),
+            'Decision_affectation'=> $request->input('Decision_affectation'),
+            'Date_Decision_affectation'=> $request->input('Date_Decision_affectation'),
             //'Date_txt_creation' => now(),
             'Date_txt_creation'=> $request->input('Date_txt_creation'),
-            
-            'CODE_II'=> $request->input('CODE_II'),
+
+            // 'CODE_II'=> $request->input('CODE_II'),
             'NOMENCLATURE'=> $request->input('NOMENCLATURE'),
             'paye_name'=> $request->input('paye_name'),
             'paye_region'=> $request->input('paye_region'),
             'paye_code'=> $request->input('paye_code'),
             'Ref_JRN'=> $request->input('Ref_JRN'),
         ]);
+        // dd($proprietaires->id);
         // Redirigez l'utilisateur avec un message de succès
-        return redirect()->route('dashboard.ilots.create')->with('success', 'Le Proprietaire a été créé avec succès.');
+        return redirect()->route('dashboard.ilots.create', compact('proprietaires'))->with('success', 'Le Proprietaire a été créé avec succès.');
     }
 
     public function store_ajax(Request $request){
@@ -130,27 +138,27 @@ class ProprietaireController extends Controller
         $maxNumPropretaire = $maxNumPropretaire + 1;
         $request->validate([
                 //'pe_num' => '',
-            // 'Num_ilot'=> '',       
+            // 'Num_ilot'=> '',
             'Denomination_fr'=> '',
-            'Statut'=> '', 
+            'Statut'=> '',
             'Tutelle'=> '',
-            'txt_creation'=> '',    
-            'Decision_affectation'=> '',  
+            'txt_creation'=> '',
+            'Decision_affectation'=> '',
             'Date_Decision_affectation'=> '',
             'Date_txt_creation' =>'',
         ]);
- 
+
         Proprietaire::create([
             'pe_num' => $maxNumPropretaire,
             // 'Num_ilot' => $request->input('Num_ilot'),
             'Denomination_fr'=> $request->input('Denomination_fr'),
             'Statut'=> $request->input('Statut'),
             'Tutelle'=> $request->input('Tutelle'),
-            'txt_creation'=> $request->input('txt_creation'),    
-            'Decision_affectation'=> $request->input('Decision_affectation'),  
-            'Date_Decision_affectation'=> $request->input('Date_Decision_affectation'), 
+            'txt_creation'=> $request->input('txt_creation'),
+            'Decision_affectation'=> $request->input('Decision_affectation'),
+            'Date_Decision_affectation'=> $request->input('Date_Decision_affectation'),
             //'Date_txt_creation' => now(),
-            'Date_txt_creation'=> $request->input('Date_txt_creation'), 
+            'Date_txt_creation'=> $request->input('Date_txt_creation'),
 
             'CODE_II'=> $request->input('CODE_II'),
             'NOMENCLATURE'=> $request->input('NOMENCLATURE'),
@@ -204,16 +212,16 @@ class ProprietaireController extends Controller
             ->select('dbo_personne.*', 'dbo_anx_statut.intitule as anx_statut_intitule', 'dbo_deciaffect.intitule_fr as deciaffect_intitule' , 'dbo_anx_tutelle.intitule as tutelle_intitule' , 'dbo_anx_text_creati.intitule as text_creati_intitule')
              ->where('dbo_personne.pe_num', $Num_proprietaire)
             ->first();
-    
+
             $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
             $deciaffect = Deciaffect::pluck('Intitule_fr','Deci_Af' );
             $anx_statut = AnxStatut::pluck('Intitule','bi_natjur' );
             $anx_tutelle = AnxTutelle::pluck('Intitule','bi_natjur' );
             $anx_text_creati = AnxTextCreati::pluck('Intitule','bi_natjur' );
-    
+
         return view('dashboard.proprietaire.edit', compact('proprietaire', 'ilotOptions','deciaffect','anx_statut','anx_tutelle','anx_text_creati'));
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -225,11 +233,11 @@ class ProprietaireController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'Num_ilot' => '', 
-            'Num_Bat' => '', 
-            'lot_surface' => '', 
-            'nb_indiv' => '', 
-            'Nature_Loc' => '', 
+            'Num_ilot' => '',
+            'Num_Bat' => '',
+            'lot_surface' => '',
+            'nb_indiv' => '',
+            'Nature_Loc' => '',
             'mode_approp' => '',
             'droit_charge' => '',
             'type_enquete' => '',
@@ -249,11 +257,11 @@ class ProprietaireController extends Controller
         $proprietaire->Denomination_fr = $request->input('Denomination_fr');
         $proprietaire->Statut = $request->input('Statut');
         $proprietaire->Tutelle = $request->input('Tutelle');
-        $proprietaire->txt_creation = $request->input('txt_creation');    
-        $proprietaire->Decision_affectation = $request->input('Decision_affectation');  
+        $proprietaire->txt_creation = $request->input('txt_creation');
+        $proprietaire->Decision_affectation = $request->input('Decision_affectation');
         $proprietaire->Date_Decision_affectation = $request->input('Date_Decision_affectation');
         $proprietaire->Date_txt_creation = $request->input('Date_txt_creation');
-        
+
         $proprietaire->save();
 
         return redirect()->route('dashboard.proprietaires.index')->with('success', 'Local mis à jour avec succès');
@@ -270,6 +278,17 @@ class ProprietaireController extends Controller
     {
         Proprietaire::where('pe_num', $request->id)->delete();
         return redirect()->route('dashboard.proprietaires.index')->with('success', 'Proprietaire supprimé avec succès.');
+    }
+
+    public function payaSreach(Request $request){
+        $name = $request->paysName;
+        $pays = Pays::where('name', $name)->first();
+        return response()->json($pays);
+    }
+    public function postes(Request $request){
+        $id = $request->id;
+        $postes = Postes::where('id_nomenclature', $id)->get();
+        return response()->json($postes);
     }
 
 }

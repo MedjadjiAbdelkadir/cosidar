@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Ilot extends Model
 {
     use HasFactory;
-    
+
     public $timestamps = false;
     protected $table = 'dbo_ilot';
 
@@ -79,6 +79,11 @@ class Ilot extends Model
     {
         return $this->hasMany(Batiment::class, 'Num_ilot', 'Num_ilot');
     }
+
+    // public function proprietaire()
+    // {
+    //     return $this->belongsTo(Proprietaire::class, 'proprietaire_id', 'id');
+    // }
 
     public function proprietaire()
     {

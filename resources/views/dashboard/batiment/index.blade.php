@@ -25,14 +25,14 @@ Batiments
 @section('content')
 <!-- row -->
 <div class="row">
-    @include('dashboard.batiment.create')
+    {{-- @include('dashboard.batiment.create') --}}
 
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                <button type="button"class="button x-small"  data-toggle="modal" data-target="#createBatimentModal">
+                <a href="{{ route('dashboard.locaux.create') }}" class="button x-small"  >
                     Create Batiment
-                </button>
+                </a>
                 <br><br>
                 <div class="table-responsive">
                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0" data-page-length="50" style="text-align: center">
@@ -70,7 +70,7 @@ Batiments
                                 </td>
                             </tr>
                             @include('dashboard.batiment.edit')
-                           
+
                             @include('dashboard.batiment.delete')
                             {{-- @include('dashboard.user.changeStatus') --}}
                             {{-- batiment --}}
@@ -78,7 +78,7 @@ Batiments
 
                         </tbody>
                     </table>
-                    {{ $batiments->links() }}                                            
+                    {{ $batiments->links() }}
                 </div>
             </div>
         </div>

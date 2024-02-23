@@ -8,7 +8,7 @@ use App\Models\Batiment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-
+use App\Models\NatureLocaux;
 
 class BatimentController extends Controller
 {
@@ -33,7 +33,7 @@ class BatimentController extends Controller
     {
         $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
 
-        return view('dashboard.batiments.create', compact('ilotOptions'));
+        return view('dashboard.batiment.create', compact('ilotOptions'));
     }
 
     public function create_ajax()
@@ -56,7 +56,7 @@ class BatimentController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        
+
         $maxNumBat = Batiment::max('Num_Bat');
         $maxNumBat = $maxNumBat + 1;
 
@@ -83,7 +83,7 @@ class BatimentController extends Controller
             'bat_no'=> $validatedData['bat_no'],
             'Num_ilot'=> $validatedData['Num_ilot'],
             'Nbr_Niveau'=> $validatedData['Nbr_Niveau'],
-            'sup_bati_cons'=> $validatedData['sup_bati_cons'],
+            // 'sup_bati_cons'=> $validatedData['sup_bati_cons'],
             'sup_SDHO'=> $validatedData['sup_SDHO'],
             //'lot_bat'=> $validatedData['lot_bat'],
             'nom_bat'=> $validatedData['nom_bat'],
@@ -93,6 +93,9 @@ class BatimentController extends Controller
         ]);
 
         $idBatimentAjoute =$batiment->Num_Bat;
+        $batimentLoc = Batiment::find($batiment->id);
+        $nature_locaux = NatureLocaux::pluck('intitule','NNatLoc' );
+        return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux'))->with('success', "Batiment ajouté avec succès ! (ID : $idBatimentAjoute)");
         // Redirigez vers l'index avec un message de succès
         return redirect()->route('dashboard.locaux.create')->with('success', "Batiment ajouté avec succès ! (ID : $idBatimentAjoute)");// il faut retourner que json
     }
