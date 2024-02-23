@@ -63,7 +63,7 @@ Etat Inventaire
                                 <td>Nom Prod</td>
                                 <td>Price Prod</td>
                                 <td>Quantity Prod</td>
-                                <td>Total </td>
+                                <td>Total</td>
                                 <th>Action</th>
                             </tr>
                         </thead>
