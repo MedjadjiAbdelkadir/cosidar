@@ -23,7 +23,7 @@ class LocalController extends Controller
     {
         $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
 
-        $locaux =  DB::table('dbo_locaux')->join('dbo_anx_nature_locaux', 'dbo_locaux.Nature_Loc', '=', 'dbo_anx_nature_locaux.NNatLoc')->select('dbo_locaux.*', 'dbo_anx_nature_locaux.intitule as nature_loc')
+        $locaux =  DB::table('dbo_locaux')->orderBy('id','DESC')->join('dbo_anx_nature_locaux', 'dbo_locaux.Nature_Loc', '=', 'dbo_anx_nature_locaux.NNatLoc')->select('dbo_locaux.*', 'dbo_anx_nature_locaux.intitule as nature_loc')
                     ->paginate(PAGINATE_COUNT);
 
         $local = Local::join('dbo_batiment', 'dbo_batiment.Num_Bat', '=', 'dbo_locaux.Num_Bat')

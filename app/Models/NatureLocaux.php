@@ -13,13 +13,8 @@ class NatureLocaux extends Model
 
     protected $table = 'dbo_anx_nature_locaux';
     protected $fillable = [
-<<<<<<< HEAD
-        'NNatLoc', 
-        'intitule', 
-        
-=======
         'NNatLoc',
         'intitule',
->>>>>>> mohamed
+
     ];
 }

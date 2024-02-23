@@ -38,11 +38,7 @@ class BatimentController extends Controller
 
     public function create_ajax()
     {
-
-
-    $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
-
-
+        $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
         return view('dashboard.batiment.create_ajax', compact('ilotOptions'));
     }
 
@@ -75,7 +71,6 @@ class BatimentController extends Controller
             //'nbr_loc'=> '',
 
         ]);
-
             // Créez un nouveau modèle Ilot avec le nouveau Num_ilot
         $batiment =  Batiment::create([
             ///////////////////
@@ -95,7 +90,8 @@ class BatimentController extends Controller
         $idBatimentAjoute =$batiment->Num_Bat;
         $batimentLoc = Batiment::find($batiment->id);
         $nature_locaux = NatureLocaux::pluck('intitule','NNatLoc' );
-        return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux'))->with('success', "Batiment ajouté avec succès ! (ID : $idBatimentAjoute)");
+
+        return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux'));
         // Redirigez vers l'index avec un message de succès
         // return redirect()->route('dashboard.locaux.create')->with('success', "Batiment ajouté avec succès ! (ID : $idBatimentAjoute)");// il faut retourner que json
     }

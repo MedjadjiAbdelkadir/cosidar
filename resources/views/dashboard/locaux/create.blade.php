@@ -2,11 +2,10 @@
 @section('css')
 
 @section('title')
-Batiments
+Ajoute Locaux
 @stop
 @endsection
 @section('page-header')
-<!-- breadcrumb -->
 <div class="page-title">
     <div class="row">
         <div class="col-sm-6">
@@ -15,7 +14,7 @@ Batiments
         <div class="col-sm-6">
             <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
                 <li class="breadcrumb-item"><a href="#" class="default-color">Dashboard</a></li>
-                <li class="breadcrumb-item active">Batiments</li>
+                <li class="breadcrumb-item active">Locaux</li>
             </ol>
         </div>
     </div>
@@ -23,7 +22,6 @@ Batiments
 <!-- breadcrumb -->
 @endsection
 @section('content')
-<!-- row -->
 <div class="row">
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
@@ -74,7 +72,6 @@ Batiments
                     </div>
                 </div>
 
-
             </div>
             <div class="card-footer">
                 <a href="{{ route('dashboard') }}" class="btn btn-secondary text-white" >Return Dashboard</a>
@@ -87,7 +84,5 @@ Batiments
 </div>
 <!-- row closed -->
 @endsection
-@section('js')
 
-@endsection
 
