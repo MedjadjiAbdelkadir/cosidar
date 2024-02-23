@@ -97,7 +97,7 @@ class BatimentController extends Controller
         $nature_locaux = NatureLocaux::pluck('intitule','NNatLoc' );
         return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux'))->with('success', "Batiment ajouté avec succès ! (ID : $idBatimentAjoute)");
         // Redirigez vers l'index avec un message de succès
-        return redirect()->route('dashboard.locaux.create')->with('success', "Batiment ajouté avec succès ! (ID : $idBatimentAjoute)");// il faut retourner que json
+        // return redirect()->route('dashboard.locaux.create')->with('success', "Batiment ajouté avec succès ! (ID : $idBatimentAjoute)");// il faut retourner que json
     }
 
     public function store_ajax(Request $request)
