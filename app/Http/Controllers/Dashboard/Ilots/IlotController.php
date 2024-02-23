@@ -473,7 +473,7 @@ class IlotController extends Controller
             ->where('dbo_ilot.Num_ilot', $Num_ilot)
             ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom', 'dbo_anx_entretien.intitule as entretien_intitule')
             ->first();
-
+        // dd($ilot->acteReference);
         if (!$ilot) {
             return redirect()->back()->with('error', __('Ilot not found.'));
         }

@@ -19,8 +19,8 @@
         if (count === 0) {
           clearInterval(countdownInterval); // Stop the countdown
           //window.location.href = 'https://example.com'; // Redirect to another page
-          document.getElementById ('index').style.display = 'none';
-          document.getElementById ('pageHome').style.display = 'block';
+        //   document.getElementById ('index').style.display = 'none';
+        //   document.getElementById ('pageHome').style.display = 'block';
         }
       }, 1000); // Update every second (1000 milliseconds)
     }

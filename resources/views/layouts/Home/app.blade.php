@@ -3,19 +3,19 @@
 <body>
 <div id="index" class="container-xxl">
     <div class="container">
-        <div class="d-flex justify-content-center mt-5">
+        <div class="d-flex justify-content-center mt-1">
             <div class="text-center">
                 <h2 style="color: #388482;" class="">الجمهورية الجزائرية الديمقراطية الشعبية</h2>
                 <h2 style="color: #388482;" class="">المديرية العامة الأشغال العمومية</h2>
             </div>
         </div>
-        <div class="d-flex justify-content-between">
+        <div style="margin-top: -25px;" class="d-flex justify-content-between">
             <img src="{{ asset('cosidar/logo.png') }}" alt="">
             <img src="{{ asset('cosidar/cosidar.jpg') }}" alt="">
         </div>
-        <div class="d-flex justify-content-center">
+        <div style="margin-top: -15px;" class="d-flex justify-content-center">
             <div class="text-center">
-                <h1 style="font-size: 180px; color: #388482;" id="countdown"></h1>
+                <h1 style="font-size: 200px; color: #388482;" id="countdown"></h1>
             </div>
         </div>
         <div class="d-flex justify-content-center">

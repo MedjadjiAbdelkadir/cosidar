@@ -29,9 +29,9 @@
         <div class="col-md-12">
             <div class="card" style="width: 100%;margin-left:0%">
             <div class="card-header">
-                <button class="btn btn-primary float-right" onclick="imprimerTableau()">Imprimer</button>
+                <button class="btn btn-primary float-right" id="printInvoice" onclick="imprimerTableau()">Imprimer</button>
             </div>
-            <div class="card-body">
+            <div id="invoices" class="card-body">
                 <div style="overflow-y: auto; max-height: 700px; width: 100%; overflow-x: hidden;">
                     <table class="table" id="tableToPrint">
                     <tbody>
@@ -74,7 +74,7 @@
                             </td>
                             <td class="column right" style="padding-left:580px !important">
                                 Propriétaire: @if ($ilot->proprietaire)
-                                    {{ $ilot->proprietaire->tutelle->Intitule }}
+                                    {{ $ilot->proprietaire->Tutelle }}
                                 @else
                                     Aucun propriétaire trouvé
                                 @endif
@@ -113,20 +113,23 @@
                                 <table width="100%">
                                     <tr>
                                         <td>Statut:@if ($ilot->proprietaire)
-                                {{ $ilot->proprietaire->statut->Intitule }}
-                                @else
-                                    Aucun propriétaire trouvé
-                                @endif                        </td>
+                                            {{ $ilot->proprietaire->Statut }}
+                                            @else
+                                                Aucun propriétaire trouvé
+                                            @endif
+                                        </td>
                                         <td >N°:@if ($ilot->proprietaire)
-                                {{ $ilot->proprietaire->deciaffect->Deci_Af }}
-                                @else
-                                    Aucun propriétaire trouvé
-                                @endif                       </td>
+                                            {{ $ilot->proprietaire->pe_num  }}
+                                            @else
+                                                Aucun propriétaire trouvé
+                                            @endif
+                                        </td>
                                         <td >Date:@if ($ilot->proprietaire)
-                                {{ $ilot->proprietaire->Date_Decision_affectation }}
-                                @else
-                                    Aucun propriétaire trouvé
-                                @endif                        </td>
+                                            {{ $ilot->proprietaire->Date_Decision_affectation }}
+                                            @else
+                                                Aucun propriétaire trouvé
+                                            @endif
+                                        </td>
                                     </tr>
                                 </table>
                             </td>
@@ -136,19 +139,19 @@
                             <table width="100%">
                                 <tr>
                                     <td>Affetctation:@if ($ilot->proprietaire)
-                                        {{ $ilot->proprietaire->deciaffect->Intitule_fr }}
+                                        {{ $ilot->proprietaire->Decision_affectation }}
                                         @else
                                             Aucun propriétaire trouvé
                                         @endif
                                     </td>
                                     <td>N°:@if ($ilot->proprietaire)
-                                        {{ $ilot->proprietaire->anx_text_creati->bi_natjur }}
+                                        {{ $ilot->proprietaire->Num_Decision_affectation }}
                                         @else
                                             Aucun propriétaire trouvé
                                         @endif
                                     </td>
                                     <td>Date:@if ($ilot->proprietaire)
-                                        {{ \Carbon\Carbon::parse($ilot->proprietaire->Date_txt_creation)->format('Y-m-d') }}
+                                        {{ \Carbon\Carbon::parse($ilot->proprietaire->Date_Decision_affectation	)->format('Y-m-d') }}
                                         @else
                                             Aucun propriétaire trouvé
                                         @endif
@@ -163,7 +166,7 @@
                                     <tr >
                                         <td style="text-align: center;padding:5px">
                                             Création:@if ($ilot->proprietaire)
-                                            {{ $ilot->proprietaire->anx_text_creati->Intitule }}
+                                            {{ $ilot->proprietaire->anx_text_creati }}
                                             @else
                                                 Aucun propriétaire trouvé
                                             @endif
@@ -270,7 +273,7 @@
                         </tr>
                         <tr>
                             <td class=" left">
-                                Origine:@if ($ilot->proprietaire)
+                                Origine:@if ($ilot->acteReference)
                                     {{ $ilot->acteReference->Origine_Acte }}
                                 @else
                                     Aucun acte trouvé
@@ -282,7 +285,7 @@
                                 <table width="100%">
                                     <tr>
                                         <td class="column  " style="text-align: center;padding: 5px;">
-                                        Construction:@if ($ilot->proprietaire)
+                                                Construction:@if ($ilot->acteReference)
                                                     {{ $ilot->acteReference->Construction_Acte }}
                                                 @else
                                                     Aucun acte trouvé
@@ -296,13 +299,13 @@
                             <td colspan="2" style="width: 100%;">
                                 <table width="100%">
                                     <tr>
-                                        <td>Acte ou texte:@if ($ilot->proprietaire)
+                                        <td>Acte ou texte:@if ($ilot->acteReference)
                                             {{ $ilot->acteReference->Num_Nat_Acte}}
                                             @else
                                                 Aucun acte trouvé
                                             @endif
                                         </td>
-                                        <td >Nature:@if ($ilot->proprietaire)
+                                        <td >Nature:@if ($ilot->acteReference)
                                             {{ $ilot->acteReference->nature_acte}}
                                             @else
                                                 Aucun acte trouvé
@@ -316,21 +319,24 @@
                             <td colspan="2" style="width: 100%;">
                                 <table width="100%">
                                     <tr>
-                                        <td>N°:Acte ou texte:@if ($ilot->proprietaire)
-                                {{ $ilot->acteReference->case11}}
-                                @else
-                                    Aucun acte trouvé
-                                @endif                       </td>
-                                        <td >Date:Acte ou texte:@if ($ilot->proprietaire)
-                                    {{ $ilot->acteReference->date_pub}}
-                                @else
-                                    Aucun acte trouvé
-                                @endif                       </td>
-                                        <td >Vol/N°:Acte ou texte:@if ($ilot->proprietaire)
-                                    {{ $ilot->acteReference->volume1}}/{{ $ilot->acteReference->Ref_JRN}}
-                                @else
-                                    Aucun acte trouvé
-                                @endif                       </td>
+                                        <td>N°:Acte ou texte:@if ($ilot->acteReference)
+                                            {{ $ilot->acteReference->case11}}
+                                            @else
+                                                Aucun acte trouvé
+                                            @endif
+                                        </td>
+                                        <td >Date:Acte ou texte:@if ($ilot->acteReference)
+                                                {{ $ilot->acteReference->date_pub}}
+                                            @else
+                                                Aucun acte trouvé
+                                            @endif
+                                        </td>
+                                        <td >Vol/N°:Acte ou texte:@if ($ilot->acteReference)
+                                            {{ $ilot->acteReference->volume1}}/{{ $ilot->acteReference->Ref_JRN}}
+                                            @else
+                                                Aucun acte trouvé
+                                            @endif
+                                        </td>
 
                                     </tr>
                                 </table>
@@ -489,8 +495,9 @@
 
                                             <div style="width: 23%; text-align: center; height: 220px;" class="bordered-cell">
                                                 <div class="qr_code" style="margin-top: 2%;">
-                                                    <img src="{{ asset('/public/qr_code/' . $ilot->Num_ilot . '.png') }}" width="200" alt="Code QR" />
+                                                    <img src="{{ url('cosidar/qr.png') }}" width="200" alt="Code QR" />
                                                 </div>
+
                                             </div>
 
                                         </div>
@@ -515,12 +522,13 @@
 function imprimerTableau() {
     var table = document.getElementById("tableToPrint");
     var newWin = window.open('', 'Print-Window');
-    newWin.document.open();
-    newWin.document.write('<html><head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"><style>@media print {.qr_code {display: block !important;} .bordered-cell {border: 2px solid black;padding: 5px;}}</style></head><body onload="window.print()">' + table.outerHTML + '</body></html>');
-    newWin.document.close();
-    setTimeout(function () {
-        newWin.close();
-    }, 10);
+        newWin.document.open();
+        newWin.document.write('<html><head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"><style>@media print {.qr_code {display: block !important;} .bordered-cell {border: 2px solid black;padding: 5px;}}</style></head><body onload="window.print()">' + table.outerHTML + '</body></html>');
+        newWin.document.close();
+        setTimeout(function () {
+            window.print();
+            // newWin.close();
+        }, 10);
 }
 
 </script>

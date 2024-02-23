@@ -74,9 +74,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="chat-page.html">
+                        <a href="{{ route('dashboard.evaluations.index') }}">
                             <i class="ti-comments"></i>
-                            <span class="right-nav-text">Mise a jour des Biens</span>
+                            <span class="right-nav-text">Evaluation des Biens</span>
                         </a>
                     </li>
                     <li>

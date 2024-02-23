@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\User\UserController;
 use App\Http\Controllers\Dashboard\Ilots\IlotController;
 use App\Http\Controllers\Dashboard\Local\LocalController;
 use App\Http\Controllers\Dashboard\Batiment\BatimentController;
+use App\Http\Controllers\Dashboard\Evaluation\EvaluationController;
 use App\Http\Controllers\Dashboard\Inventaire\InventaireController;
 use App\Http\Controllers\Dashboard\Proprietaire\ProprietaireController;
 use App\Http\Controllers\HomeController;
@@ -39,9 +40,7 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.'],function(){
     // Route::resource('ilots', IlotController::class)->only('show');
     Route::resource('/ilots', IlotController::class);
 
-    
     Route::group(['prefix' => 'ilots', 'as' => 'ilots.'], function () {
-       
         Route::delete('/deleted', [IlotController::class, 'deleted'])->name('deleted');
         Route::put('/ilot/update/{id}', [IlotController::class, 'updated'])->name('updated');
         Route::get('/{user_id}/getIliotsByIdUser', [IlotController::class, 'getIliotsByIdUser'])->name('');
@@ -61,6 +60,8 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.'],function(){
     // Route::get('/ilots/pays/{pays}', 'IlotController@getIlotsByPays')->name('ilots.by_pays');
     //*  End Ilots Management ****************************************************************
 
+    //  ? Router for Evaluation  Management
+    Route::resource( '/evaluations', EvaluationController::class );
 });
 
 Route::middleware(["auth"])->group(function() {
@@ -137,6 +138,6 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
     // Route::resource('locaux', 'localController')->middleware(['auth', 'xss']);
 
 
-    
+
 });
 
