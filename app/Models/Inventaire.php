@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\Ilot;
+use App\Models\Product;
+use App\Models\Fournisseur;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -36,5 +38,15 @@ class Inventaire extends Model
     public function ilot()
     {
         return $this->belongsTo(Ilot::class, 'num_ilot', 'id');     
+    }
+
+    public function fournisseurs()
+    {
+        return $this->hasMany(Fournisseur::class, 'inventaire_id', 'id');     
+    }
+
+    public function articles()
+    {
+        return $this->hasMany(Product::class, 'inventaire_id', 'id');     
     }
 }

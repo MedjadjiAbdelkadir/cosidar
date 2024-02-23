@@ -31,7 +31,7 @@ class ProprietaireController extends Controller
         ->join('dbo_anx_text_creati', 'dbo_personne.txt_creation', '=', 'dbo_anx_text_creati.bi_natjur')
 
         ->select('dbo_personne.*', 'dbo_anx_statut.intitule as anx_statut_intitule', 'dbo_deciaffect.intitule_fr as deciaffect_intitule' , 'dbo_anx_tutelle.intitule as tutelle_intitule' , 'dbo_anx_text_creati.intitule as text_creati_intitule')
-        ->paginate(PAGINATE_COUNT);;
+        ->paginate(PAGINATE_COUNT);
 
 
         // $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');

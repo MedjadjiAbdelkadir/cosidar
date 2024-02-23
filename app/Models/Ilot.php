@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Utility;
 use App\Models\Batiment;
+use App\Models\Inventaire;
 use App\Models\AnxEntretien;
 use App\Models\AnxNatureImm;
 use App\Models\Proprietaire;
@@ -48,6 +49,7 @@ class Ilot extends Model
         'NumVV',
         'mantant_VV',
         'Int_VL',
+        'N_ilot',
         'Int_VLAr',
         'mantant_VL',
         'NumVL',
@@ -73,6 +75,11 @@ class Ilot extends Model
         'created_by'
     ];
 
+
+    public function inventaires()
+    {
+        return $this->hasMany(Inventaire::class, 'num_ilot', 'id');
+    }
 
     ///////////////////////
     public function batiments()
