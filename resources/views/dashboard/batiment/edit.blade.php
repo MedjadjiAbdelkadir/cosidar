@@ -13,10 +13,10 @@
             <div class="modal-body">
                 <!-- add_form -->
                 <form action="{{ route('dashboard.batiments.update' , 'test') }}" method="POST">
+                    @method('PUT')
                     @csrf
-                    @method('PATH')
                     {{-- $batiment->Num_Bat --}}
-                    <input type="hidden" name="id" value="{{ $batiment->Num_Bat }}" class="form-control">
+                    <input  name="batiment_id" hidden value="{{ $batiment->id }}" class="form-control">
 
                     <div class="row">
                         <div class="form-group col-md-6">
@@ -56,12 +56,11 @@
                             <input type="text" class="form-control" name="bat_desc" value="{{ $batiment->bat_desc }}">
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success">Update</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Update</button>
+                </div>
             </form>
 
         </div>

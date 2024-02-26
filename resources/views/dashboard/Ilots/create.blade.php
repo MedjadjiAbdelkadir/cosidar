@@ -353,20 +353,5 @@ LISTE DES ILOTS
         });
     });
 
-    // $(document).ready(function () {
-    //     $('.options').hide();
-    //     // Ouvrir et fermer la liste déroulante personnalisée
-    //     $('.selected-option').click(function () {
-    //         $('.options').toggle();
-    //     });
-    //     // Sélectionner une option
-    //     $('.options li').click(function () {
-    //         var selectedValue = $(this).data('value');
-    //         $('.selected-option').text(selectedValue);
-    //         $('input[name="Pays"]').val(selectedValue);
-    //         $('.options').hide();
-    //     });
-    // });
-
 </script>
 @endsection

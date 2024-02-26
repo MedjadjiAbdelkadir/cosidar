@@ -46,12 +46,13 @@ class LocalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
+        $batiment_id = $request->batiment_id;
+        $batimentLoc = Batiment::find($batiment_id);
         $nature_locaux = NatureLocaux::pluck('intitule','NNatLoc' );
 
-        return view('dashboard.locaux.create', compact('ilotOptions','nature_locaux'));
+        return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux'));
     }
 
     public function create_ajax()

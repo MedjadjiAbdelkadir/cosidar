@@ -8,20 +8,10 @@
     </script>
 @endif
 
-@if (session('success'))
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: 'succès',
-            text: "{{ session('success') }}"
-        })
-    </script>
-@endif
 
 @if (session('success'))
     <script>
         Swal.fire({
-            // position: "top-end",
         icon: 'success',
         title: 'Success',
         text: "{{ session('success') }}",

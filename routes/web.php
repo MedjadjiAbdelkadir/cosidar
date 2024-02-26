@@ -39,7 +39,6 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.'],function(){
     // ? Router for Ilots Management
     // Route::resource('ilots', IlotController::class)->only('show');
     Route::resource('/ilots', IlotController::class);
-
     Route::group(['prefix' => 'ilots', 'as' => 'ilots.'], function () {
         Route::delete('/deleted', [IlotController::class, 'deleted'])->name('deleted');
         Route::put('/ilot/update/{id}', [IlotController::class, 'updated'])->name('updated');

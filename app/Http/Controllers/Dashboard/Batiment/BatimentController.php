@@ -12,11 +12,6 @@ use App\Models\NatureLocaux;
 
 class BatimentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $batiments =  DB::table('dbo_batiment')->select('dbo_batiment.*')->paginate(PAGINATE_COUNT);
@@ -24,16 +19,15 @@ class BatimentController extends Controller
         return view('dashboard.batiment.index',compact(['batiments','ilotOptions']));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(Request $request)
     {
-        $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
+        $ilots = Ilot::find($request->ilot_id);
+        if (!$ilots) {
+            return redirect()->back()->with('error','Désolé, une erreur s\'est produite. Veuillez réessayer');
+        } else {
+            return view('dashboard.batiment.create', compact('ilots'));
+        }
 
-        return view('dashboard.batiment.create', compact('ilotOptions'));
     }
 
     public function create_ajax()
@@ -69,7 +63,6 @@ class BatimentController extends Controller
             'nom_bat'=> '',
             'bat_desc'=> '',
             //'nbr_loc'=> '',
-
         ]);
             // Créez un nouveau modèle Ilot avec le nouveau Num_ilot
         $batiment =  Batiment::create([
@@ -133,12 +126,7 @@ class BatimentController extends Controller
         // Redirigez vers l'index avec un message de succès
         return redirect()->route('dashboard.locaux.create')->with('success', 'Batiment ajouté avec succès !'); // il faut retourner que json
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($Num_batiment)
     {
         $batiment = DB::table('dbo_batiment')
@@ -153,12 +141,6 @@ class BatimentController extends Controller
         return view('dashboard.batiment.show', compact('batiment','nombreLocaux'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($Num_batiment)
     {
         $batiment = Batiment::where('Num_Bat', $Num_batiment)->first();
@@ -168,15 +150,9 @@ class BatimentController extends Controller
         return view('dashboard.batiment.edit', compact('batiment', 'ilotOptions'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $Num_batiment)
     {
+        // dd($request->all());
         $request->validate([
             'bat_no' => '',
             'Num_ilot' => '',
@@ -188,20 +164,26 @@ class BatimentController extends Controller
             'bat_desc' => '',
             'nbr_loc' => '',
         ]);
+        $batiment_id = $request->batiment_id;
 
-        $batiment = Batiment::where('Num_Bat', $Num_batiment)->first();
-        $batiment->update([
-            'bat_no' => $request->input('bat_no'),
-            'Num_ilot' => $request->input('Num_ilot'),
-            'Nbr_Niveau' => $request->input('Nbr_Niveau'),
-            'sup_bati_cons' => $request->input('sup_bati_cons'),
-            'sup_SDHO' => $request->input('sup_SDHO'),
-            'lot_bat' => $request->input('lot_bat'),
-            'nom_bat' => $request->input('nom_bat'),
-            'bat_desc' => $request->input('bat_desc'),
-            'nbr_loc' => $request->input('nbr_loc'),
-        ]);
-        return redirect()->route('batiments.index')->with('success', 'Le bâtiment a été mis à jour avec succès.');
+        $batiment = Batiment::find($batiment_id);
+        // $batiment->Num_Bat    = $batiment;
+        $batiment->bat_no     = $request->input('bat_no');
+        $batiment->Num_ilot   = $request->input('Num_ilot');
+        $batiment->Nbr_Niveau = $request->input('Nbr_Niveau');
+        $batiment->sup_bati_cons = $request->input('sup_bati_cons');
+        $batiment->sup_SDHO = $request->input('sup_SDHO');
+        $batiment->lot_bat  = $request->input('lot_bat');
+        $batiment->nom_bat  = $request->input('nom_bat');
+        $batiment->bat_desc = $request->input('bat_desc');
+        $batiment->nbr_loc  = $request->input('nbr_loc');
+        $batiment->save();
+
+        $batimentLoc = $batiment;
+        $nature_locaux = NatureLocaux::pluck('intitule','NNatLoc');
+        // dd($nature_locaux);
+        return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux'));
+        // return redirect()->route('dashboard.locaux.create')->with('success', 'Le bâtiment a été mis à jour avec succès.');
     }
 
     /**

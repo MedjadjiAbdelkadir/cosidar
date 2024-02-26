@@ -93,17 +93,16 @@ LISTE DES ILOTS
                                         <i class="fa fa-trash"></i>
                                     </button>
 
-                                    <button type="button" class="btn btn-success btn-sm Num_batiment" data-toggle="modal"
-                                        data-target="#editBienModal{{ $ilot->Num_ilot }}"  data-id="{{$ilot->Num_ilot}}" title="Edit">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
+                                    <a href="{{ route('dashboard.ilots.edit', $ilot->id) }}" class="btn btn-success btn-sm Num_batiment"
+                                        title="Edit"> <i class="fa fa-edit"></i>
+                                    </a>
                                     {{-- <button type="button" class="btn btn-sm btn-success edit_batiment" data-toggle="modal" data-target="#batimentModal" data-id="{{$batiment->Num_Bat}}">
                                         <i class="fa fa-pencil-alt"></i>
                                     </button>  --}}
                                 </td>
                             </tr>
                             @include('dashboard.Ilots.deleted')
-                            @include('dashboard.Ilots.edit')
+                            {{-- @include('dashboard.Ilots.edit') --}}
                             {{-- @include('dashboard.Ilots.show') --}}
                             @endforeach
 
