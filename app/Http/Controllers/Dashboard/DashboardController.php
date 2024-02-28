@@ -25,7 +25,7 @@ class DashboardController extends Controller
         $totalSupBatiments = Batiment::sum('sup_bati_cons');
         $totalSupBatimentsSDHO = Batiment::sum('sup_SDHO');
         $totalSupLocaux = Local::sum('lot_surface');
-        
+
         $jsonPath = public_path('country.json');
         $jsonData = File::get($jsonPath);
 
@@ -34,7 +34,7 @@ class DashboardController extends Controller
         // Tableau associatif pour stocker les noms des pays avec la clé et la valeur égales au nom du pays
         $paysAssoc = [];
         $paysAssoc[''] = 'Tous';
-        
+
         // Parcourir le tableau
         foreach ($pays as $paysData) {
             $nom = $paysData['name'];
@@ -46,11 +46,12 @@ class DashboardController extends Controller
         // effectuer une jointure entre la table dbo_ilot et deux autres tables (dbo_anx_evaluation_locative et dbo_anx_evaluation_venale),  la jointure avec l'une de ces tables soit facultative.
         $ilots = DB::table('dbo_ilot')
             ->join('dbo_anx_nature_imm', 'dbo_ilot.Nature', '=', 'dbo_anx_nature_imm.Num_Nat_imm')
-            ->leftJoin('dbo_anx_evaluation_locative', 'dbo_ilot.Int_VL', '=', 'dbo_anx_evaluation_locative.num_Lv') 
+            ->leftJoin('dbo_anx_evaluation_locative', 'dbo_ilot.Int_VL', '=', 'dbo_anx_evaluation_locative.num_Lv')
             ->leftJoin('dbo_anx_evaluation_venale', 'dbo_ilot.Int_VV', '=', 'dbo_anx_evaluation_venale.num_VV')
             ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom', 'dbo_anx_evaluation_locative.intitule as intitule_vl', 'dbo_anx_evaluation_venale.intitule as intitule_vv')
+            ->orderBy('id', 'desc')
             ->paginate(PAGINATE_COUNT);;
-        
-        return view('dashboard.index', compact('ilots', 'nombreUtilisateurs', 'nombreIlots', 'nombreBatiments', 'nombreLocaux','pays','totalSupIlots','totalSupBatiments','totalSupBatimentsSDHO','totalSupLocaux'));        
+        // return "true";
+        return view('dashboard.index', compact('ilots', 'nombreUtilisateurs', 'nombreIlots', 'nombreBatiments', 'nombreLocaux','pays','totalSupIlots','totalSupBatiments','totalSupBatimentsSDHO','totalSupLocaux'));
     }
 }
