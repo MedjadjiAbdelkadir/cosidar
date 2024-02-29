@@ -25,32 +25,13 @@ SERVICE AFFECTATAIRE
 @section('content')
 <!-- row -->
 <div class="row">
-    {{-- @include('dashboard.proprietaire.create') --}}
-
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                {{-- <button type="button"class="btn btn-sm"  data-toggle="modal" data-target="#createProprietaireModal">
-                    <i class="fa fa-plus"></i>
-                    AJOUTER SERVICE AFFECTATAIRE
-                </button> --}}
-                {{-- <a class="btn btn-info btn-sm" href="{{ route('dashboard.proprietaires.create') }}">
-                    <i class="fa fa-plus"></i>
-                    AJOUTER SERVICE AFFECTATAIRE
-                </a> --}}
                 <a class="btn btn-info btn-sm" href="{{ route('dashboard.proprietaires.create') }}">
                     <i class="fa fa-plus"></i>
                     AJOUTER SERVICE AFFECTATAIRE
                 </a>
-                
-                {{-- <h3 class="mb-0">
-                    @if(Auth::user()->parent_id == 0) 
-                        SERVICE AFFECTATAIRE
-                    @else 
-                        SERVICE AFFECTATAIRE
-                    @endif
-                </h3> --}}
-                
                 <br><br>
                 <div class="table-responsive">
                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0" data-page-length="50" style="text-align: center"  role="grid">
@@ -73,14 +54,15 @@ SERVICE AFFECTATAIRE
                             @foreach ($proprietaires as $key => $proprietaire)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <th>{{ $proprietaire->  pe_num }}</th>
-                                <th>{{ $proprietaire->Num_ilot }}</th>
-                                <th>{{ $proprietaire->Denomination_fr }}</th>
-                                <th>{{ $proprietaire->anx_statut_intitule }}</th>
-                                <th>{{ $proprietaire->tutelle_intitule }}</th>
-                                <th>{{ \Carbon\Carbon::parse($proprietaire->Date_txt_creation)->format('Y-m-d') }}</th>
-                                <th>{{ $proprietaire->text_creati_intitule }}</th>
-                                <th>{{ $proprietaire->deciaffect_intitule }}</th> 
+                                <td>{{ $proprietaire-> pe_num }}</td>
+                                <td>{{ $proprietaire->Denomination_fr }}</td>
+                                <td>{{ $proprietaire->statut?->Intitule }}</td>
+                                <td>{{ $proprietaire->tutelle?->Intitule }}</td>
+                                {{-- <td>{{ $proprietaire->txt_creation }}</td> --}}
+                                <td>{{ $proprietaire->anx_text_creati?->Intitule }}</td>
+                                <td>{{ \Carbon\Carbon::parse($proprietaire->Date_txt_creation)->format('Y-m-d') }}</td>
+                                <td>{{ $proprietaire->anx_text_creati->Intitule }}</td>
+                                <td>{{ $proprietaire->deciaffect?->Intitule_fr }}</td> 
                                 <td>
                                     {{-- deleteProprietaireModal --}}
                                     <a class="btn btn-info btn-sm" href="{{ route('dashboard.proprietaires.show' , $proprietaire->pe_num) }}">
@@ -96,7 +78,7 @@ SERVICE AFFECTATAIRE
                             </tr>
                             @include('dashboard.proprietaire.edit')
 
-                            {{-- @include('dashboard.proprietaire.delete') --}}
+                            @include('dashboard.proprietaire.delete')
                             @endforeach
 
                         </tbody>

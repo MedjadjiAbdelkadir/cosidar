@@ -89,7 +89,7 @@ class BatimentController extends Controller
 
         $idBatimentAjoute =$batiment->Num_Bat;
         $batimentLoc = Batiment::find($batiment->id);
-        $nature_locaux = NatureLocaux::pluck('intitule','NNatLoc' );
+        $nature_locaux = NatureLocaux::get();
 
         return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux'));
         // Redirigez vers l'index avec un message de succès

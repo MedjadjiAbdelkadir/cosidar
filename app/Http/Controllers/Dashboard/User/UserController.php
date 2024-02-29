@@ -43,11 +43,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        
+
         $validatorArray = [
             'name' => 'required|max:120',
             'email' => 'required|email|max:100|unique:users,email',
             // 'email' => 'required|email|max:100|unique:users,email,NULL,id,parent_id,' . Auth::user()->getCreatedBy(),
             'password' => 'required|min:4|confirmed',
+            'role'     => 'required',
         ];
         $validator = Validator::make(
             $request->all(), $validatorArray
@@ -61,7 +64,7 @@ class UserController extends Controller
         $default_language = $settings['default_user_language'];
         // this role update tomoro
         // $selectedRole = $request->input('role');
-        $selectedRole = 'utilisateur';
+        // $selectedRole = 'utilisateur';
 
         $user = User::create([
             'password' => $request->input('password'),
@@ -71,7 +74,7 @@ class UserController extends Controller
             'lang' =>  $default_language,
             'is_active' => 1,
             'user_status' => 1,
-            'role' => $selectedRole
+            'role' => $request->input('role'),
         ]);    
         return redirect()->route('dashboard.users.index')->with('success', 'User Added Successfully.');
     }
@@ -105,8 +108,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
+        $user = User::find($request->id);
         $validatorArray = [
             'name' => 'required|max:120',
             'email' => 'required|email|max:100|unique:users,email,' . $user->id . ',id,parent_id,' . Auth::user()->getCreatedBy(),
@@ -171,18 +175,21 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Request $request)
     {
-        if(Auth::user()->can('Delete User'))
-        {
-            $user->delete();
+        User::destroy($request->id);
+        return redirect()->route('dashboard.users.index')->with('success', __('User successfully deleted.'));
 
-            return redirect()->route('users.index')->with('success', __('User successfully deleted.'));
-        }
-        else
-        {
-            return redirect()->back()->with('error', __('Permission denied.'));
-        }
+        // if(Auth::user()->can('Delete User'))
+        // {
+        //     $user->delete();
+
+        //     return redirect()->route('users.index')->with('success', __('User successfully deleted.'));
+        // }
+        // else
+        // {
+        //     return redirect()->back()->with('error', __('Permission denied.'));
+        // }
     }
 
     public function displayProfile(Request $request)

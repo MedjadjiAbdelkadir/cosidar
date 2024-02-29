@@ -21,8 +21,12 @@ class LocalController extends Controller
      */
     public function index()
     {
-        $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
 
+        // dd('hhhh');
+
+        $ilotOptions = Ilot::get();
+
+        // dd($ilotOptions);
         $locaux =  DB::table('dbo_locaux')->orderBy('id','DESC')->join('dbo_anx_nature_locaux', 'dbo_locaux.Nature_Loc', '=', 'dbo_anx_nature_locaux.NNatLoc')->select('dbo_locaux.*', 'dbo_anx_nature_locaux.intitule as nature_loc')
                     ->paginate(PAGINATE_COUNT);
 
@@ -32,11 +36,11 @@ class LocalController extends Controller
         ->first();
         $batimentOptions = [];
         if (!empty($local->Num_ilot)) {
-            $batimentOptions = Batiment::where('Num_ilot', $local->Num_ilot)->pluck('bat_no', 'Num_Bat');
+            $batimentOptions = Batiment::where('Num_ilot', $local->Num_ilot)->get();
         }
 
-                    // Obtenez les options pour le champ Nature_Loc
-        $nature_locaux = NatureLocaux::pluck('intitule', 'NNatLoc');
+        // Obtenez les options pour le champ Nature_Loc
+        $nature_locaux = NatureLocaux::get();
 
         return view('dashboard.locaux.index',compact(['locaux','ilotOptions','batimentOptions', 'nature_locaux']));
     }
@@ -48,20 +52,15 @@ class LocalController extends Controller
      */
     public function create()
     {
-        $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
-        $nature_locaux = NatureLocaux::pluck('intitule','NNatLoc' );
-
-        return view('dashboard.locaux.create', compact('ilotOptions','nature_locaux'));
+        $ilotOptions = Ilot::get();
+        $nature_locaux = NatureLocaux::get();
+        $batiment = Batiment::get();
+        // dd($batiment);
+        // Num_Bat
+        // bat_no
+        return view('dashboard.locaux.create', compact('ilotOptions','nature_locaux','batiment'));
     }
 
-    public function create_ajax()
-    {
-
-        $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
-        $nature_locaux = NatureLocaux::pluck('intitule','NNatLoc' );
-
-        return view('dashboard.locaux.create_ajax', compact('ilotOptions','nature_locaux'));
-    }
     /**
      * Store a newly created resource in storage.
      *
@@ -70,7 +69,6 @@ class LocalController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $maxNumLoc = local::max('lot_no');
         $maxNumLoc = $maxNumLoc + 1;
         $request->validate([

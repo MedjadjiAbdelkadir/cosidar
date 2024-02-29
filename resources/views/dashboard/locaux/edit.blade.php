@@ -23,7 +23,7 @@
                             <select class="form-control" name="Num_ilot">
                                 <option disabled value="{{ $local->Num_ilot }}">{{ $local->Num_ilot }}</option>
                                 @foreach ( $ilotOptions as $ilot)
-                                    <option value="{{ $ilot }}">{{ $ilot }}</option>
+                                    <option value="{{ $ilot->Num_ilot }}">{{ $ilot->N_ilot }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -32,18 +32,18 @@
                             <label for="Num_Bat" class="mr-sm-2">Numéro du Bâtiment :</label>
                             <select class="form-control" name="Num_Bat">
                                 <option disabled value="{{ $local->Num_Bat }}">{{ $local->Num_Bat }}</option>
-                                @foreach ( $ilotOptions as $Num_Bat)
-                                    <option value="{{ $Num_Bat }}">{{ $Num_Bat }}</option>
+                                @foreach ( $batimentOptions as $Num_Bat)
+                                    <option value="{{ $Num_Bat->Num_Bat }}">{{ $Num_Bat->bat_no }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="Nature_Loc" class="mr-sm-2">Nature du Local :</label>
                             <select class="form-control" name="Nature_Loc">
-                                <option value="{{ $local->Nature_Loc }}">{{ $local->Nature_Loc }}</option>
+                                <option value="{{ $local->Nature_Loc }}">{{ $local->nature_loc }}</option>
                                 @foreach ( $nature_locaux as $Nature_Loc)
-                                    <option value="{{ $Nature_Loc }}">{{ $Nature_Loc }}</option>
-                                @endforeach 
+                                <option value="{{ $Nature_Loc->NNatLoc }}">{{ $Nature_Loc->Intitule }}</option>
+                                @endforeach
                             </select>
                         </div>
 

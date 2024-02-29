@@ -33,8 +33,23 @@
                             <label for="password_confirmation" class="mr-sm-2">Confirmation de Mot de Passe :</label>
                             <input type="password" class="form-control" name="password_confirmation">
                         </div>
+                        <div class="form-group col-md-6">
+                            <label for="address" class="mr-sm-2">Address :</label>
+                            <input type="text" class="form-control" name="address" value="{{ $user->address }}">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="role" class="mr-sm-2">Role :</label>
+                            <select class="custom-select" name="role">
+                                <option selected value="{{ $user->role }}">{{ $user->role }}</option>
+                                <option value="admin_direction">Admin Direction</option>
+                                <option value="user_direction">User Direction</option>
+                                <option value="consultation_direction">Consultation Direction</option>
+                                <option value="admin_sous_direction">Admin SousDirection</option>
+                                <option value="user_sous_direction">User SousDirection</option>
+                                <option value="consultation_sous_direction">Consultation SousDirection</option>
+                            </select>
+                        </div>
                     </div>
-                    <br><br>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary"data-dismiss="modal">Close</button>

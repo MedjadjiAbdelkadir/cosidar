@@ -73,27 +73,28 @@ SERVICE AFFECTATAIRE
                             <div class="form-group col-md-6">
                                 <label for="Statut" class="mr-sm-2">Statut :</label>
                                 <select class="custom-select" name="Statut">
-                                    <option disabled >Select Status</option>
+                                    <option selected >Select Satut Proprietaire</option>
                                     @foreach ( $anx_statut as $anx_statut)
-                                        <option class="" value="{{ $anx_statut }}">{{ $anx_statut }}</option>
+                                        <option value="{{ $anx_statut->id }}">{{ $anx_statut->Intitule }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="Tutelle" class="mr-sm-2">Tutelle :</label>
                                 <select class="custom-select" name="Tutelle">
-                                    <option disabled >Select Tutelle</option>
+                                    <option selected>Select Tutelle</option>
                                     @foreach ( $anx_tutelle as $anx_tutelle)
-                                        <option value="{{ $anx_tutelle }}">{{ $anx_tutelle }}</option>
+                                        <option value="{{ $anx_tutelle->bi_natjur }}">{{ $anx_tutelle->Intitule }}</option>
                                     @endforeach
                                 </select>
                             </div>
+
                             <div class="form-group col-md-6">
                                 <label for="txt_creation" class="mr-sm-2">Texte de création :</label>
                                 <select class="custom-select" name="txt_creation">
-                                    <option disabled >Select Texte de création</option>
+                                    <option selected >Select Texte de création</option>
                                     @foreach ( $anx_text_creati as $anx_text_creati)
-                                        <option value="{{ $anx_text_creati }}">{{ $anx_text_creati }}</option>
+                                        <option value="{{ $anx_text_creati->bi_natjur }}">{{ $anx_text_creati->Intitule }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -102,7 +103,7 @@ SERVICE AFFECTATAIRE
                                 <select class="custom-select" name="Decision_affectation">
                                     <option disabled >Select Décision d'affectation</option>
                                     @foreach ( $deciaffect as $deciaffect)
-                                        <option value="{{ $deciaffect }}">{{ $deciaffect }}</option>
+                                        <option value="{{ $deciaffect->id }}">{{ $deciaffect->Intitule_fr }}</option>
                                     @endforeach
                                 </select>
                             </div>

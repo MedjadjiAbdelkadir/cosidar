@@ -24,21 +24,35 @@ class ProprietaireController extends Controller
      */
     public function index()
     {
-        $proprietaires =  DB::table('dbo_personne')
-        ->join('dbo_anx_statut', 'dbo_personne.Statut', '=', 'dbo_anx_statut.bi_natjur')
-        ->join('dbo_anx_tutelle', 'dbo_personne.Tutelle', '=', 'dbo_anx_tutelle.bi_natjur')
-        ->join('dbo_deciaffect', 'dbo_personne.Decision_affectation', '=', 'dbo_deciaffect.Deci_Af')
-        ->join('dbo_anx_text_creati', 'dbo_personne.txt_creation', '=', 'dbo_anx_text_creati.bi_natjur')
+        $proprietaires = Proprietaire::with('tutelle','statut','deciaffect', 'anx_text_creati')->paginate(PAGINATE_COUNT);
 
-        ->select('dbo_personne.*', 'dbo_anx_statut.intitule as anx_statut_intitule', 'dbo_deciaffect.intitule_fr as deciaffect_intitule' , 'dbo_anx_tutelle.intitule as tutelle_intitule' , 'dbo_anx_text_creati.intitule as text_creati_intitule')
-        ->paginate(PAGINATE_COUNT);
+        
+        // dd($proprietaires);
 
+        // $proprietaires =  DB::table('dbo_personne')
+        // ->join('dbo_anx_statut', 'dbo_personne.Statut', '=', 'dbo_anx_statut.bi_natjur')
+        // ->join('dbo_anx_tutelle', 'dbo_personne.Tutelle', '=', 'dbo_anx_tutelle.bi_natjur')
+        // ->join('dbo_deciaffect', 'dbo_personne.Decision_affectation', '=', 'dbo_deciaffect.Deci_Af')
+        // ->join('dbo_anx_text_creati', 'dbo_personne.txt_creation', '=', 'dbo_anx_text_creati.bi_natjur')
 
+        // ->select('dbo_personne.*', 'dbo_anx_statut.intitule as anx_statut_intitule','dbo_anx_statut.bi_natjur as anx_statut_id', 'dbo_deciaffect.intitule_fr as deciaffect_intitule' , 'dbo_anx_tutelle.intitule as tutelle_intitule' ,'dbo_anx_tutelle.intitule as tutelle_intitule_id' , 'dbo_anx_text_creati.intitule as text_creati_intitule', 'dbo_anx_text_creati.intitule as text_creati_intitule_id')
+        // ->paginate(PAGINATE_COUNT);
+
+        
         // $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
-        $deciaffect = Deciaffect::pluck('Intitule_fr','Deci_Af' );
-        $anx_statut = AnxStatut::pluck('Intitule','bi_natjur' );
-        $anx_tutelle = AnxTutelle::pluck('Intitule','bi_natjur' );
-        $anx_text_creati = AnxTextCreati::pluck('Intitule','bi_natjur' );
+        // $deciaffect = Deciaffect::pluck('Intitule_fr','Deci_Af' );
+        // $anx_statut = AnxStatut::pluck('Intitule','bi_natjur' );
+        // $anx_tutelle = AnxTutelle::pluck('Intitule','bi_natjur' );
+        // $anx_text_creati = AnxTextCreati::pluck('Intitule','bi_natjur' );
+
+        $deciaffect = Deciaffect::get();
+        $anx_statut = AnxStatut::get();
+        $anx_tutelle = AnxTutelle::get();
+        $anx_text_creati = AnxTextCreati::get();
+
+        
+
+        // dd( $anx_statut);
 
         return view('dashboard.proprietaire.index', compact('proprietaires','deciaffect','anx_statut','anx_tutelle','anx_text_creati'));
 
@@ -53,10 +67,11 @@ class ProprietaireController extends Controller
     public function create()
     {
         // $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
-        $deciaffect = Deciaffect::pluck('Intitule_fr','Deci_Af' );
-        $anx_statut = AnxStatut::pluck('Intitule','bi_natjur' );
-        $anx_tutelle = AnxTutelle::pluck('Intitule','bi_natjur' );
-        $anx_text_creati = AnxTextCreati::pluck('Intitule','bi_natjur' );
+        $deciaffect = Deciaffect::get();
+        $anx_statut = AnxStatut::get();
+        $anx_tutelle = AnxTutelle::get();
+        $anx_text_creati = AnxTextCreati::get();
+
         $pays = Pays::all();
         $nomenclatures = NomenclaturePdc::all();
 
@@ -87,6 +102,7 @@ class ProprietaireController extends Controller
     public function store(Request $request)
     {
 
+        // dd($request->all());
         $maxNumPropretaire = Proprietaire::max('pe_num');
         $maxNumPropretaire = $maxNumPropretaire + 1;
         $request->validate([
@@ -110,6 +126,7 @@ class ProprietaireController extends Controller
         // dd($request->all());
         $proprietaires = Proprietaire::create([
 
+            'id' => $maxNumPropretaire,
             'pe_num' => $maxNumPropretaire,
             // 'Num_ilot' => $request->input('Num_ilot'),
             'Denomination_fr'=> $request->input('Denomination_fr'),
@@ -213,11 +230,15 @@ class ProprietaireController extends Controller
              ->where('dbo_personne.pe_num', $Num_proprietaire)
             ->first();
 
-            $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
-            $deciaffect = Deciaffect::pluck('Intitule_fr','Deci_Af' );
-            $anx_statut = AnxStatut::pluck('Intitule','bi_natjur' );
-            $anx_tutelle = AnxTutelle::pluck('Intitule','bi_natjur' );
-            $anx_text_creati = AnxTextCreati::pluck('Intitule','bi_natjur' );
+            // $deciaffect = Deciaffect::pluck('Intitule_fr','Deci_Af' );
+            // $anx_statut = AnxStatut::pluck('Intitule','bi_natjur' );
+            // $anx_tutelle = AnxTutelle::pluck('Intitule','bi_natjur' );
+            // $anx_text_creati = AnxTextCreati::pluck('Intitule','bi_natjur' );
+
+            $deciaffect = Deciaffect::get();
+            $anx_statut = AnxStatut::get();
+            $anx_tutelle = AnxTutelle::get();
+            $anx_text_creati = AnxTextCreati::get();
 
         return view('dashboard.proprietaire.edit', compact('proprietaire', 'ilotOptions','deciaffect','anx_statut','anx_tutelle','anx_text_creati'));
     }
@@ -232,8 +253,8 @@ class ProprietaireController extends Controller
      */
     public function update(Request $request)
     {
+        // dd($request->all());
         $request->validate([
-            'Num_ilot' => '',
             'Num_Bat' => '',
             'lot_surface' => '',
             'nb_indiv' => '',
@@ -253,7 +274,9 @@ class ProprietaireController extends Controller
         ]);
 
         $proprietaire = Proprietaire::where('pe_num', $request->id)->first();
-        $proprietaire->Num_ilot = $request->input('Num_ilot');
+        
+
+        // $proprietaire->Num_ilot = $request->input('Num_ilot');
         $proprietaire->Denomination_fr = $request->input('Denomination_fr');
         $proprietaire->Statut = $request->input('Statut');
         $proprietaire->Tutelle = $request->input('Tutelle');
@@ -264,7 +287,7 @@ class ProprietaireController extends Controller
 
         $proprietaire->save();
 
-        return redirect()->route('dashboard.proprietaires.index')->with('success', 'Local mis à jour avec succès');
+        return redirect()->route('dashboard.proprietaires.index')->with('success', 'Proprietaire mis à jour avec succès');
 
     }
 

@@ -31,21 +31,43 @@ Ajoute Locaux
                     <div class="row">
                         <div class="form-group col-md-3">
                             <label for="Num_ilot" class="mr-sm-2">Numéro de l'îlot :</label>
+                            @if(isset($batimentLo))
                             <input type="text" hidden name="Num_ilot" value="{{ $batimentLoc->Num_ilot }}">
                             <input type="text" class="form-control"   value="{{ $batimentLoc->Num_ilot }}" disabled >
+                            @else
+                            <select class="custom-select" name="Num_ilot">
+                                <option disabled>Select Numéro de l'îlot</option>
+                                @foreach ( $ilotOptions as $ilotOptions)
+                                    <option value="{{ $ilotOptions->Num_ilot }}">{{ $ilotOptions->N_ilot }}</option>
+                                @endforeach
+                            </select>
+                            @endif
                         </div>
 
                         <div class="form-group col-md-3">
                             <label for="Num_Bat" class="mr-sm-2">Numéro du Bâtiment :</label>
+                            @if(isset($batimentLo))
                             <input type="text" hidden name="Num_Bat"  value="{{ $batimentLoc->id }}" >
                             <input type="text" class="form-control"   value="{{ $batimentLoc->id }}"  disabled>
+                            @else
+                            <select class="custom-select" name="Num_Bat">
+                                <option disabled>Select Numéro du Bâtiment</option>
+                                @foreach ( $batiment as $batiment)
+                                {{-- 
+                                <option value="{{ $batiment->id }}">{{ $batiment->Num_Bat }}</option>
+    
+                                --}}
+                                    <option value="{{ $batiment->id }}">{{ $batiment->bat_no }}</option>
+                                @endforeach
+                            </select>
+                            @endif
                         </div>
                         <div class="form-group col-md-6">
                             <label for="Nature_Loc" class="mr-sm-2">Nature du Local :</label>
                             <select class="custom-select" name="Nature_Loc">
                                 <option disabled>Select Nature du Local</option>
                                 @foreach ( $nature_locaux as $Nature_Loc)
-                                    <option value="{{ $Nature_Loc }}">{{ $Nature_Loc }}</option>
+                                    <option value="{{ $Nature_Loc->NNatLoc }}">{{ $Nature_Loc->Intitule }}</option>
                                 @endforeach
                             </select>
                         </div>
