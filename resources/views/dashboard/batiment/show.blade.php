@@ -27,7 +27,7 @@ ORIGINE DES DROITS
 <!-- row -->
 <div class="row">
     <div class="col-md-12 mb-30">
-        <div class="card card-statistics h-100">
+        <div class="card card-statistics ">
             <div class="card-body">
                 <div class="row">
                     <div class="form-group col-md-6">
@@ -56,6 +56,16 @@ ORIGINE DES DROITS
                         <label for="bat_desc" class="mr-sm-2">Description du Bâtiment :</label>
                         <input type="text" class="form-control" disabled name="bat_desc" value="{{ $batiment->bat_desc }}">
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-statistics h-100 mt-5">
+            <div class="card-body">
+                <div class="d-flex justify-content-end">
+                    <form action="{{ route('dashboard.locaux.create') }}" method="GET">
+                        <input hidden name="batiment_id" type="text" value="{{ $batiment->id }}">
+                        <button type="submit" class="btn btn-outline-success">Ajoute un Batiment</button>
+                    </form>
                 </div>
             </div>
         </div>

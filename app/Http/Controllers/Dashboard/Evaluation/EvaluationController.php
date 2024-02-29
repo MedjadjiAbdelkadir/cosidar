@@ -13,7 +13,7 @@ class EvaluationController extends Controller
     public function index(Request $request)
     {
         $pays= Pays::all();
-        if ($request->ajax()) {
+        if ($request->has('paysName')) {
             $ilots = DB::table('dbo_personne')
                 ->join('dbo_ilot', 'dbo_personne.id', '=', 'dbo_ilot.proprietaire_id')
                 ->select('dbo_personne.*', 'dbo_ilot.*')
@@ -22,7 +22,8 @@ class EvaluationController extends Controller
                 ->paginate(PAGINATE_COUNT);
 
                 return view('dashboard.Evaluation.index',compact('ilots','pays'));
-        } else {
+        }
+        else {
             $ilots = DB::table('dbo_personne')
                 ->join('dbo_ilot', 'dbo_personne.id', '=', 'dbo_ilot.proprietaire_id')
                 ->select('dbo_personne.*', 'dbo_ilot.*')

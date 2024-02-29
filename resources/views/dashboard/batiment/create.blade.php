@@ -37,7 +37,7 @@ Batiments
                     </div>
                     <div hidden class="form-group col-md-6">
                         <label for="name" class="mr-sm-2"> (Num_ilot) :</label>
-                        <input id="name" type="text" name="Num_ilot" value="{{ $ilots->id }}" class="form-control">
+                        <input id="name" type="text" name="Num_ilot" value="{{ $ilot->id }}" class="form-control">
                     </div>
                     {{-- <div class="form-group col-md-6">
                         <label for="Num_ilot" class="mr-sm-2">Sélectionnez un Numéro d\'îlot' :</label>

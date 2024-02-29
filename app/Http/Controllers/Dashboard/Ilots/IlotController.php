@@ -27,6 +27,7 @@ class IlotController extends Controller
         $ilots = DB::table('dbo_ilot')
             ->join('dbo_anx_nature_imm', 'dbo_ilot.Nature', '=', 'dbo_anx_nature_imm.Num_Nat_imm')
             ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom')
+            ->orderBy('id', 'desc')
             ->paginate(PAGINATE_COUNT);
 
         $jsonPath = public_path('country.json');
@@ -198,8 +199,8 @@ class IlotController extends Controller
             'Construction_Acte'=> $request->input('Construction_Acte'),
             'Origine_Acte' => $request->input('Origine_Acte'),
         ]);
-        $ilots = Ilot::orderBy('id', 'DESC')->first();
-        return view('dashboard.batiment.create',compact('ilots'))->with('success', 'Ilot ajouté avec succès ! (ID : $idIlotAjoute)');
+        // $ilot = Ilot::orderBy('id', 'DESC')->first();
+        return view('dashboard.batiment.create',compact('ilot'))->with('success', 'Ilot ajouté avec succès ! (ID : $idIlotAjoute)');
         // return redirect()->route('dashboard.batiments.create')->with('success', "Ilot ajouté avec succès ! (ID : $idIlotAjoute)");
         // Redirigez vers l'index avec un message de succès
         //return redirect()->route('ilots.index')->with('success', 'Ilot ajouté avec succès !');
@@ -213,161 +214,194 @@ class IlotController extends Controller
             ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom')
             ->first();
 
-
-        $nombreBatiments = Batiment::where('Num_ilot', $Num_ilot)->count();
-        $nombreLocaux = Local::where('Num_ilot', $Num_ilot)->count();
+        $ReferenceActe = ReferenceActe::where('Num_ilot',$Num_ilot)->first();
 
 
-
-        // return view('dashboard.ilots.show', compact('ilot', 'nombreBatiments', 'nombreLocaux'));
+        return view('dashboard.ilots.show', compact('ilot', 'ReferenceActe'));
     }
 
     public function edit($ilot_Num)
     {
-        if (!Auth::check()) {
-            abort(403, 'Accès non autorisé'); // Rejette l'accès si l'utilisateur n'est pas authentifié
+        $ilot = Ilot::find($ilot_Num);
+        $ReferenceActe = ReferenceActe::where('Num_ilot',$ilot_Num)->first();
+        $pays = Pays::all();
+        // dd($ReferenceActe);
+        $Proprietaire = Proprietaire::orderBy('id', 'DESC')->get();
+        if (!$ilot) {
+            return redirect()->back()->with('error','Désolé, une erreur s\'est produite. Veuillez réessayer');
+        } else {
+            return view('dashboard.Ilots.edit', compact('ilot','Proprietaire','ReferenceActe'));
         }
 
-        $ilot = DB::table('dbo_ilot')
-            ->join('dbo_anx_nature_imm', 'dbo_ilot.Nature', '=', 'dbo_anx_nature_imm.Num_Nat_imm')
-            ->where('dbo_ilot.Num_ilot', $ilot_Num)
-            ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom')
-            ->first();
 
-        $jsonPath = public_path('country.json');
-        $jsonData = File::get($jsonPath);
+        // if (!Auth::check()) {
+        //     abort(403, 'Accès non autorisé'); // Rejette l'accès si l'utilisateur n'est pas authentifié
+        // }
 
-        $pays = json_decode($jsonData, true);
+        // $ilot = DB::table('dbo_ilot')
+        //     ->join('dbo_anx_nature_imm', 'dbo_ilot.Nature', '=', 'dbo_anx_nature_imm.Num_Nat_imm')
+        //     ->where('dbo_ilot.Num_ilot', $ilot_Num)
+        //     ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom')
+        //     ->first();
 
-        $jsonPath = public_path('algeria_cities.json');
-        $jsonData = File::get($jsonPath);
-        $cities = json_decode($jsonData, true);
+        // $jsonPath = public_path('country.json');
+        // $jsonData = File::get($jsonPath);
 
-        $wilayaNames = array_unique(array_column($cities, 'wilaya_name_ascii'));
-        $dayraNames = array_unique(array_column($cities, 'daira_name_ascii'));
+        // $pays = json_decode($jsonData, true);
 
-        return view('ilots.edit', compact('ilot', 'wilayaNames', 'dayraNames','pays'));
+        // $jsonPath = public_path('algeria_cities.json');
+        // $jsonData = File::get($jsonPath);
+        // $cities = json_decode($jsonData, true);
+
+        // $wilayaNames = array_unique(array_column($cities, 'wilaya_name_ascii'));
+        // $dayraNames = array_unique(array_column($cities, 'daira_name_ascii'));
+
     }
 
-    public function updated(Request $request, $Num_ilot)
+    public function update(Request $request, $Num_ilot)
     {
-
         $userRole = auth()->user()->role;
         $validationValue = ($userRole == 'utilisateur') ? 0 : 1;
-
         // Validez les données du formulaire
         $request->validate([
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:50000', // Exemple : accepte les images JPEG, PNG, JPG, GIF de taille maximale 2 Mo
         ]);
-
         // Récupérez l'îlot à mettre à jour
-        $ilot = DB::table('dbo_ilot')
-            ->where('Num_ilot', $Num_ilot)
-            ->first();
-
+        $ilot = Ilot::find($Num_ilot);
         if (!$ilot) {
             return redirect()->route('dashboard.ilots.index')->with('error', 'L\'îlot n\'existe pas.');
         }
-
         // Mettez à jour les données de l'îlot avec les nouvelles valeurs
-        $ilotData = [
-            'N_ilot' => $request->input('N_ilot'),
-            'proprietaire_id' => $request->input('proprietaire_id'),
-            'Denom_Ilot' => $request->input('Denom_Ilot'),
-            'Nature' => $request->input('Nature'),
-            'Utlisation' => $request->input('Utlisation'),
-            'Rue_fr' => $request->input('Rue_fr'),
-            'Localite' => $request->input('Localite'),
-            'Ville' => $request->input('Ville'),
-            'Pays' => $request->input('Pays'),
-            'il_surf_cadastree' => $request->input('il_surf_cadastree'),
-            'Num_Rue' => $request->input('Num_Rue'),
-            'mantVV' => $request->input('mantVV'),
-            'Int_VV' => $request->input('Int_VV'),
-            'mantant_VV' => $request->input('mantant_VV'),
-            'Int_VL' => $request->input('Int_VL'),
-            'mantant_VL' => $request->input('mantant_VL'),
-            'Age' => $request->input('Age'),
-            'intit_Entretien' => $request->input('intit_Entretien'),
-            'Origine_Acte' => $request->input('Origine_Acte'),
-            'type_enquete' => $request->input('type_enquete'),
-            'Observation_enqueteur' => $request->input('Observation_enqueteur'),
-            'date_Enquete' => $request->input('date_Enquete'),
-            'Num_enqui' => $request->input('Num_enqui'),
-            'validation' => $validationValue,
-            'cord_X'=>  $request->input('cord_X'),
-            'cord_y'=>  $request->input('cord_y'),
-        ];
+        $ilot->N_ilot       = $request->input('N_ilot');
+        $ilot->proprietaire_id = $request->input('proprietaire_id');
+        $ilot->Denom_Ilot   = $request->input('Denom_Ilot');
+        $ilot->Nature       = $request->input('Nature');
+        $ilot->Utlisation   = $request->input('Utlisation');
+        $ilot->Rue_fr       = $request->input('Rue_fr');
+        $ilot->Localite     = $request->input('Localite');
+        $ilot->Ville        = $request->input('Ville');
+        $ilot->Pays         = $request->input('Pays');
+        $ilot->il_surf_cadastree = $request->input('il_surf_cadastree');
+        $ilot->Num_Rue      = $request->input('Num_Rue');
+        $ilot->mantVV       = $request->input('mantVV');
+        $ilot->Int_VV       = $request->input('Int_VV');
+        $ilot->mantant_VV   = $request->input('mantant_VV');
+        $ilot->Int_VL       = $request->input('Int_VL');
+        $ilot->mantant_VL   = $request->input('mantant_VL');
+        $ilot->Age = $request->input('Age');
+        $ilot->intit_Entretien = $request->input('intit_Entretien');
+        $ilot->Origine_Acte    = $request->input('Origine_Acte');
+        $ilot->type_enquete    = $request->input('type_enquete');
+        $ilot->Observation_enqueteur = $request->input('Observation_enqueteur');
+        $ilot->date_Enquete = $request->input('date_Enquete');
+        $ilot->Num_enqui    = $request->input('Num_enqui');
+        $ilot->mantVL       = $request->input('mantVL');
+        $ilot->validation   = $validationValue;
+        $ilot->cord_X       =  $request->input('cord_X');
+        $ilot->cord_y       =  $request->input('cord_y');
+        $ilot->save();
 
-        if ($request->has('delete_images')) {
-            foreach ($request->input('delete_images') as $imagePath) {
-                // Supprimer l'image du stockage, vous devrez adapter cette logique en fonction de votre configuration de stockage
-                Storage::delete($imagePath);
+                // if ($request->has('images')) {
+        //     foreach ($request->input('images') as $imagePath) {
+        //         // Supprimer l'image du stockage, vous devrez adapter cette logique en fonction de votre configuration de stockage
+        //         Storage::delete($imagePath);
 
-                // Échapper les apostrophes dans le chemin de l'image
-                $escapedImagePath = addslashes($imagePath);
+        //         // Échapper les apostrophes dans le chemin de l'image
+        //         $escapedImagePath = addslashes($imagePath);
 
-                // Supprimer le chemin de l'image de la base de données
-                Ilot::where('Num_ilot', $Num_ilot)
-                    ->where('image', 'LIKE', "%$escapedImagePath%")
-                    ->update([
-                        'image' => DB::raw("REPLACE(image, '$escapedImagePath', '')"),
-                    ]);
+        //         // Supprimer le chemin de l'image de la base de données
+        //         Ilot::where('Num_ilot', $Num_ilot)
+        //             ->where('image', 'LIKE', "%$escapedImagePath%")
+        //             ->update([
+        //                 'image' => DB::raw("REPLACE(image, '$escapedImagePath', '')"),
+        //             ]);
 
-                // Deuxième mise à jour pour gérer les cas spécifiques avec les caractères '|'
-                $ilot = Ilot::where('Num_ilot', $Num_ilot)->first();
+        //         // Deuxième mise à jour pour gérer les cas spécifiques avec les caractères '|'
+        //         $ilot = Ilot::where('Num_ilot', $Num_ilot)->first();
 
-                if ($ilot && strpos($ilot->image, '|') === 0) {
-                    // S'il commence par '|', supprimez le premier '|'
-                    $ilot->update(['image' => substr($ilot->image, 1)]);
-                }
+        //         if ($ilot && strpos($ilot->image, '|') === 0) {
+        //             // S'il commence par '|', supprimez le premier '|'
+        //             $ilot->update(['image' => substr($ilot->image, 1)]);
+        //         }
 
-                if ($ilot && strrpos($ilot->image, '|') === (strlen($ilot->image) - 1)) {
-                    // S'il se termine par '|', supprimez le dernier '|'
-                    $ilot->update(['image' => substr($ilot->image, 0, -1)]);
-                }
+        //         if ($ilot && strrpos($ilot->image, '|') === (strlen($ilot->image) - 1)) {
+        //             // S'il se termine par '|', supprimez le dernier '|'
+        //             $ilot->update(['image' => substr($ilot->image, 0, -1)]);
+        //         }
 
-                // Supprimer les caractères '||' s'ils sont présents
-                $ilot->update(['image' => str_replace('||', '|', $ilot->image)]);
-            }
+        //         // Supprimer les caractères '||' s'ils sont présents
+        //         $ilot->update(['image' => str_replace('||', '|', $ilot->image)]);
+        //     }
+        // }
+
+        // if ($request->hasFile('images')) {
+        //     $imagePaths = [];
+        //     foreach ($request->file('images') as $file)
+        //     {
+        //         // Générez un nom de fichier unique pour éviter les conflits
+        //         $fileName = time() . '_' . $file->getClientOriginalName();
+        //         // Déplacez le fichier vers le répertoire de stockage (par exemple, public/images)
+        //         $file->move('public/images', $fileName);
+        //         // Ajoutez le chemin du fichier à notre tableau
+        //         $imagePaths[] = 'public/images/' . $fileName;
+        //     }
+        //     // Récupérez les anciennes images pour les conserver
+        //     $anciennesImages = [];
+        //     if ($ilot->image) {
+        //         $anciennesImages = explode('|', $ilot->image);
+        //     }
+
+        //     // Combinez les anciennes et nouvelles images
+        //     $toutesLesImages = array_merge(
+        //         array_diff($anciennesImages, $request->input('delete_images', [])),
+        //         $imagePaths
+        //     );
+
+        //     // Concaténez les chemins avec le caractère '|' et enregistrez-les dans la base de données
+        //     $ilotData['image'] = implode('|', $toutesLesImages);
+        // }
+
+        $request->validate([
+            'date_pub'=> '',
+            'Volume'=> '',
+            'case'=> '',
+            'nature_acte'=> '',
+            'Num_Nat_Acte'=> '',
+            'Construction_Acte'=> '',
+            'Origine_Acte'=> '',
+        ]);
+        if($request->input('nature_acte') == 'Loi'){
+            $Num_Nat_Acte=1;
         }
-
-        if ($request->hasFile('images')) {
-            $imagePaths = [];
-            foreach ($request->file('images') as $file)
-            {
-                // Générez un nom de fichier unique pour éviter les conflits
-                $fileName = time() . '_' . $file->getClientOriginalName();
-                // Déplacez le fichier vers le répertoire de stockage (par exemple, public/images)
-                $file->move('public/images', $fileName);
-                // Ajoutez le chemin du fichier à notre tableau
-                $imagePaths[] = 'public/images/' . $fileName;
-            }
-            // Récupérez les anciennes images pour les conserver
-            $anciennesImages = [];
-            if ($ilot->image) {
-                $anciennesImages = explode('|', $ilot->image);
-            }
-
-            // Combinez les anciennes et nouvelles images
-            $toutesLesImages = array_merge(
-                array_diff($anciennesImages, $request->input('delete_images', [])),
-                $imagePaths
-            );
-
-            // Concaténez les chemins avec le caractère '|' et enregistrez-les dans la base de données
-            $ilotData['image'] = implode('|', $toutesLesImages);
+        if($request->input('nature_acte') == 'Décret'){
+            $Num_Nat_Acte=2;
         }
+        if($request->input('nature_acte') == 'Arrêté'){
+            $Num_Nat_Acte=3;
+        }
+        if($request->input('nature_acte') == 'Acte'){
+            $Num_Nat_Acte=4;
+        }
+        if($request->input('nature_acte') == 'Convention bilatérale'){
+            $Num_Nat_Acte=5;
+        }
+        if($request->input('nature_acte') == 'Non renseigner'){
+            $Num_Nat_Acte=6;
+        }
+        $ReferenceActe = ReferenceActe::find($request->referenceActe_id);
+        $ReferenceActe->date_pub = $request->date_pub;
+        $ReferenceActe->volume1 = $request->volume1;
+        $ReferenceActe->case11 = $request->case11;
+        $ReferenceActe->nature_acte = $request->nature_acte;
+        $ReferenceActe->Num_Nat_Acte = $Num_Nat_Acte;
+        $ReferenceActe->Construction_Acte = $request->Construction_Acte;
+        $ReferenceActe->Origine_Acte = $request->Origine_Acte;
+        $ReferenceActe->save();
 
-
-
-            // Utilisez la méthode DB::table()->update() pour mettre à jour les données
-        $x =   DB::table('dbo_ilot')
-                ->where('Num_ilot', $Num_ilot)
-                ->update($ilotData);
+        return view('dashboard.batiment.create',compact('ilot'))->with('success', 'Ilot ajouté avec succès ! (ID : $idIlotAjoute)');
 
         // Redirigez l'utilisateur avec un message de succès
-        return redirect()->route('dashboard.ilots.index')->with('success', 'L\'îlot a été mis à jour avec succès.');
+        // return redirect()->route('dashboard.ilots.index')->with('success', 'L\'îlot a été mis à jour avec succès.');
     }
 
     public function destroy(Request $request)

@@ -26,6 +26,7 @@ class ProprietaireController extends Controller
     {
         $proprietaires = Proprietaire::with('tutelle','statut','deciaffect', 'anx_text_creati')->paginate(PAGINATE_COUNT);
 
+<<<<<<< HEAD
         
         // dd($proprietaires);
 
@@ -39,6 +40,11 @@ class ProprietaireController extends Controller
         // ->paginate(PAGINATE_COUNT);
 
         
+=======
+        ->select('dbo_personne.*', 'dbo_anx_statut.intitule as anx_statut_intitule', 'dbo_deciaffect.intitule_fr as deciaffect_intitule' , 'dbo_anx_tutelle.intitule as tutelle_intitule' , 'dbo_anx_text_creati.intitule as text_creati_intitule')
+        ->paginate(PAGINATE_COUNT);
+        // dd( $proprietaire);
+>>>>>>> update
         // $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
         // $deciaffect = Deciaffect::pluck('Intitule_fr','Deci_Af' );
         // $anx_statut = AnxStatut::pluck('Intitule','bi_natjur' );

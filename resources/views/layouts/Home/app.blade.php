@@ -1,7 +1,7 @@
 {{-- This is head page --}}
 @include('layouts.Home.head')
 <body>
-<div id="index" class="container-xxl">
+{{-- <div id="index" class="container-xxl">
     <div class="container">
         <div class="d-flex justify-content-center mt-1">
             <div class="text-center">
@@ -25,8 +25,8 @@
         </div>
 
     </div>
-</div>
-<div id="pageHome">
+</div> --}}
+<div>
     <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border position-relative text-primary" style="width: 6rem; height: 6rem;" role="status"></div>
