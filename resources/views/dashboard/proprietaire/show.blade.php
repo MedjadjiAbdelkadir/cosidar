@@ -66,6 +66,12 @@ ORIGINE DES DROITS
                     </div>
                 </div>
             </div>
+            <div class="card-footer d-flex justify-content-end">
+                <form action="" method="get">
+                    <input type="text" name="" value="{{ $proprietaire->id }}">
+                    <button type="submit" class="btn btn-outline-success">Ajoute Ilot</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

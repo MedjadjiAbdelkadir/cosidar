@@ -59,16 +59,18 @@ ORIGINE DES DROITS
                 </div>
             </div>
         </div>
-        <div class="card card-statistics h-100 mt-5">
-            <div class="card-body">
-                <div class="d-flex justify-content-end">
-                    <form action="{{ route('dashboard.locaux.create') }}" method="GET">
-                        <input hidden name="batiment_id" type="text" value="{{ $batiment->id }}">
-                        <button type="submit" class="btn btn-outline-success">Ajoute un Batiment</button>
-                    </form>
+        @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
+            <div class="card card-statistics h-100 mt-5">
+                <div class="card-body">
+                    <div class="d-flex justify-content-end">
+                        <form action="{{ route('dashboard.locaux.create') }}" method="GET">
+                            <input hidden name="batiment_id" type="text" value="{{ $batiment->id }}">
+                            <button type="submit" class="btn btn-outline-success">Ajoute un Batiment</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
     </div>
 </div>
 <!-- row closed -->

@@ -30,9 +30,11 @@ ORIGINE DES DROITS
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                <button type="button"class="button x-small"  data-toggle="modal" data-target="#createActeModal">
-                    Ajouter ORIGINE DES DROITS
-                </button>
+                @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
+                    <button type="button"class="button x-small"  data-toggle="modal" data-target="#createActeModal">
+                        Ajouter ORIGINE DES DROITS
+                    </button>
+                @endif
                 <br><br>
                 <div class="table-responsive">
                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0" data-page-length="50" style="text-align: center">
@@ -40,7 +42,7 @@ ORIGINE DES DROITS
                             <tr>
                                 <th>#</th>
                                 <th>N°ACTE</th>
-                                <th>N° BIEN</th> 
+                                <th>N° BIEN</th>
                                 <th>NATURE ACTE</th>
                                 <th>CONSTRUCTION ACTE</th>
                                 <th>ORIGINE ACTE</th>
@@ -65,8 +67,9 @@ ORIGINE DES DROITS
                                 <td>{{ \Carbon\Carbon::parse($acte->date_pub)->format('Y-m-d') }}</td>
                                 <td>{{ $acte->volume1 }}</td>
                                 <td>{{ $acte->case11 }}</td>
-                                <td>{{ $acte->Ref_JRN }}</td> 
+                                <td>{{ $acte->Ref_JRN }}</td>
                                 <td>
+                                    @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
                                     <a class="btn btn-info btn-sm" href="{{ route('dashboard.actes.show' , $acte->id) }}">
                                         <i class="fa fa-eye"></i>
                                     </a>
@@ -76,6 +79,15 @@ ORIGINE DES DROITS
                                     <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteActeModal{{$acte->id}}">
                                         <i class="fa fa-trash"></i>
                                     </button>
+                                    @else
+                                    <a class="btn btn-info btn-sm" href="{{ route('dashboard.actes.show' , $acte->id) }}">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteActeModal{{$acte->id}}">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                    @endif
+
                                 </td>
                             </tr>
                             @include('dashboard.acte.edit')
@@ -85,7 +97,7 @@ ORIGINE DES DROITS
 
                         </tbody>
                     </table>
-                    {{ $actes->links() }}                                            
+                    {{ $actes->links() }}
                 </div>
             </div>
         </div>

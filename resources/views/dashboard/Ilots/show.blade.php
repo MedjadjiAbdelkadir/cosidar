@@ -235,10 +235,12 @@ ORIGINE DES DROITS
                 <div class="card-footer">
                     <div class="d-flex justify-content-end">
                         <a href="{{ route('dashboard.ilots.index') }}" class="btn btn-secondary mx-2">Retour</a>
-                        <form action="{{ route('dashboard.batiments.create') }}" method="GEt">
-                            <input hidden type="text" name="ilot_id" value="{{ $ilot->id }}">
-                            <button type="submit" class="btn btn-success mx-2">Ajoute un Batiment</button>
-                        </form>
+                        @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
+                            <form action="{{ route('dashboard.batiments.create') }}" method="GEt">
+                                <input hidden type="text" name="ilot_id" value="{{ $ilot->id }}">
+                                <button type="submit" class="btn btn-success mx-2">Ajoute un Batiment</button>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -29,9 +29,11 @@ Locaux
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                <a href="{{ route('dashboard.locaux.create') }}" class="button x-small" >
-                    Ajouter Local
-                </a>
+                @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
+                    <a href="{{ route('dashboard.locaux.create') }}" class="button x-small" >
+                        Ajouter Local
+                    </a>
+                @endif
                 <br><br>
                 <div class="table-responsive">
                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0" data-page-length="50" style="text-align: center">
@@ -61,6 +63,7 @@ Locaux
                                 <td>{{ $local->nb_piece }}</td>
 
                                 <td>
+                                    @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
                                     <a class="btn btn-info btn-sm" href="{{ route('dashboard.locaux.show' , $local->lot_no) }}">
                                         <i class="fa fa-eye"></i>
                                     </a>
@@ -70,6 +73,16 @@ Locaux
                                     <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLocauxModal{{$local->lot_no}}">
                                         <i class="fa fa-trash"></i>
                                     </button>
+                                    @else
+                                    <a class="btn btn-info btn-sm" href="{{ route('dashboard.locaux.show' , $local->lot_no) }}">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+
+                                    <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLocauxModal{{$local->lot_no}}">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                    @endif
+
                                 </td>
                             </tr>
                             @include('dashboard.locaux.edit')

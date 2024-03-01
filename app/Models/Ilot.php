@@ -72,7 +72,8 @@ class Ilot extends Model
         'mantVV',
         'mantVL',
         'validation',
-        'created_by'
+        'created_by',
+        'notes'
     ];
 
 
