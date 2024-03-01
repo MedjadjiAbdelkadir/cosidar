@@ -18,12 +18,14 @@
                             <span class="right-nav-text">Proprietaires</span>
                         </a>
                     </li>
+                    @if (auth()->user()->role == 'admin_direction' || auth()->user()->role == 'admin_sous_direction')
                     <li>
                         <a href="{{ route('dashboard.users.index') }}">
                             <i class="fa fa-user" aria-hidden="true"></i>
                             <span class="right-nav-text">Utilisateurs</span>
                         </a>
                     </li>
+                    @endif
                     <li>
                         <a href="{{ route('dashboard.ilots.index') }}">
                             <i class="ti-comments"></i>

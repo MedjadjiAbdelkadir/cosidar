@@ -52,7 +52,6 @@ class LocalController extends Controller
      */
     public function create(Request $request)
     {
-<<<<<<< HEAD
         $ilotOptions = Ilot::get();
         $nature_locaux = NatureLocaux::get();
         $batiment = Batiment::get();
@@ -60,13 +59,11 @@ class LocalController extends Controller
         // Num_Bat
         // bat_no
         return view('dashboard.locaux.create', compact('ilotOptions','nature_locaux','batiment'));
-=======
         $batiment_id = $request->batiment_id;
         $batimentLoc = Batiment::find($batiment_id);
         $nature_locaux = NatureLocaux::pluck('intitule','NNatLoc' );
 
         return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux'));
->>>>>>> update
     }
 
     /**

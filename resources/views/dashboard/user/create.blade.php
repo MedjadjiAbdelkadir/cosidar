@@ -17,19 +17,23 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="name" class="mr-sm-2">Nom & Prénom :</label>
-                            <input id="name" type="text" name="name" class="form-control" placeholder="Enter new user name">
+                            <input id="name" type="text" name="name" class="form-control"
+                                placeholder="Enter new user name">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="email" class="mr-sm-2">Compte (Compte@gmail.com) :</label>
-                            <input type="text" class="form-control" name="email" placeholder="Enter new Email Address">
+                            <input type="text" class="form-control" name="email"
+                                placeholder="Enter new Email Address">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="password" class="mr-sm-2">Mot de Passe :</label>
-                            <input id="password" type="password" name="password" class="form-control" placeholder="Enter new Password">
+                            <input id="password" type="password" name="password" class="form-control"
+                                placeholder="Enter new Password">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="password_confirmation" class="mr-sm-2">Confirmation de Mot de Passe :</label>
-                            <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm Password">
+                            <input type="password" class="form-control" name="password_confirmation"
+                                placeholder="Confirm Password">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="address" class="mr-sm-2">Address :</label>
@@ -39,26 +43,22 @@
                             <label for="role" class="mr-sm-2">Role :</label>
                             <select class="custom-select" name="role">
                                 <option disabled selected>Select Role User</option>
-                                <option value="admin_direction">Admin Direction</option>
-                                <option value="user_direction">User Direction</option>
-                                <option value="consultation_direction">Consultation Direction</option>
-                                <option value="admin_sous_direction">Admin SousDirection</option>
-                                <option value="user_sous_direction">User SousDirection</option>
-                                <option value="consultation_sous_direction">Consultation SousDirection</option>
+                                @if (auth()->user()->role == 'admin_direction')
+                                    <option value="user_direction">User Direction</option>
+                                    <option value="user_consultation_direction">User Consultation Direction</option>
+                                    <option value="admin_sous_direction">Admin SousDirection</option>
+                                @elseif (auth()->user()->role == 'admin_sous_direction')
+                                    <option value="user_sous_direction">User SousDirection</option>
+                                    <option value="user_consultation_sous_direction">User Consultation SousDirection
+                                    </option>
+                                @endif
                             </select>
                         </div>
-                        {{-- 
-                            direction
-                            UTILISATEUR MAECNE
-                            consultation
-                            utilisateur
-                        --}}
                     </div>
                     <br><br>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"
-                    data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-success">Create</button>
             </div>
             </form>
