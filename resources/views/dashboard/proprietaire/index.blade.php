@@ -80,9 +80,6 @@ SERVICE AFFECTATAIRE
                                         <a class="btn btn-info btn-sm" href="{{ route('dashboard.proprietaires.show' , $proprietaire->pe_num) }}">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteProprietaireModal{{$proprietaire->pe_num}}">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
                                     @endif
 
                                 </td>

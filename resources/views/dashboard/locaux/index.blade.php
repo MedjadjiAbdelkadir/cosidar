@@ -64,23 +64,19 @@ Locaux
 
                                 <td>
                                     @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
-                                    <a class="btn btn-info btn-sm" href="{{ route('dashboard.locaux.show' , $local->lot_no) }}">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editLocauxModal{{$local->lot_no}}">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLocauxModal{{$local->lot_no}}">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
+                                        <a class="btn btn-info btn-sm" href="{{ route('dashboard.locaux.show' , $local->lot_no) }}">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editLocauxModal{{$local->lot_no}}">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLocauxModal{{$local->lot_no}}">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
                                     @else
-                                    <a class="btn btn-info btn-sm" href="{{ route('dashboard.locaux.show' , $local->lot_no) }}">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-
-                                    <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLocauxModal{{$local->lot_no}}">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
+                                        <a class="btn btn-info btn-sm" href="{{ route('dashboard.locaux.show' , $local->lot_no) }}">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
                                     @endif
 
                                 </td>

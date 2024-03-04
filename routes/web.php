@@ -95,7 +95,7 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
      */
     Route::resource('users', UserController::class);
     Route::group(['prefix'=> 'users','as'=>'users.'], function () {
-        Route::post('changeuserstatus/{id}', [UserController::class ,'changeUserStatus'])->name('changeStatus');
+        Route::put('changeuserstatus/{id}', [UserController::class ,'changeUserStatus'])->name('changeStatus');
 
         // Route::patch('changeuserstatus/{id}', 'UserController@changeUserStatus')->name('user.status')->middleware(['auth', 'xss']);
 

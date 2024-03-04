@@ -13,8 +13,8 @@
             <form action="{{ route('dashboard.users.changeStatus' , 'test') }}" method="POST">
                 <div class="modal-body">
                     <!-- add_form -->
+                    @method('PUT')
                     @csrf
-                    @method('PATCH')
                     <div class="form-group">
                         <h6>Êtes-vous sûr d'avoir @if($user->user_status == 1) désactivé @else Deactive @endif l'utilisateur ?</ا>
                         <input type="hidden" name="id" value="{{ $user->id }}" class="form-control">

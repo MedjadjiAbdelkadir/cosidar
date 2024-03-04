@@ -43,7 +43,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        
+
 
         $validatorArray = [
             'name' => 'required|max:120',
@@ -75,7 +75,7 @@ class UserController extends Controller
             'is_active' => 1,
             'user_status' => 1,
             'role' => $request->input('role'),
-        ]);    
+        ]);
         return redirect()->route('dashboard.users.index')->with('success', 'User Added Successfully.');
     }
 
@@ -132,11 +132,11 @@ class UserController extends Controller
         $user->email    = $request->email;
         $user->address  = $request->address;
         $user->password = $request->password;
-       
+
        $user->role = $selectedRole;
        $user->save();
 
-       
+
        if($user->parent_id != 0)
        {
            $roles = $request['roles'];
@@ -166,7 +166,7 @@ class UserController extends Controller
             $status = $user->user_status == '0' ? __('activated') : __('deactivated');
         }
 
-        return redirect()->route('users.index')->with('success', __('User') . ' ' . $status . ' ' . __('successfully'));
+        return redirect()->route('dashboard.users.index')->with('success', __('User') . ' ' . $status . ' ' . __('successfully'));
     }
 
     /**

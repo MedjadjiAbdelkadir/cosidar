@@ -605,14 +605,14 @@ class IlotController extends Controller
 
         $outputPath = public_path('qr_code/' . $ilot->Num_ilot . '.png');
 
-        $renderer = new ImageRenderer(
-            new RendererStyle(400),
-            new ImagickImageBackEnd()
-        );
-        $writer = new Writer($renderer, $options);
+        // $renderer = new ImageRenderer(
+        //     new RendererStyle(400),
+        //     new ImagickImageBackEnd()
+        // );
+        // $writer = new Writer($renderer, $options);
         $outputPath = public_path('qr_code/' . $ilot->Num_ilot . '.png');
 
-        $writer->writeFile($ilot->Num_ilot, $outputPath);
+        // $writer->writeFile($ilot->Num_ilot, $outputPath);
 
         return view('dashboard.template.vue_genrale', compact(
             'ilot', 'sup_SDHO_total', 'sup_assiette',

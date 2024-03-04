@@ -2,7 +2,7 @@
 @section('css')
 
 @section('title')
-ORIGINE DES DROITS
+Réference Actes
 @stop
 @endsection
 @section('page-header')
@@ -15,7 +15,7 @@ ORIGINE DES DROITS
         <div class="col-sm-6">
             <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
                 <li class="breadcrumb-item"><a href="#" class="default-color">Dashboard</a></li>
-                <li class="breadcrumb-item active">ORIGINE DES DROITS</li>
+                <li class="breadcrumb-item active">Réference Actes</li>
             </ol>
         </div>
     </div>
@@ -83,9 +83,6 @@ ORIGINE DES DROITS
                                     <a class="btn btn-info btn-sm" href="{{ route('dashboard.actes.show' , $acte->id) }}">
                                         <i class="fa fa-eye"></i>
                                     </a>
-                                    <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteActeModal{{$acte->id}}">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
                                     @endif
 
                                 </td>

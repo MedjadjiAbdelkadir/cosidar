@@ -75,9 +75,6 @@ Batiments
                                         <a class="btn btn-info btn-sm" href="{{ route('dashboard.batiments.show' , $batiment->Num_Bat) }}">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteBatimentModal{{$batiment->Num_Bat}}">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
                                     @endif
 
                                 </td>
