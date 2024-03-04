@@ -44,7 +44,7 @@ ORIGINE DES DROITS
                     </div>
                     <div class="form-group col-md-6">
                         <label for="volume1" class="mr-sm-2">Volume1 :</label>
-                        <input type="text" class="form-control" name="volume1" value="{{ $acte->volume1 }}">
+                        <input type="text" class="form-control" name="volume1" value="{{ $acte->volume1 }}" disabled>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="Construction_Acte" class="mr-sm-2">Construction d'acte :</label>

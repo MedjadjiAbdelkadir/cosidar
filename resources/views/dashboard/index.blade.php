@@ -182,7 +182,7 @@ Dashboard
                         <td>{{ $ilot->nature_nom }}</td>
                         <td>{{ $ilot->Utlisation }}</td>
                         <td>{{ $ilot->Localite }}</td>
-                        @if(Auth::user()->role == 'direction')
+                        @if(auth()->user()->role == 'admin_direction' || auth()->user()->role == 'admin_sous_direction')
                             <th>
                                 <select class="custom-select validation-dropdown" data-id="{{ $ilot->Num_ilot }}">
                                     <option  value="0" @if ($ilot->validation == 0) selected @endif>En attente</option>
@@ -191,22 +191,21 @@ Dashboard
                             </th>
                         @endif
                         <td>
-                            {{-- href="{{ route('dashboard.ilots.vuegenerale ' , $ilot->Num_ilot) }} --}}
-                            <a class="btn btn-info btn-sm" href="{{ url('/dashboard/ilots/vue-generale',$ilot->Num_ilot) }}" >
-                                <i class="fa fa-eye"></i>
-                            </a>
-
-                            <button type="button" class="btn btn-sm btn-danger delete_batiment" data-toggle="modal" data-target="#deleteBienModal{{ $ilot->Num_ilot }}" data-id="{{$ilot->Num_ilot}}">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                            <a href="{{ route('dashboard.ilots.edit', $ilot->id) }}" class="btn btn-success btn-sm Num_batiment"
-                                title="Edit"> <i class="fa fa-edit"></i>
-                            </a>
-                            {{-- <button type="button" class="btn btn-success btn-sm Num_batiment" data-toggle="modal"
-                                data-target="#editBienModal{{ $ilot->Num_ilot }}"  data-id="{{$ilot->Num_ilot}}" title="Edit">
-                                <i class="fa fa-edit"></i>
-                            </button> --}}
-
+                            @if (auth()->user()->role == 'admin_direction' || auth()->user()->role == 'admin_sous_direction')
+                                <a class="btn btn-info btn-sm" href="{{ url('/dashboard/ilots/vue-generale',$ilot->Num_ilot) }}" >
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            @else
+                                <a class="btn btn-info btn-sm" href="{{ url('/dashboard/ilots/vue-generale',$ilot->Num_ilot) }}" >
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <button type="button" class="btn btn-sm btn-danger delete_batiment" data-toggle="modal" data-target="#deleteBienModal{{ $ilot->Num_ilot }}" data-id="{{$ilot->Num_ilot}}">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                                <a href="{{ route('dashboard.ilots.edit', $ilot->id) }}" class="btn btn-success btn-sm Num_batiment"
+                                    title="Edit"> <i class="fa fa-edit"></i>
+                                </a>
+                            @endif
                         </td>
                     </tr>
                     @include('dashboard.Ilots.deleted')

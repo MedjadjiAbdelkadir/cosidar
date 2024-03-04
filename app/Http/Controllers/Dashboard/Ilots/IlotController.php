@@ -19,6 +19,7 @@ use BaconQrCode\Renderer\ImageRenderer;
 use Illuminate\Support\Facades\Storage;
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use Symfony\Contracts\Service\Attribute\Required;
 
 class IlotController extends Controller
 {
@@ -62,7 +63,7 @@ class IlotController extends Controller
     {
         $userRole = auth()->user()->role;
         //? $userRole = auth()->user()->role;
-        $validationValue = ($userRole == 'utilisateur') ? 0 : 1;
+        $validationValue = ($userRole == 'utilisateur') ? 0 : 0;
 
         //? Récupérez le plus grand Num_ilot existant et ajoutez 1
         $maxNumIlot = Ilot::max('Num_ilot');
@@ -604,14 +605,14 @@ class IlotController extends Controller
 
         $outputPath = public_path('qr_code/' . $ilot->Num_ilot . '.png');
 
-        $renderer = new ImageRenderer(
-            new RendererStyle(400),
-            new ImagickImageBackEnd()
-        );
-        $writer = new Writer($renderer, $options);
+        // $renderer = new ImageRenderer(
+        //     new RendererStyle(400),
+        //     new ImagickImageBackEnd()
+        // );
+        // $writer = new Writer($renderer, $options);
         $outputPath = public_path('qr_code/' . $ilot->Num_ilot . '.png');
 
-        $writer->writeFile($ilot->Num_ilot, $outputPath);
+        // $writer->writeFile($ilot->Num_ilot, $outputPath);
 
         return view('dashboard.template.vue_genrale', compact(
             'ilot', 'sup_SDHO_total', 'sup_assiette',
@@ -870,5 +871,20 @@ class IlotController extends Controller
 
         // Retournez une réponse JSON si nécessaire
         return response()->json(['message' => 'Validation mise à jour avec succès']);
+    }
+
+    public function addNoteIlot(Request $request){
+        $ilot = Ilot::find($request->id);
+
+        if (!$ilot)
+        {
+            return redirect()->back()->with('error', 'Ilot introuvable.');
+        }
+        else{
+            $ilot->notes = $request->note;
+            $ilot->save();
+            return redirect()->back()->with('success', 'Note ajoutée avec succès.');
+        }
+
     }
 }

@@ -28,8 +28,8 @@ LISTE DES ILOTS
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                @if (Auth::user()->role == 'direction')
-                    <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between">
+                    @if (auth()->user()->role == 'admin_direction' || auth()->user()->role == 'admin_sous_direction')
                         <div>
                             <button type="button" class="btn btn-primary x-small filter-ilots" data-validation="all" >
                                 Tous ({{ count($ilots) }})
@@ -41,13 +41,15 @@ LISTE DES ILOTS
                                 En Attents ({{ count($ilots->where('validation', 0)) }})
                             </button>
                         </div>
+                    @endif
+                    @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
                         <div>
                             <a href="{{ route('dashboard.ilots.create') }}" class="button x-small" >
                                 Créer Bien
                             </a>
                         </div>
+                    @endif
                     </div>
-                @endif
 
                 <br><br>
                 <div class="table-responsive">
@@ -60,7 +62,7 @@ LISTE DES ILOTS
                                 <th>NATURL</th>
                                 <th>UTILISATION</th>
                                 <th>LOCALITE</th>
-                                @if (Auth::user()->role == 'direction')
+                                @if (Auth::user()->role == 'admin_direction')
                                     <th>VALIDATION</th>
                                 @endif
                                 <th>Action</th>
@@ -76,7 +78,7 @@ LISTE DES ILOTS
                                 <td>{{ $ilot->nature_nom }}</td>
                                 <td>{{ $ilot->Utlisation }}</td>
                                 <td>{{ $ilot->Localite }}</td>
-                                @if(Auth::user()->role == 'direction')
+                                @if(auth()->user()->role == 'admin_direction' || auth()->user()->role == 'admin_sous_direction')
                                     <th>
                                         <select class="custom-select validation-dropdown" data-id="{{ $ilot->Num_ilot }}">
                                             <option  value="0" @if ($ilot->validation == 0) selected @endif>En attente</option>
@@ -85,24 +87,33 @@ LISTE DES ILOTS
                                     </th>
                                 @endif
                                 <td>
-                                    <a class="btn btn-info btn-sm" href="{{ route('dashboard.ilots.show' , $ilot->Num_ilot) }}">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-
-                                    <button type="button" class="btn btn-sm btn-danger delete_batiment" data-toggle="modal" data-target="#deleteBienModal{{ $ilot->Num_ilot }}" data-id="{{$ilot->Num_ilot}}">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-
-                                    <a href="{{ route('dashboard.ilots.edit', $ilot->id) }}" class="btn btn-success btn-sm Num_batiment"
-                                        title="Edit"> <i class="fa fa-edit"></i>
-                                    </a>
-                                    {{-- <button type="button" class="btn btn-sm btn-success edit_batiment" data-toggle="modal" data-target="#batimentModal" data-id="{{$batiment->Num_Bat}}">
-                                        <i class="fa fa-pencil-alt"></i>
-                                    </button>  --}}
+                                    @if (auth()->user()->role == 'admin_direction' || auth()->user()->role == 'admin_sous_direction')
+                                        <a class="btn btn-info btn-sm" href="{{ route('dashboard.ilots.show' , $ilot->Num_ilot) }}">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary addNote" data-toggle="modal" data-target="#noteBienModal{{ $ilot->id }}" data-id="{{$ilot->id}}">
+                                            <i class="fa fa-sticky-note"></i>
+                                        </button>
+                                    @else
+                                        <a class="btn btn-info btn-sm" href="{{ route('dashboard.ilots.show' , $ilot->Num_ilot) }}">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        @if (!is_null($ilot->notes))
+                                            <button type="button" class="btn btn-sm btn-outline-secondary addNote" data-toggle="modal" data-target="#noteBienModal{{ $ilot->id }}" data-id="{{$ilot->id}}">
+                                                <i class="fa fa-sticky-note"></i>
+                                            </button>
+                                        @endif
+                                        <button type="button" class="btn btn-sm btn-danger delete_batiment" data-toggle="modal" data-target="#deleteBienModal{{ $ilot->Num_ilot }}" data-id="{{$ilot->Num_ilot}}">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                        <a href="{{ route('dashboard.ilots.edit', $ilot->id) }}" class="btn btn-success btn-sm Num_batiment"
+                                            title="Edit"> <i class="fa fa-edit"></i>
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                             @include('dashboard.Ilots.deleted')
-                            {{-- @include('dashboard.Ilots.edit') --}}
+                            @include('dashboard.Ilots.notes')
                             {{-- @include('dashboard.Ilots.show') --}}
                             @endforeach
 
@@ -180,7 +191,6 @@ LISTE DES ILOTS
             });
 
         });
-
 
     /* End ajax */
     });

@@ -13,29 +13,31 @@ class EvaluationController extends Controller
     public function index(Request $request)
     {
         $pays= Pays::all();
-        if ($request->has('paysName')) {
+        if (!is_null($request->paysName)) {
             $ilots = DB::table('dbo_personne')
                 ->join('dbo_ilot', 'dbo_personne.id', '=', 'dbo_ilot.proprietaire_id')
                 ->select('dbo_personne.*', 'dbo_ilot.*')
-                ->where('dbo_personne.paye_name',$request->input('paysName'))
+                ->where('dbo_personne.paye_name',$request->paysName)
                 ->orderBy('dbo_personne.id', 'desc')
                 ->paginate(PAGINATE_COUNT);
-
-                return view('dashboard.Evaluation.index',compact('ilots','pays'));
-        }
-        else {
+        } else {
             $ilots = DB::table('dbo_personne')
                 ->join('dbo_ilot', 'dbo_personne.id', '=', 'dbo_ilot.proprietaire_id')
                 ->select('dbo_personne.*', 'dbo_ilot.*')
-                // ->where('dbo_personne.paye_name','Algeria')
+                ->Where('dbo_personne.paye_name','Algeria')
                 ->orderBy('dbo_personne.id', 'desc')
                 ->paginate(PAGINATE_COUNT);
-            // dd($ilots);
-            return view('dashboard.Evaluation.index',compact('ilots','pays'));
         }
 
+        $ilots = DB::table('dbo_personne')
+            ->join('dbo_ilot', 'dbo_personne.id', '=', 'dbo_ilot.proprietaire_id')
+            ->select('dbo_personne.*', 'dbo_ilot.*')
+            ->orWhere('dbo_personne.paye_name',$request->paysName)
+            ->orderBy('dbo_personne.id', 'desc')
+            ->paginate(PAGINATE_COUNT);
 
-        // dd($ilots);
+        return view('dashboard.Evaluation.index',compact('ilots','pays'));
+
     }
 
     /**
@@ -67,7 +69,9 @@ class EvaluationController extends Controller
      */
     public function show($id)
     {
-        //
+        $ilot = Ilot::find($id);
+
+        return view('dashboard.Evaluation.etat-sortie', compact('ilot'));
     }
 
     /**

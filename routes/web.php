@@ -51,6 +51,7 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.'],function(){
         Route::post('/update-validation/{ilot}',[IlotController::class, 'updateValidation'])->name('updateValidation');
         Route::post('/filter/activity', [IlotController::class, 'filterActivityByDate'])->name('filterActivityByDate');
         Route::get('/vue-generale/{Num_ilot}',[IlotController::class, 'vueGenerale'])->name('vuegenerale');
+        Route::post('/added/note', [IlotController::class, 'addNoteIlot'])->name('notes');
         // Route::get('/create', [IlotController::class, 'create'])->name();
     });
 
@@ -94,7 +95,7 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
      */
     Route::resource('users', UserController::class);
     Route::group(['prefix'=> 'users','as'=>'users.'], function () {
-        Route::post('changeuserstatus/{id}', [UserController::class ,'changeUserStatus'])->name('changeStatus');
+        Route::put('changeuserstatus/{id}', [UserController::class ,'changeUserStatus'])->name('changeStatus');
 
         // Route::patch('changeuserstatus/{id}', 'UserController@changeUserStatus')->name('user.status')->middleware(['auth', 'xss']);
 

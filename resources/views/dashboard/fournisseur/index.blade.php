@@ -28,10 +28,12 @@ List Fournisseur
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                <a class="btn btn-info btn-sm" href="{{ route('dashboard.fournisseurs.create') }}">
-                    <i class="fa fa-plus"></i>
-                    AJOUTER Fournisseur
-                </a>
+                @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
+                    <a class="btn btn-info btn-sm" href="{{ route('dashboard.fournisseurs.create') }}">
+                        <i class="fa fa-plus"></i>
+                        AJOUTER Fournisseur
+                    </a>
+                @endif
                 <br><br>
                 <div class="table-responsive">
                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0" data-page-length="50" style="text-align: center">
@@ -61,7 +63,7 @@ List Fournisseur
                                     No Ilot
                                     @endif
                                     {{-- @isset($fournisseur->inventaire->ilot)
-                                        
+
                                     {{$fournisseur->inventaire->ilot->N_ilot}}
                                     @endisset --}}
 
@@ -82,7 +84,7 @@ List Fournisseur
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $fournisseurs->links() }}                                            
+                    {{ $fournisseurs->links() }}
                 </div>
             </div>
         </div>
@@ -94,7 +96,7 @@ List Fournisseur
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const table = $('#datatable-basic').DataTable();
-        
+
             $('#pays_placeholder').on('change', function () {
                 var selectedValue_pays = $(this).val();
                 console.log(selectedValue_pays);

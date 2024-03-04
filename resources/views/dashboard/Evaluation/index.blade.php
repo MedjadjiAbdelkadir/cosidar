@@ -28,20 +28,25 @@ Evaluation des Biens
         <div class="col-md-12 mb-30">
             <div class="card card-statistics">
                 <div class="card-body">
-                    <form action="{{ route('dashboard.evaluations.index') }}" method="GET">
+                    <form action="" id="FilterPaysForm" method="GET">
                         @csrf
                         <div class="row" >
                             <div class="form-group col-md-6">
                                 <label class="mr-sm-2">Sélectionnez un pays</label>
-                                <select name="paysName" id="pays"  class="custom-select" required>
+                                <select name="paysName" id="paysName"  class="custom-select" required>
+                                    @if (Request::get('paysName'))
+                                        <option  selected>{{ Request::get('received') == '' ? Request::get('paysName') : '' }}</option>
+                                    @else
+                                        <option selected>Select Pays</option>
+                                    @endif
                                     @foreach ($pays as $pay)
-                                        <option value="{{ $pay->name }}"><img src="{{ asset($pay->flag_1x1) }}" class="flag-icon" alt="{{ $pay->flag_1x1 }}"> -  {{ $pay->name }}</option>
+                                        <option value="{{ $pay->name }}"><img src='{{ asset($pay->flag_1x1) }}' class="flag-icon"> -  {{ $pay->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-6 mt-1">
+                            {{-- <div class="form-group col-md-6 mt-1">
                                 <button type="submit" class="btn btn-primary text-white mt-4">Filter</button>
-                            </div>
+                            </div> --}}
                         </div>
                     </form>
                 </div>
@@ -59,6 +64,7 @@ Evaluation des Biens
                                 <th>Superficie de Bien</th>
                                 <th>Evaluation vénal </th>
                                 <th>Evaluation locative</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -69,6 +75,11 @@ Evaluation des Biens
                                 <td>{{ $ilot->il_surf_cadastree }}</td>
                                 <td>{{ $ilot->mantVV }}</td>
                                 <td>{{ $ilot->mantVL }}</td>
+                                <td>
+                                    <a class="btn btn-info btn-sm" href="{{ route('dashboard.evaluations.show', $ilot->id) }}" >
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                </td>
                             </tr>
                             @endforeach
 
@@ -91,19 +102,15 @@ Evaluation des Biens
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        // $('#pays').change(function() {
-        //     var paysName = $(this).val();
-        //         console.log(paysName);
-        //         $.ajax({
-        //             url: '{{ route('dashboard.evaluations.index') }}',
-        //             method: 'GET',
-        //             dataType: 'json',
-        //             data: {paysName: paysName},
-        //             success: function(response) {
-        //                 console.log(response);
-        //             }
-        //         });
-        // });
+        $('#paysName').change(function(){
+            $("#paysName").focus();
+            timer = setTimeout(function() {
+                submitForm();
+            }, 500);
+            function submitForm() {
+                $("#FilterPaysForm").submit();
+            }
+        });
     });
 
 
