@@ -83,8 +83,8 @@ class BatimentController extends Controller
         $idBatimentAjoute =$batiment->Num_Bat;
         $batimentLoc = Batiment::find($batiment->id);
         $nature_locaux = NatureLocaux::get();
-
-        return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux'));
+        $ilotOptions = Ilot::get();
+        return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux','ilotOptions'));
         // Redirigez vers l'index avec un message de succès
         // return redirect()->route('dashboard.locaux.create')->with('success', "Batiment ajouté avec succès ! (ID : $idBatimentAjoute)");// il faut retourner que json
     }
