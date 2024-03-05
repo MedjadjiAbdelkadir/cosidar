@@ -21,11 +21,11 @@ class BatimentController extends Controller
 
     public function create(Request $request)
     {
-        $ilots = Ilot::find($request->ilot_id);
-        if (!$ilots) {
+        $ilot = Ilot::find($request->ilot_id);
+        if (!$ilot) {
             return redirect()->back()->with('error','Désolé, une erreur s\'est produite. Veuillez réessayer');
         } else {
-            return view('dashboard.batiment.create', compact('ilots'));
+            return view('dashboard.batiment.create', compact('ilot'));
         }
 
     }
