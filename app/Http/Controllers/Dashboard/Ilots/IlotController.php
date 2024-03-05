@@ -161,7 +161,7 @@ class IlotController extends Controller
 
 
         $idIlotAjoute = $ilot->id;
-
+        $Num_Nat_Acte=1;
         $request->validate([
             'date_pub'=> '',
             'Volume'=> '',
@@ -371,6 +371,7 @@ class IlotController extends Controller
             'Construction_Acte'=> '',
             'Origine_Acte'=> '',
         ]);
+        $Num_Nat_Acte=1;
         if($request->input('nature_acte') == 'Loi'){
             $Num_Nat_Acte=1;
         }
