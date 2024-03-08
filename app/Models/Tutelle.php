@@ -13,7 +13,7 @@ class Tutelle extends Model
     protected $table = 'dbo_anx_tutelle';
     protected $fillable = [
         'bi_natjur',
-        'intitule',
+        'Intitule',
     ];
  
  
