@@ -55,15 +55,19 @@ class LocalController extends Controller
         $ilotOptions = Ilot::get();
         $nature_locaux = NatureLocaux::get();
         $batiment = Batiment::get();
+        $batiment_id = $request->batiment_id;
+        $batimentLoc = Batiment::find($batiment_id);
+
+        $listBatiments = Batiment::where('Num_ilot',$batimentLoc->Num_ilot)->get();
         // dd($batiment);
         // Num_Bat
         // bat_no
-        return view('dashboard.locaux.create', compact('ilotOptions','nature_locaux','batiment'));
-        $batiment_id = $request->batiment_id;
-        $batimentLoc = Batiment::find($batiment_id);
-        $nature_locaux = NatureLocaux::pluck('intitule','NNatLoc' );
+        // dd($batiment_id);
+        return view('dashboard.locaux.create', compact('listBatiments','nature_locaux','batiment','batimentLoc'));
 
-        return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux'));
+        // $nature_locaux = NatureLocaux::pluck('intitule','NNatLoc');
+
+        // return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux'));
     }
 
     /**
@@ -92,7 +96,7 @@ class LocalController extends Controller
             'NNatLoc' => '',
         ]);
 
-        Local::create([
+        $Local = Local::create([
             'lot_no' => $maxNumLoc,
             'Num_ilot' => $request->input('Num_ilot'),
             'Num_Bat' => $request->input('Num_Bat'),
@@ -108,8 +112,20 @@ class LocalController extends Controller
            // 'NNatLoc' => $request->input('NNatLoc'),
             // Ajoutez ici les autres champs
         ]);
+        // $ilot = Ilot::find($batimentLoc->Num_ilot);
 
-        return redirect()->route('dashboard.locaux.index')->with('success', 'Le Local a été créé avec succès.');
+        $idBatimentAjoute =$Local->Num_Bat;
+        // $batimentLoc = Batiment::find($batiment->id);
+        $nature_locaux = NatureLocaux::get();
+        $ilotOptions = Ilot::get();
+        $batiment = Batiment::get();
+
+        $ilot = Ilot::find($Local->Num_ilot);
+        $batimentLoc = Batiment::find($Local ->Num_Bat);
+
+        return view('dashboard.batiment.select', compact('ilot','batimentLoc','nature_locaux','ilotOptions','batiment'));
+
+        // return redirect()->route('dashboard.locaux.index')->with('success', 'Le Local a été créé avec succès.');
     }
 
 
@@ -151,7 +167,8 @@ class LocalController extends Controller
         // Obtenez les options pour le champ Nature_Loc
         $nature_locaux = NatureLocaux::pluck('intitule', 'NNatLoc');
 
-        return view('dashboard.locaux.edit', compact('local', 'ilotOptions', 'batimentOptions', 'nature_locaux'));
+        return view('dashboard.locaux.edit', compact('local', 'ilotOptions', 'batimentOptions', 'nature_locaux'))
+        ->with('success', 'Le Local a été créé avec succès.');
     }
 
 

@@ -31,7 +31,7 @@ Batiments
         <div class="card card-statistics h-100">
             <div class="card-body">
                 @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
-                    <a href="{{ route('dashboard.locaux.create') }}" class="button x-small"  >
+                    <a href="{{ route('dashboard.batiments.create') }}" class="button x-small"  >
                         Create Batiment
                     </a>
                 @endif

@@ -7,6 +7,7 @@ use App\Models\AnxStatut;
 use App\Models\AnxTutelle;
 use App\Models\Deciaffect;
 use App\Models\Proprietaire;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use App\Models\AnxTextCreati;
 use Illuminate\Support\Facades\DB;
@@ -126,7 +127,7 @@ class ProprietaireController extends Controller
         ]);
 
         // dd($request->all());
-        $proprietaires = Proprietaire::create([
+        $proprietaire = Proprietaire::create([
 
             'id' => $maxNumPropretaire,
             'pe_num' => $maxNumPropretaire,
@@ -149,7 +150,25 @@ class ProprietaireController extends Controller
         ]);
         // dd($proprietaires->id);
         // Redirigez l'utilisateur avec un message de succès
-        return redirect()->route('dashboard.ilots.create', compact('proprietaires'))->with('success', 'Le Proprietaire a été créé avec succès.');
+
+        $pays = Pays::all();
+        // $Proprietaires = Proprietaire::orderBy('id', 'DESC')->get();
+
+        $jsonPath = public_path('algeria_cities.json');
+        $jsonData = File::get($jsonPath);
+        $cities = json_decode($jsonData, true);
+
+        $wilayaNames = array_unique(array_column($cities, 'wilaya_name_ascii'));
+        $dayraNames = array_unique(array_column($cities, 'daira_name_ascii'));
+        // Créez un tableau associatif avec les mêmes valeurs que clés
+        $wilayaNames = array_combine($wilayaNames, $wilayaNames);
+        $dayraNames = array_combine($dayraNames, $dayraNames);
+
+        return view('dashboard.Ilots.create', compact('pays','proprietaire',))
+        ->with('success', 'Le Proprietaire a été créé avec succès.');
+
+        // return redirect()->route('dashboard.ilots.create', compact('proprietaire'))
+        // ->with('success', 'Le Proprietaire a été créé avec succès.');
     }
 
     public function store_ajax(Request $request){
