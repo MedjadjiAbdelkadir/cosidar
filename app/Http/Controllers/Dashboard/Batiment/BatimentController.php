@@ -15,15 +15,21 @@ class BatimentController extends Controller
     public function index()
     {
         $batiments =  DB::table('dbo_batiment')->select('dbo_batiment.*')->paginate(PAGINATE_COUNT);
-        $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
+        $ilotOptions = Ilot::get();
         return view('dashboard.batiment.index',compact(['batiments','ilotOptions']));
     }
 
     public function create(Request $request)
     {
-        $ilot = Ilot::find($request->ilot_id);
+        // dd($request->ilot_id);
+        // $ilot = Ilot::find($request->ilot_id);
+        $ilot = Ilot::where('Num_ilot',$request->ilot_id)->first();
+        
+        // dd($ilot);
+        $ilotOptions = Ilot::get();
         if (!$ilot) {
-            return redirect()->back()->with('error','Désolé, une erreur s\'est produite. Veuillez réessayer');
+            return view('dashboard.batiment.create', compact('ilotOptions'));
+            // return redirect()->back()->with('error','Désolé, une erreur s\'est produite. Veuillez réessayer');
         } else {
             return view('dashboard.batiment.create', compact('ilot'));
         }
@@ -84,8 +90,26 @@ class BatimentController extends Controller
         $batimentLoc = Batiment::find($batiment->id);
         $nature_locaux = NatureLocaux::get();
         $ilotOptions = Ilot::get();
+        
         $batiment = Batiment::get();
-        return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux','ilotOptions','batiment'));
+
+        
+        // Num_ilot
+        // $ilot = Ilot::find($batimentLoc->Num_ilot);
+        // dd($ilot);
+
+        // dd($batimentLoc->Num_ilot);
+        // $ilot = Ilot::where('Num_ilot',$batimentLoc->Num_ilot)->first();
+
+        $ilot = Ilot::find($batimentLoc->Num_ilot);
+
+        // dd($ilot);
+
+        return view('dashboard.batiment.select', compact('ilot','batimentLoc','nature_locaux','ilotOptions','batiment'));
+
+        // return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux','ilotOptions','batiment'));
+
+        // return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux','ilotOptions','batiment'));
         // Redirigez vers l'index avec un message de succès
         // return redirect()->route('dashboard.locaux.create')->with('success', "Batiment ajouté avec succès ! (ID : $idBatimentAjoute)");// il faut retourner que json
     }
@@ -146,7 +170,7 @@ class BatimentController extends Controller
     {
         $batiment = Batiment::where('Num_Bat', $Num_batiment)->first();
 
-        $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot'); // Remplacez 'Ilot' par le nom de votre modèle d'îlot si nécessaire
+        $ilotOptions = Ilot::get();
 
         return view('dashboard.batiment.edit', compact('batiment', 'ilotOptions'));
     }

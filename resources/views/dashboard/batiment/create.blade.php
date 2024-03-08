@@ -35,21 +35,25 @@ Batiments
                         <label for="name" class="mr-sm-2">Numéro interne du Bâtiment (bat_no) :</label>
                         <input id="name" type="text" name="bat_no" class="form-control">
                     </div>
-                    <div hidden class="form-group col-md-6">
-                        <label for="name" class="mr-sm-2"> (Num_ilot) :</label>
-                        <input id="name" type="text" name="Num_ilot" value="{{ $ilot->id }}" class="form-control">
+                    @if (isset($ilot))
+                    <div class="form-group col-md-3">
+                        <label for="name" class="mr-sm-2"> Denom Ilot :</label>
+                        <input type="text" value="{{ $ilot->Denom_Ilot }}" class="form-control" disabled>
+                        <input id="name" type="hidden" name="Num_ilot" value="{{ $ilot->id }}" class="form-control">
                     </div>
-                    {{-- <div class="form-group col-md-6">
+                    @else
+                    <div class="form-group col-md-3">
                         <label for="Num_ilot" class="mr-sm-2">Sélectionnez un Numéro d\'îlot' :</label>
                         <select class="custom-select" name="Num_ilot">
                             <option disabled>Select Numéro dîlot</option>
                             @foreach ( $ilotOptions as $ilot)
-                                <option value="{{ $ilot }}">{{ $ilot }}</option>
+                                <option value="{{ $ilot->Num_ilot }}">{{ $ilot->N_ilot }}</option>
                             @endforeach
                         </select>
-                    </div> --}}
+                    </div>
+                    @endif
 
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-3">
                         <label for="Nbr_Niveau" class="mr-sm-2">Nombre de Niveaux :</label>
                         <select class="custom-select" name="Nbr_Niveau">
                             <option disabled >Select Nombre de Niveaux</option>
@@ -62,6 +66,11 @@ Batiments
                     <div class="form-group col-md-6">
                         <label for="sup_SDHO" class="mr-sm-2">Surface SDHO :</label>
                         <input type="text" class="form-control" name="sup_SDHO">
+                    </div>
+                    
+                    <div class="form-group col-md-6">
+                        <label for="sup_bati_cons" class="mr-sm-2">Sup Bati Cons :</label>
+                        <input type="text" class="form-control" name="sup_bati_cons">
                     </div>
 
                     <div class="form-group col-md-6">

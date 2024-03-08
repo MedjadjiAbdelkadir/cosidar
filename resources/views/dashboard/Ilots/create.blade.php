@@ -49,17 +49,18 @@ LISTE DES ILOTS
                     @csrf
                     {{-- Start create Ilot --}}
                     <div class="row">
-                        @if (!empty($proprietaires))
+                        @if (isset($proprietaire))
                             <div class="form-group col-md-6">
-                                <label for="proprietaire_id" class="mr-sm-2">choose un Proprietaire</label>
-                                <input type="text" value="{{ $proprietaires->Denomination_fr }}">
+                                <label for="proprietaire_id" class="mr-sm-2">Denomination</label>
+                                <input type="hidden" name="proprietaire_id" value="{{ $proprietaire->id }}">
+                                <input type="text" disabled value="{{ $proprietaire->Denomination_fr }}" class="form-control">
                             </div>
                         @else
                             <div class="form-group col-md-6">
-                                <label for="proprietaire_id" class="mr-sm-2">choose un Proprietaire</label>
+                                <label for="proprietaire_id" class="mr-sm-2">Choose un Proprietaire</label>
                                 <select class="custom-select" name="proprietaire_id">
                                     <option disabled value="">Select Proprietaire</option>
-                                    @foreach ($Proprietaire as $item)
+                                    @foreach ($Proprietaires as $item)
                                         <option value="{{ $item->id }}">{{ $item->Denomination_fr }}</option>
                                     @endforeach
                                 </select>

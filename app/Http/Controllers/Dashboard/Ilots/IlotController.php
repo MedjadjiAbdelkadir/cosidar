@@ -44,7 +44,7 @@ class IlotController extends Controller
         //     abort(403, 'Accès non autorisé'); // Rejette l'accès si l'utilisateur n'est pas authentifié
         // }
         $pays = Pays::all();
-        $Proprietaire = Proprietaire::orderBy('id', 'DESC')->get();
+        $Proprietaires = Proprietaire::orderBy('id', 'DESC')->get();
 
         $jsonPath = public_path('algeria_cities.json');
         $jsonData = File::get($jsonPath);
@@ -56,7 +56,7 @@ class IlotController extends Controller
         $wilayaNames = array_combine($wilayaNames, $wilayaNames);
         $dayraNames = array_combine($dayraNames, $dayraNames);
 
-        return view('dashboard.Ilots.create', compact('pays','Proprietaire'));
+        return view('dashboard.Ilots.create', compact('pays','Proprietaires'));
     }
 
     public function store(Request $request)
@@ -200,8 +200,9 @@ class IlotController extends Controller
             'Construction_Acte'=> $request->input('Construction_Acte'),
             'Origine_Acte' => $request->input('Origine_Acte'),
         ]);
+        return view('dashboard.Ilots.select',compact('ilot'))->with('success', 'Ilot ajouté avec succès ! (ID : $idIlotAjoute)');
         // $ilot = Ilot::orderBy('id', 'DESC')->first();
-        return view('dashboard.batiment.create',compact('ilot'))->with('success', 'Ilot ajouté avec succès ! (ID : $idIlotAjoute)');
+        // return view('dashboard.batiment.create',compact('ilot'))->with('success', 'Ilot ajouté avec succès ! (ID : $idIlotAjoute)');
         // return redirect()->route('dashboard.batiments.create')->with('success', "Ilot ajouté avec succès ! (ID : $idIlotAjoute)");
         // Redirigez vers l'index avec un message de succès
         //return redirect()->route('ilots.index')->with('success', 'Ilot ajouté avec succès !');

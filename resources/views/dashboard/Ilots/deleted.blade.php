@@ -1,5 +1,3 @@
-{{-- deleteUserModal{{ $user->id }} --}}
-
 <div class="modal fade" id="deleteBienModal{{ $ilot->Num_ilot }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog " role="document">
