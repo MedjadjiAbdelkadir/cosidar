@@ -1,6 +1,31 @@
 @extends('layouts.admin.master')
 
 @section('content')
+<style>
+    .bordered-cell {
+        border: 2px solid black;
+       /* background-color: rgba(0, 0, 0, 0.1);  */
+        padding: 5px;
+    }
+
+    .table th, .table td {
+        padding: 0.1rem;
+        vertical-align: top;
+    /* border-top: 1px solid #e9ecef;*/
+    }
+    @media print {
+        .qr_code canvas {display: block !important;}
+        body {font-size: 12pt;}
+    }
+    .table {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+    table.border, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -9,33 +34,69 @@
                 <button class="btn btn-primary float-right" id="printInvoice" onclick="imprimerTableau()">Imprimer</button>
             </div>
             <div id="invoices" class="card-body">
-                <div style="overflow-y: auto; max-height: 700px; width: 100%; overflow-x: hidden;">
-                    <table class="table" id="tableToPrint">
+                <div >
+                    <table class="table" id="tableToPrint" >
                     <tbody>
-                        <tr style="text-align: center;">
-                            <th colspan="2">
+                        <tr class="border" style="text-align: center;">
+                            <th class="border" colspan="2">
                                 Université des sciences et technologie d’Oran USTO <br />
                                 TP GESTION DES PROPRIETAIRE
                             </th>
                         </tr>
-                        <tr style="text-align: center;">
-                            <th colspan="2">
+                        <tr class="border" style="text-align: center;">
+                            <th class="border" colspan="2">
                                 <img src="{{ asset('cosidar/logo.png') }}" width="190" alt="">
                             </th>
                         </tr>
-                        <tr style="text-align: center;">
-                            <th colspan="2">
-                                L’EVALUATION DES BIENS De CONSIDER NATIONAL PAR REGION :
+                        <tr class="border" style="text-align: center;">
+                            <th class="border" colspan="2">
+                                L’EVALUATION DES BIENS De CONSIDER NATIONAL PAR REGION : {{ $proprietaires->region }}
                             </th>
                         </tr>
-                        <td class="column left" >
-                            PAYE:
-                            @if ($ilot->proprietaire->paye_name)
-                                {{$ilot->proprietaire->paye_name }}
-                            @else
-                                il n'y a pas paye
-                            @endif
+                        <td colspan="2" class="bordered">
+                            <table width="100%">
+                                <tr>
+                                    <td class="border">
+                                        <div>
+                                            PAYE:
+                                            @if ($proprietaires->paye)
+                                                {{$proprietaires->paye }}
+                                            @else
+                                                il n'y a pas paye
+                                            @endif.
+                                        </div>
+                                    </td>
+                                    <td class="border" style="text-align: center;margin-left:30%;width:30%">
+                                        <div class="" >
+                                            <img src="{{ asset('qr_code/11.png') }}" width="100" alt="">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
+                        <table class="table table-striped border">
+                            <thead>
+                                <tr>
+                                    <th>Dénomination des biens</th>
+                                    <th>Superficie de Bien</th>
+                                    <th>Evaluation vénal </th>
+                                    <th>Evaluation locative</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($ilots as $ilot)
+                                <tr >
+                                    <td >
+                                        <p>{{ $ilot->proprietaire->Denomination_fr }}</p><br>
+                                        <p>{{ $ilot->Denom_Ilot }}, {{ $ilot->Utlisation }}, {{ $ilot->Localite }}, {{ $ilot->Ville }}, {{ $ilot->proprietaire->paye_name }}</p>
+                                    </td>
+                                    <td>{{ $ilot->il_surf_cadastree }}</td>
+                                    <td>{{ $ilot->mantVV }}</td>
+                                    <td>{{ $ilot->mantVL }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
 
                     </tbody>
                     </table>
@@ -55,13 +116,16 @@
 
 function imprimerTableau() {
     var table = document.getElementById("tableToPrint");
+    var button = document.getElementById("printInvoice");
+    button.style.display = 'none';
+
     var newWin = window.open('', 'Print-Window');
         newWin.document.open();
-        newWin.document.write('<html><head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"><style>@media print {.qr_code {display: block !important;} .bordered-cell {border: 2px solid black;padding: 5px;}}</style></head><body onload="window.print()">' + table.outerHTML + '</body></html>');
+        newWin.document.write('<html><head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"><style>@media print .bordered-cell {border: 2px solid black;padding: 5px;}}</style></head><body onload="window.print()">' + table.outerHTML + '</body></html>');
         newWin.document.close();
         setTimeout(function () {
             window.print();
-            // newWin.close();
+            newWin.close();
         }, 10);
 }
 

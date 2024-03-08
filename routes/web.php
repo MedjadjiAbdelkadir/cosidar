@@ -65,6 +65,11 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.'],function(){
 
     //  ? Router for Evaluation  Management
     Route::resource( '/evaluations', EvaluationController::class );
+    Route::group(['prefix' => 'evaluations', 'as' => 'evaluations.'], function () {
+        Route::get('/immeuble', [EvaluationController::class, 'immeuble']);
+        Route::get('/biens/consider', [EvaluationController::class, 'biensConsider'])->name('biens.consider');
+
+    });
 });
 
 Route::middleware(["auth"])->group(function() {

@@ -55,7 +55,7 @@ class Proprietaire extends Model
 
     public function tutelle()
     {
-        return $this->belongsTo(Tutelle::class, 'Tutelle', 'bi_natjur');
+        return $this->belongsTo(Tutelle::class, 'Tutelle', 'id');
     }
 
     public function statut()
