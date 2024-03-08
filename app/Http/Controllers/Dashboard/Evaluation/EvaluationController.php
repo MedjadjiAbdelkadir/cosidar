@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard\Evaluation;
 use App\Http\Controllers\Controller;
 use App\Models\Ilot;
 use App\Models\Pays;
+use App\Models\Proprietaire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -29,80 +30,53 @@ class EvaluationController extends Controller
                 ->paginate(PAGINATE_COUNT);
         }
 
-        $ilots = DB::table('dbo_personne')
-            ->join('dbo_ilot', 'dbo_personne.id', '=', 'dbo_ilot.proprietaire_id')
-            ->select('dbo_personne.*', 'dbo_ilot.*')
-            ->orWhere('dbo_personne.paye_name',$request->paysName)
-            ->orderBy('dbo_personne.id', 'desc')
-            ->paginate(PAGINATE_COUNT);
-
         return view('dashboard.Evaluation.index',compact('ilots','pays'));
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $ilot = Ilot::find($id);
-
-        return view('dashboard.Evaluation.etat-sortie', compact('ilot'));
+        return view('dashboard.Evaluation.etat-immeuble', compact('ilot'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function biensConsider(Request $request)
+    {
+        // dd($request->input('paye'));
+        $proprietaires = Proprietaire::where('paye_name', $request->input('paye'))->first();
+        $proprietaires->paye = $proprietaires->paye_name;
+        $proprietaires->region = $proprietaires->paye_region;
+        $proprietaireIds = Proprietaire::where('paye_name', $request->input('paye'))->pluck('id')->toArray();
+        $ilots = Ilot::whereIn('proprietaire_id',$proprietaireIds)->get();
+        // dd($proprietaires);
+        return view('dashboard.Evaluation.etat-sortie', compact('ilots','proprietaires'));
+    }
+    public function immeuble($id)
+    {
+        $ilot = Ilot::find($id);
+        return view('dashboard.Evaluation.etat-immeuble', compact('ilot'));
+    }
+
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

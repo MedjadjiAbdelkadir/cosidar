@@ -42,24 +42,16 @@
                             <td colspan="2" class="bordered">
                                 <table width="100%">
                                     <tr>
-
-
                                         <td class="column left " style="text-align: center;margin-left:10%;width:30%">
                                             <div class="bordered-cell" >
-                                            Ministère de Finance <br/> Direction génerale du domaine national
-                                        </div>
-
+                                                Ministère de Finance <br/> Direction génerale du domaine national
+                                            </div>
                                         </td>
-
-
                                         <td class="column right " style="text-align: center;margin-left:30%;width:30%">
                                             <div class="bordered-cell id_imm" >
-                                            Tableau général des immeubles du domaine national <br/> fiche d'identification d'immeuble
-                                        </div>
+                                                Tableau général des immeubles du domaine national <br/> fiche d'identification d'immeuble
+                                            </div>
                                         </td>
-
-
-
                                     </tr>
                                 </table>
                             </td>

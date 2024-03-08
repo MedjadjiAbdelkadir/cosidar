@@ -37,16 +37,13 @@ Evaluation des Biens
                                     @if (Request::get('paysName'))
                                         <option  selected>{{ Request::get('received') == '' ? Request::get('paysName') : '' }}</option>
                                     @else
-                                        <option selected>Select Pays</option>
+                                        <option value="" selected>Select Pays</option>
                                     @endif
                                     @foreach ($pays as $pay)
                                         <option value="{{ $pay->name }}"><img src='{{ asset($pay->flag_1x1) }}' class="flag-icon"> -  {{ $pay->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            {{-- <div class="form-group col-md-6 mt-1">
-                                <button type="submit" class="btn btn-primary text-white mt-4">Filter</button>
-                            </div> --}}
                         </div>
                     </form>
                 </div>
@@ -56,6 +53,15 @@ Evaluation des Biens
         <div class="card card-statistics ">
             <div class="card-body">
                 <div class="table-responsive">
+                    <form action="{{ route('dashboard.evaluations.biens.consider') }}" method="GET">
+                        @csrf
+                        <input type="text"hidden name="paye" value="{{ Request::get('paysName') }}">
+                        @if (!is_null(Request::get('paysName')))
+                            <div class="form-group col-md-6 mt-1">
+                                <button type="submit" class="btn btn-primary text-white mt-4">Imprimer</button>
+                            </div>
+                        @endif
+                    </form>
                     <table id="datatable-basic" class="table  table-hover table-sm table-bordered p-0" data-page-length="50" style="text-align: center">
                         <thead>
                             <tr>
@@ -106,7 +112,7 @@ Evaluation des Biens
             $("#paysName").focus();
             timer = setTimeout(function() {
                 submitForm();
-            }, 500);
+            }, 100);
             function submitForm() {
                 $("#FilterPaysForm").submit();
             }
