@@ -66,7 +66,7 @@
                             </td>
                             <td class="column right" style="padding-left:580px !important">
                                 Propriétaire: @if ($ilot->proprietaire)
-                                    {{ $ilot->proprietaire->Tutelle }}
+                                    {{ $ilot->proprietaire->tutelle->Intitule }}
                                 @else
                                     Aucun propriétaire trouvé
                                 @endif
@@ -105,7 +105,7 @@
                                 <table width="100%">
                                     <tr>
                                         <td>Statut:@if ($ilot->proprietaire)
-                                            {{ $ilot->proprietaire->Statut }}
+                                            {{ $ilot->proprietaire->statut->Intitule }}
                                             @else
                                                 Aucun propriétaire trouvé
                                             @endif
@@ -131,7 +131,7 @@
                             <table width="100%">
                                 <tr>
                                     <td>Affetctation:@if ($ilot->proprietaire)
-                                        {{ $ilot->proprietaire->Decision_affectation }}
+                                        {{ $ilot->proprietaire->deciaffect->Intitule_fr }}
                                         @else
                                             Aucun propriétaire trouvé
                                         @endif
@@ -158,7 +158,7 @@
                                     <tr >
                                         <td style="text-align: center;padding:5px">
                                             Création:@if ($ilot->proprietaire)
-                                            {{ $ilot->proprietaire->anx_text_creati }}
+                                            {{ $ilot->proprietaire->anx_text_creati->Intitule }}
                                             @else
                                                 Aucun propriétaire trouvé
                                             @endif
