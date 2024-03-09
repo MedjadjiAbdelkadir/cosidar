@@ -205,9 +205,10 @@ ORIGINE DES DROITS
                 {{-- Start create acte --}}
                 <h4> acte  d'ilot :</h4>
                 <div class="row">
+                   
                     <div class="form-group col-md-6">
                         <label for="date_pub" class="mr-sm-2">Date de publication :</label>
-                        <input type="date" class="form-control" value="{{ $ReferenceActe->date_pub }}" disabled >
+                        <input type="date" class="form-control" value="{{ $ReferenceActe->date_pub  }}" disabled >
                     </div>
                     <div class="form-group col-md-6">
                         <label for="nature_acte" class="mr-sm-2">Nature d'acte :</label>

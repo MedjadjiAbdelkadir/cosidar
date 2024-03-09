@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard\Fournisseur;
 use App\Models\Fournisseur;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Inventaire;
 
 class FournisseurController extends Controller
 {
@@ -24,10 +25,11 @@ class FournisseurController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $inventaire_id =  $request->query('inventaire') ? $request->query('inventaire') : ''; 
-        return view('dashboard.fournisseur.create',compact('inventaire_id'));
+        $inventaires = Inventaire::get();
+        // $inventaire_id =  $request->query('inventaire') ? $request->query('inventaire') : ''; 
+        return view('dashboard.fournisseur.create',compact('inventaires'));
     }
 
     /**
