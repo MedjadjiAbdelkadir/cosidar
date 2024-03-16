@@ -13,6 +13,9 @@
                         </a>
                     </li>
                     <li>
+                        <span class="right-nav-text h4">---- Production ----</span>
+                    </li>
+                    <li>
                         <a href="{{ route('dashboard.proprietaires.index') }}">
                             <i class="fa fa-users" aria-hidden="true"></i>
                             <span class="right-nav-text">Proprietaires</span>
@@ -40,6 +43,21 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('dashboard.locaux.index') }}">
+                            <i class="fa fa-archive" aria-hidden="true"></i>
+                            <span class="right-nav-text">Locaux</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('dashboard.actes.index') }}">
+                            <i class="ti-comments"></i>
+                            <span class="right-nav-text">Réference Actes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <span class="right-nav-text h4">---- Inventaire ----</span>
+                    </li>
+                    <li>
                         <a href="{{ route('dashboard.inventaires.index') }}">
                             <i class="ti-comments"></i>
                             <span class="right-nav-text">Inventaires</span>
@@ -59,9 +77,13 @@
                     </li>
 
                     <li>
-                        <a href="{{ route('dashboard.locaux.index') }}">
-                            <i class="fa fa-archive" aria-hidden="true"></i>
-                            <span class="right-nav-text">Locaux</span>
+                        <span class="right-nav-text h4">--- Consultation ---</span>
+                    </li>
+                    
+                    <li>
+                        <a href="{{ route('dashboard.ilots.details') }}">
+                            <i class="ti-comments"></i>
+                            <span class="right-nav-text">Identification Détaillées</span>
                         </a>
                     </li>
                     <li>
@@ -70,28 +92,12 @@
                             <span class="right-nav-text">Etat Inventaire</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('dashboard.actes.index') }}">
-                            <i class="ti-comments"></i>
-                            <span class="right-nav-text">Réference Actes</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('dashboard.ilots.details') }}">
-                            <i class="ti-comments"></i>
-                            <span class="right-nav-text">Identification Détaillées</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="chat-page.html">
-                            <i class="fa fa-cog" aria-hidden="true"></i>
-                            <span class="right-nav-text">Settings</span>
-                        </a>
-                    </li>
+
+
                     <li>
                         <a href="{{ route('dashboard.ilots.activityUsers') }}">
                             <i class="fa fa-area-chart" aria-hidden="true"></i>
-                            <span class="right-nav-text">Bilan</span>
+                            <span class="right-nav-text">Bilan du Production</span>
                         </a>
                     </li>
                     <li>
@@ -102,17 +108,22 @@
                     </li>
                     <li>
                         <a href="chat-page.html">
-                            <i class="ti-comments"></i>
-                            <span class="right-nav-text">Acquisition/Echange/Donation</span>
+                            <i class="fa fa-cog" aria-hidden="true"></i>
+                            <span class="right-nav-text">Consultation M à J</span>
                         </a>
                     </li>
                     <li>
-                        <a href="chat-page.html">
+                        <span class="right-nav-text h4">--- Mise à Jour ---</span>
+                    </li>
+                    <li>
+                        <a href="{{ route('dashboard.ilots-archive.index') }}">
                             <i class="ti-comments"></i>
-                            <span class="right-nav-text">Mutation Partielle</span>
+                            <span class="right-nav-text">Mutation Globale</span>
+                            {{-- <span class="right-nav-text">Acquisition/Echange/Donation</span> --}}
+                            
+
                         </a>
                     </li>
-
                 </ul>
             </div>
         </div>

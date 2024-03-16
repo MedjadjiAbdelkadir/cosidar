@@ -16,6 +16,7 @@ use App\Http\Controllers\Dashboard\Batiment\BatimentController;
 use App\Http\Controllers\Dashboard\Evaluation\EvaluationController;
 use App\Http\Controllers\Dashboard\Inventaire\InventaireController;
 use App\Http\Controllers\Dashboard\Fournisseur\FournisseurController;
+use App\Http\Controllers\Dashboard\IlotsArchive\IlotsArchiveController;
 use App\Http\Controllers\Dashboard\Proprietaire\ProprietaireController;
 use App\Http\Controllers\Dashboard\EtatInventaire\EtatInventaireController;
 
@@ -47,7 +48,6 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.'],function(){
         Route::put('/ilot/update/{id}', [IlotController::class, 'updated'])->name('updated');
         Route::get('/{user_id}/getIliotsByIdUser', [IlotController::class, 'getIliotsByIdUser'])->name('');
         Route::get('/{Num_ilot}/getChildreenOfIlot', [IlotController::class, 'getChildreenOfIlot'])->name('');
-        Route::get('/activity-users', [IlotController::class, 'activity_users'])->name('activityUsers');
         Route::post('/update-validation/{ilot}',[IlotController::class, 'updateValidation'])->name('updateValidation');
         Route::post('/filter/activity', [IlotController::class, 'filterActivityByDate'])->name('filterActivityByDate');
         Route::get('/vue-generale/{Num_ilot}',[IlotController::class, 'vueGenerale'])->name('vuegenerale');
@@ -55,7 +55,8 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.'],function(){
         Route::get('/vue/identification/{Num_ilot}', [IlotController::class, 'get_full_detail_ilot'])->name('vueidentification');
         // Route::get('/create', [IlotController::class, 'create'])->name();
     });
-
+    Route::get('activity-users', [IlotController::class, 'activity_users'])->name('ilots.activityUsers');
+    
     Route::get('details', [IlotController::class, 'details'])->name('ilots.details');
     Route::get('/proprietaire/pays/{pays}', [IlotController::class, 'getIlotsByPays'])->name('ilots.proprietaireby_country');
 
@@ -152,6 +153,12 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
     Route::resource('articles', ArticleController::class);
 
     Route::resource('etats', EtatInventaireController::class);
+
+    Route::resource('ilots-archive', IlotsArchiveController::class);
+
+    Route::post('/ilots-archive/search', [IlotsArchiveController::class, 'getIlotByProprietaireId'])->name('ilots-archive.search');
+    // 
+    // MutationGlobale
 
 });
 

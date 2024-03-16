@@ -216,10 +216,12 @@ class IlotController extends Controller
             ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom')
             ->first();
 
-        $ReferenceActe = ReferenceActe::where('Num_ilot',$Num_ilot)->first();
+       
+        // $ReferenceActe = ReferenceActe::where('Num_ilot',$Num_ilot)->first();
 
 
-        return view('dashboard.ilots.show', compact('ilot', 'ReferenceActe'));
+        // dd($ilot);
+        // return view('dashboard.ilots.show', compact('ilot', 'ReferenceActe'));
     }
 
     public function edit($ilot_Num)
@@ -799,8 +801,7 @@ class IlotController extends Controller
             ->select('users.id as user_id', 'users.name as user_name', 'users.role as user_role', DB::raw('COUNT(dbo_ilot.id) as activity_count'))
             ->groupBy('users.id', 'users.name', 'users.role')
             ->paginate(PAGINATE_COUNT);
-
-        return view('dashboard.Bilan.index', ['activityUsers' => $activityUsers]);
+        return view('dashboard.Bilan.index',compact('activityUsers'));
     }
 
     public function filterActivityByDate(Request $request)
