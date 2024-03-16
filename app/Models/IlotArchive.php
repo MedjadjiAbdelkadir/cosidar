@@ -13,15 +13,15 @@ use App\Models\ReferenceActe;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Ilot extends Model
+class IlotArchive extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
-    protected $table = 'dbo_ilot';
-
+    protected $table = 'ilotarchive';
     protected $fillable = [
         'proprietaire_id',
+        'nature_opération',
         'Num_ilot',
         'N_ilot',
         'Denom_Ilot',
@@ -74,10 +74,19 @@ class Ilot extends Model
         'mantVL',
         'validation',
         'created_by',
-        'notes'
+
+        'datearchive'
     ];
 
 
+
+    public function proprietaire()
+    {
+        return $this->belongsTo(Proprietaire::class, 'proprietaire_id', 'id');
+    }
+
+
+    
     public function inventaires()
     {
         return $this->hasMany(Inventaire::class, 'num_ilot', 'id');
@@ -90,14 +99,6 @@ class Ilot extends Model
     }
 
 
-    public function proprietaire()
-    {
-        return $this->belongsTo(Proprietaire::class, 'proprietaire_id', 'id');
-    }
-    public function customer()
-    {
-        return $this->belongsTo(Customer::class, 'customer_id', 'id');
-    }
 
     // public function proprietaire()
     // {

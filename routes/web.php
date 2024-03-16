@@ -16,6 +16,7 @@ use App\Http\Controllers\Dashboard\Batiment\BatimentController;
 use App\Http\Controllers\Dashboard\Evaluation\EvaluationController;
 use App\Http\Controllers\Dashboard\Inventaire\InventaireController;
 use App\Http\Controllers\Dashboard\Fournisseur\FournisseurController;
+use App\Http\Controllers\Dashboard\IlotsArchive\IlotsArchiveController;
 use App\Http\Controllers\Dashboard\Proprietaire\ProprietaireController;
 use App\Http\Controllers\Dashboard\EtatInventaire\EtatInventaireController;
 
@@ -151,6 +152,12 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
     Route::resource('articles', ArticleController::class);
 
     Route::resource('etats', EtatInventaireController::class);
+
+    Route::resource('ilots-archive', IlotsArchiveController::class);
+
+    Route::post('/ilots-archive/search', [IlotsArchiveController::class, 'getIlotByProprietaireId'])->name('ilots-archive.search');
+    // 
+    // MutationGlobale
 
 });
 

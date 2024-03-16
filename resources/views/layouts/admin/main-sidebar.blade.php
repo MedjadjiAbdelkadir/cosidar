@@ -116,7 +116,7 @@
                         <span class="right-nav-text h4">--- Mise à Jour ---</span>
                     </li>
                     <li>
-                        <a href="chat-page.html">
+                        <a href="{{ route('dashboard.ilots-archive.index') }}">
                             <i class="ti-comments"></i>
                             <span class="right-nav-text">Mutation Globale</span>
                             {{-- <span class="right-nav-text">Acquisition/Echange/Donation</span> --}}

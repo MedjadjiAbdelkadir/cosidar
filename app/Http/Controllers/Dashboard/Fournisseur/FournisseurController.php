@@ -16,7 +16,7 @@ class FournisseurController extends Controller
      */
     public function index()
     {
-        $fournisseurs = Fournisseur::with('inventaire')->paginate(PAGINATE_COUNT);;
+        $fournisseurs = Fournisseur::with('inventaire')->paginate(PAGINATE_COUNT);
         return view('dashboard.fournisseur.index', compact('fournisseurs'));
     }
 
