@@ -88,10 +88,8 @@ LISTE DES ILOTS
                                 @endif
                                 <td>
                                     @if (auth()->user()->role == 'admin_direction' || auth()->user()->role == 'admin_sous_direction')
-                                        <button type="button" class="btn btn-sm btn-dark addNote" data-toggle="modal" data-target="#PrintBienModal{{ $ilot->Num_ilot }}" data-id="{{$ilot->Num_ilot}}">
-                                            <i class="fa fa-print" aria-hidden="true"></i>
-                                        </button>
-                                        <a class="btn btn-info btn-sm" href="{{ route('dashboard.ilots.show' , $ilot->Num_ilot) }}">
+
+                                    <a class="btn btn-info btn-sm" href="{{ route('dashboard.ilots.show' , $ilot->Num_ilot) }}">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                         <button type="button" class="btn btn-sm btn-outline-secondary addNote" data-toggle="modal" data-target="#noteBienModal{{ $ilot->id }}" data-id="{{$ilot->id}}">
