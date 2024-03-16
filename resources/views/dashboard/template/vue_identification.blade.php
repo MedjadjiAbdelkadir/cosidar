@@ -119,14 +119,14 @@
                                                     <tr>
                                                         <td>
                                                             Décision d'affectation :@if ($ilot->proprietaire)
-                                                                {{ $ilot->proprietaire->deciaffect->Intitule_fr }}
+                                                                {{ $ilot->proprietaire->deciaffect?->Intitule_fr }}
                                                             @else
                                                                 Aucun propriétaire trouvé
                                                             @endif
                                                         </td>
                                                         <td>
                                                             N° :@if ($ilot->proprietaire)
-                                                                {{ $ilot->proprietaire->deciaffect->Deci_Af }}
+                                                                {{ $ilot->proprietaire->deciaffect?->Deci_Af }}
                                                             @else
                                                                 Aucun propriétaire trouvé
                                                             @endif

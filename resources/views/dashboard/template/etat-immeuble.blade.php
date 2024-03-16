@@ -153,15 +153,15 @@
                             <p><strong>Denomination_fr: </strong>{{ $ilot->proprietaire->Denomination_fr  }}</p>
                         </div>
                         <div class="mb-3">
-                            <p><strong>Statut: </strong>{{ $ilot->proprietaire->statut->Intitule  }}</p>
-                            <p><strong>Tutelle: </strong>{{ $ilot->proprietaire->tutelle->Intitule  }}</p>
+                            <p><strong>Statut: </strong>{{ $ilot->proprietaire->statut?->Intitule  }}</p>
+                            <p><strong>Tutelle: </strong>{{ $ilot->proprietaire->tutelle?->Intitule  }}</p>
                         </div>
                         <div class="mb-3">
-                            <p><strong>txt_creation: </strong>{{ $ilot->proprietaire->anx_text_creati->Intitule  }}</p>
+                            <p><strong>txt_creation: </strong>{{ $ilot->proprietaire->anx_text_creati?->Intitule  }}</p>
                             <p><strong>Date_txt_creation: </strong>{{ $ilot->proprietaire->Date_txt_creation  }}</p>
                         </div>
                         <div class="mb-3">
-                            <p><strong>Decision_affectation: </strong>{{ $ilot->proprietaire->deciaffect->Intitule_fr  }}</p>
+                            <p><strong>Decision_affectation: </strong>{{ $ilot->proprietaire->deciaffect?->Intitule_fr  }}</p>
                             <p><strong>Num_Decision_affectation: </strong>{{ $ilot->proprietaire->Num_Decision_affectation	  }}</p>
                             <p><strong>Date_Decision_affectation: </strong>{{ $ilot->proprietaire->Date_Decision_affectation  }}</p>
                         </div>

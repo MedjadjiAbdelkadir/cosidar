@@ -137,7 +137,7 @@
                             <table width="100%">
                                 <tr>
                                     <td>Affetctation:@if ($ilot->proprietaire)
-                                        {{ $ilot->proprietaire->deciaffect->Intitule_fr }}
+                                        {{ $ilot->proprietaire->deciaffect?->Intitule_fr }}
                                         @else
                                             Aucun propriétaire trouvé
                                         @endif
