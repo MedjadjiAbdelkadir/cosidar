@@ -55,7 +55,7 @@
                                         AUTRE
                                         @break
                                     @default
-                                    Inconnu 
+                                    Inconnu
                                 @endswitch
                             </p>
                             <p><strong>Utlisation: </strong>{{ $ilot->Utlisation  }}</p>
@@ -167,6 +167,11 @@
                         </div>
                         </td>
                     </table>
+                    <tr>
+                        <th class="border" >
+                            <img src="{{ asset('qr_code/11.png') }}" width="180" alt="">
+                        </th>
+                    </tr>
                 </div>
             </div>
             </div>

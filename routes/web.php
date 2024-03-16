@@ -52,6 +52,7 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.'],function(){
         Route::post('/filter/activity', [IlotController::class, 'filterActivityByDate'])->name('filterActivityByDate');
         Route::get('/vue-generale/{Num_ilot}',[IlotController::class, 'vueGenerale'])->name('vuegenerale');
         Route::post('/added/note', [IlotController::class, 'addNoteIlot'])->name('notes');
+        Route::get('/vue/identification/{Num_ilot}', [IlotController::class, 'get_full_detail_ilot'])->name('vueidentification');
         // Route::get('/create', [IlotController::class, 'create'])->name();
     });
 

@@ -198,7 +198,10 @@ ORIGINE DES DROITS
 
                     @if ($ilot->image)
                         <div class="d-flex justify-content-center mx-auto">
-                            <img src="{{ asset($ilot->image) }}" alt="" width="250px"/>
+                            <button type="button" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#imageModal{{ $ilot->Num_ilot }}">
+                                <img src="{{ asset($ilot->image) }}" alt="" width="250px"/>
+                            </button>
+                            @include("dashboard.Ilots.imageModel")
                         </div>
                     @endif
                 </div>

@@ -88,7 +88,7 @@ class IlotController extends Controller
             'Age' => '',
             'Num_Entretien' => '',
             'intit_Entretien' => '',
-        // 'Origine_Acte' => '',
+            // 'Origine_Acte' => '',
             'type_enquete' => '',
             'Observation_enqueteur' => '',
             'date_Enquete' => '',
@@ -487,7 +487,7 @@ class IlotController extends Controller
         // dd("yes ...") ;
 
         $proprietaires = Proprietaire::with('ilot')->where('paye_name',$pays)
-                       ->paginate(PAGINATE_COUNT);
+                        ->paginate(PAGINATE_COUNT);
 
         // dd($proprietaires->ili);
         // dd($proprietaire);
@@ -631,27 +631,6 @@ class IlotController extends Controller
     public function get_full_detail_ilot($Num_ilot)
     {
         //? Récupérez les données de l'ilot comme vous l'avez fait dans la méthode "show"
-        // $ilot = Ilot::with('proprietaire.tutelle', 'acteReference', 'batiments.locaux', 'proprietaire.statut', 'proprietaire.deciaffect', 'proprietaire.anx_text_creati')
-        //     ->join('dbo_anx_nature_imm', 'dbo_ilot.Nature', '=', 'dbo_anx_nature_imm.Num_Nat_imm')
-        //     ->join('dbo_anx_entretien', 'dbo_anx_entretien.num_Lv', '=', 'dbo_ilot.intit_Entretien')
-        //     ->where('dbo_ilot.Num_ilot', $Num_ilot)
-        //     ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom', 'dbo_anx_entretien.intitule as entretien_intitule')
-        //     ->first();
-
-        // $ilot = Ilot::with('proprietaire.tutelle', 'acteReference', 'batiments.locaux', 'proprietaire.statut', 'proprietaire.deciaffect', 'proprietaire.anx_text_creati')
-        // ->join('dbo_anx_nature_imm', 'dbo_ilot.Nature', '=', 'dbo_anx_nature_imm.Num_Nat_imm')
-        // ->join('dbo_anx_entretien', 'dbo_anx_entretien.num_Lv', '=', 'dbo_ilot.intit_Entretien')
-        // ->where('dbo_ilot.Num_ilot', $Num_ilot)
-        // ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom', 'dbo_anx_entretien.intitule as entretien_intitule')
-        // ->first();
-
-        // $ilot = Ilot::with('proprietaire.tutelle', 'acteReference', 'batiments.locaux', 'proprietaire.statut', 'proprietaire.deciaffect', 'proprietaire.anx_text_creati')
-        // ->join('dbo_anx_nature_imm', 'dbo_ilot.Nature', '=', 'dbo_anx_nature_imm.Num_Nat_imm')
-        // ->join('dbo_anx_entretien', 'dbo_anx_entretien.num_Lv', '=', 'dbo_ilot.intit_Entretien')
-        // ->where('dbo_ilot.Num_ilot', $Num_ilot)
-        // ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom', 'dbo_anx_entretien.intitule as entretien_intitule')
-        // ->first();
-
         $ilot = Ilot::with('proprietaire','anx_nature_imm','anx_entretien','acteReference', 'batiments.locaux')
         ->join('dbo_anx_nature_imm', 'dbo_ilot.Nature', '=', 'dbo_anx_nature_imm.Num_Nat_imm')
         ->join('dbo_anx_entretien', 'dbo_anx_entretien.num_Lv', '=', 'dbo_ilot.intit_Entretien')
@@ -660,6 +639,7 @@ class IlotController extends Controller
         ->first();
         // $ilot = Ilot::find($Num_ilot);
         // return response()->json($ilot);
+        // dd( $ilot);
 
         if (!$ilot) {
             return redirect()->back()->with('error', __('Ilot not found.'));
@@ -757,20 +737,19 @@ class IlotController extends Controller
 
         $outputPath = public_path('qr_code/' . $ilot->Num_ilot . '.png');
 
-        $renderer = new ImageRenderer(
-            new RendererStyle(400),
-            new ImagickImageBackEnd()
-        );
+        // $renderer = new ImageRenderer(
+        //     new RendererStyle(400),
+        //     new ImagickImageBackEnd()
+        // );
 
-        $writer = new Writer($renderer, $options);
+        // $writer = new Writer($renderer, $options);
         $outputPath = public_path('qr_code/' . $ilot->Num_ilot . '.png');
 
-        $writer->writeFile($ilot->Num_ilot, $outputPath);
+        // $writer->writeFile($ilot->Num_ilot, $outputPath);
 
         $data = [
             'ilot' => $ilot,
-            //'pays' => $pays,
-            /*'sup_SDHO_total' => $sup_SDHO_total,
+            'sup_SDHO_total' => $sup_SDHO_total,
             'sup_assiette' => $sup_assiette,
             'nonRenseigneCount' => $nonRenseigneCount,
             'bureauxCount' => $bureauxCount,
@@ -797,10 +776,20 @@ class IlotController extends Controller
             'garagesPieces' => $garagesPieces,
             'usagesDiversPieces' => $usagesDiversPieces,
             'totalPieces' => $totalPieces,
-            'totalSurface' => $totalSurface*/
+            'totalSurface' => $totalSurface
         ];
 
-        return response()->json($data);
+        // return view('dashboard.template.vue_identification', $data);
+        return view('dashboard.template.vue_identification', compact(
+            'ilot', 'sup_SDHO_total', 'sup_assiette',
+            'nonRenseigneCount', 'bureauxCount', 'sallesArchivesCount', 'locauxHabitationsCount',
+            'locauxCulturelsCount', 'enseignementCount', 'garagesCount', 'usagesDiversCount',
+            'nonRenseigneSurface', 'bureauxSurface', 'sallesArchivesSurface', 'locauxHabitationsSurface',
+            'locauxCulturelsSurface', 'enseignementSurface', 'garagesSurface', 'usagesDiversSurface',
+            'nonRenseignePieces', 'bureauxPieces', 'sallesArchivesPieces', 'locauxHabitationsPieces',
+            'locauxCulturelsPieces', 'enseignementPieces', 'garagesPieces', 'usagesDiversPieces',
+            'totalPieces', 'totalSurface'
+        ));
     }
 
     public function activity_users()

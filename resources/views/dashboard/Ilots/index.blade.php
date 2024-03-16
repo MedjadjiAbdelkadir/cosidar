@@ -95,6 +95,9 @@ LISTE DES ILOTS
                                             <i class="fa fa-sticky-note"></i>
                                         </button>
                                     @else
+                                        <button type="button" class="btn btn-sm btn-dark addNote" data-toggle="modal" data-target="#PrintBienModal{{ $ilot->Num_ilot }}" data-id="{{$ilot->Num_ilot}}">
+                                            <i class="fa fa-print" aria-hidden="true"></i>
+                                        </button>
                                         <a class="btn btn-info btn-sm" href="{{ route('dashboard.ilots.show' , $ilot->Num_ilot) }}">
                                             <i class="fa fa-eye"></i>
                                         </a>
@@ -114,6 +117,7 @@ LISTE DES ILOTS
                             </tr>
                             @include('dashboard.Ilots.deleted')
                             @include('dashboard.Ilots.notes')
+                            @include('dashboard.Ilots.printModel')
                             {{-- @include('dashboard.Ilots.show') --}}
                             @endforeach
 
