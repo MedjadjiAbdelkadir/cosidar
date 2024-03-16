@@ -65,7 +65,7 @@ class Proprietaire extends Model
 
     public function deciaffect()
     {
-        return $this->belongsTo(Deciaffect::class, 'Decision_affectation', 'Deci_Af');
+        return $this->belongsTo(Deciaffect::class, 'Decision_affectation', 'id');
     }
 
     public function anx_text_creati()
