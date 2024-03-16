@@ -59,12 +59,12 @@ class EvaluationController extends Controller
         $proprietaireIds = Proprietaire::where('paye_name', $request->input('paye'))->pluck('id')->toArray();
         $ilots = Ilot::whereIn('proprietaire_id',$proprietaireIds)->get();
         // dd($proprietaires);
-        return view('dashboard.Evaluation.etat-sortie', compact('ilots','proprietaires'));
+        return view('dashboard.template.etat-sortie', compact('ilots','proprietaires'));
     }
     public function immeuble($id)
     {
         $ilot = Ilot::find($id);
-        return view('dashboard.Evaluation.etat-immeuble', compact('ilot'));
+        return view('dashboard.template.etat-immeuble', compact('ilot'));
     }
 
     public function edit($id)

@@ -21,6 +21,12 @@
         max-width: 100%;
         overflow-x: auto;
     }
+    .overflow{
+        overflow-y: auto;
+        max-height: 1000px;
+        width: 100%;
+        overflow-x: hidden;
+    }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -29,10 +35,10 @@
         <div class="col-md-12">
             <div class="card" style="width: 100%;margin-left:0%">
             <div class="card-header">
-                <button class="btn btn-primary float-right" id="printInvoice" onclick="imprimerTableau()">Imprimer</button>
+                <button class="btn btn-primary float-right" id="printButton" onclick="imprimerTableau()">Imprimer</button>
             </div>
             <div id="invoices" class="card-body">
-                <div style="overflow-y: auto; max-height: 700px; width: 100%; overflow-x: hidden;">
+                <div id="invoiceContent" class="overflow">
                     <table class="table" id="tableToPrint">
                     <tbody>
                         <tr style="text-align: center;">
@@ -511,17 +517,27 @@
 
 <script>
 
-function imprimerTableau() {
-    var table = document.getElementById("tableToPrint");
-    var newWin = window.open('', 'Print-Window');
-        newWin.document.open();
-        newWin.document.write('<html><head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"><style>@media print {.qr_code {display: block !important;} .bordered-cell {border: 2px solid black;padding: 5px;}}</style></head><body onload="window.print()">' + table.outerHTML + '</body></html>');
-        newWin.document.close();
-        setTimeout(function () {
-            window.print();
-            // newWin.close();
-        }, 10);
-}
+    const printButton = document.getElementById('printButton');
+    const invoiceContent = document.getElementById('invoiceContent');
+
+    printButton.addEventListener('click', () => {
+        printButton.style.display = 'none'; // hide the button while printing
+        invoiceContent.classList.remove('overflow');
+        invoiceContent.focus(); // Focus the invoice content for proper formatting
+        window.print();
+    });
+
+// function imprimerTableau() {
+//     var table = document.getElementById("tableToPrint");
+//     var newWin = window.open('', 'Print-Window');
+//         newWin.document.open();
+//         newWin.document.write('<html><head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"><style>@media print {.qr_code {display: block !important;} .bordered-cell {border: 2px solid black;padding: 5px;}}</style></head><body onload="window.print()">' + table.outerHTML + '</body></html>');
+//         newWin.document.close();
+//         setTimeout(function () {
+//             window.print();
+//             // newWin.close();
+//         }, 10);
+// }
 
 </script>
 
