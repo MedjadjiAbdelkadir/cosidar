@@ -30,7 +30,7 @@
         <div class="card card-statistics h-100">
             <div class="card-body">
                 <form id="addArchiveIlot" action="{{ route('dashboard.ilots-archive.store') }}" method="POST"
-                    enctype="multipart/form-data" >
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="form-group col-md-5">
@@ -161,10 +161,7 @@
                             <input type="text" class="form-control" name="case" placeholder="enter Case11">
                         </div>
                     </div>
-{{-- 
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Ajoter</button>
-                    </div> --}}
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" data-toggle="modal"
                             data-target="#AcceptArchive">
@@ -183,7 +180,34 @@
 <script>
     $(document).ready(function() {
         // addArchiveIlot
-        $('#accept').on('click', function(){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $('#proprietaire').on('change', function() {
+            var id = $('#proprietaire').val();
+
+            $.ajax({
+
+                url: '{{ route('dashboard.ilots-archive.search') }}',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    id: id
+                },
+                success: function(response) {
+                    // console.log(response);
+                    $('#ilot').empty();
+                    $.each(response, function(key, value) {
+                        // console.log("value" ,value.id);
+                        $('#ilot').append('<option value="' + value.id + '">' +
+                            value.Denom_Ilot + '</option>');
+                    });
+                }
+            })
+        })
+        $('#accept').on('click', function() {
             $('#addArchiveIlot').submit();
         });
     });
