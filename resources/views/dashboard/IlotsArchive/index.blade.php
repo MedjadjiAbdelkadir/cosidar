@@ -81,11 +81,6 @@
                                         <a class="btn btn-info btn-sm" href="{{ route('dashboard.ilots.show' , $ilot->Num_ilot) }}">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        @if (!is_null($ilot->notes))
-                                            <button type="button" class="btn btn-sm btn-outline-secondary addNote" data-toggle="modal" data-target="#noteBienModal{{ $ilot->id }}" data-id="{{$ilot->id}}">
-                                                <i class="fa fa-sticky-note"></i>
-                                            </button>
-                                        @endif
                                         <button type="button" class="btn btn-sm btn-danger delete_batiment" data-toggle="modal" data-target="#deleteBienModal{{ $ilot->Num_ilot }}" data-id="{{$ilot->Num_ilot}}">
                                             <i class="fa fa-trash"></i>
                                         </button>
