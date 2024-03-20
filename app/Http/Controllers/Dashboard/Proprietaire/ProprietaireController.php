@@ -230,7 +230,7 @@ class ProprietaireController extends Controller
 
         ->where('dbo_personne.pe_num', $Num_proprietaire)
         ->first();
-
+        $proprietaire = Proprietaire::wherePeNum($Num_proprietaire)->first();
         return view('dashboard.proprietaire.show', compact('proprietaire'));
     }
 
