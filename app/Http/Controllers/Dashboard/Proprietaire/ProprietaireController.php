@@ -27,7 +27,7 @@ class ProprietaireController extends Controller
     {
         $proprietaires = Proprietaire::with('tutelle','statut','deciaffect', 'anx_text_creati')->paginate(PAGINATE_COUNT);
 
-        
+
         // dd($proprietaires);
 
         // $proprietaires =  DB::table('dbo_personne')
@@ -39,8 +39,8 @@ class ProprietaireController extends Controller
         // ->select('dbo_personne.*', 'dbo_anx_statut.intitule as anx_statut_intitule','dbo_anx_statut.bi_natjur as anx_statut_id', 'dbo_deciaffect.intitule_fr as deciaffect_intitule' , 'dbo_anx_tutelle.intitule as tutelle_intitule' ,'dbo_anx_tutelle.intitule as tutelle_intitule_id' , 'dbo_anx_text_creati.intitule as text_creati_intitule', 'dbo_anx_text_creati.intitule as text_creati_intitule_id')
         // ->paginate(PAGINATE_COUNT);
 
-        
- 
+
+
         // dd( $proprietaire);
         // $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
         // $deciaffect = Deciaffect::pluck('Intitule_fr','Deci_Af' );
@@ -53,7 +53,7 @@ class ProprietaireController extends Controller
         $anx_tutelle = AnxTutelle::get();
         $anx_text_creati = AnxTextCreati::get();
 
-        
+
 
         // dd( $anx_statut);
 
@@ -295,7 +295,7 @@ class ProprietaireController extends Controller
         ]);
 
         $proprietaire = Proprietaire::where('pe_num', $request->id)->first();
-        
+
 
         // $proprietaire->Num_ilot = $request->input('Num_ilot');
         $proprietaire->Denomination_fr = $request->input('Denomination_fr');

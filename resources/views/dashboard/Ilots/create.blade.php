@@ -225,7 +225,7 @@ LISTE DES ILOTS
                         </div>
                         <div class="form-group col-md-6">
                             <label for="volume1" class="mr-sm-2">Volume :</label>
-                            <input type="text" class="form-control" name="volume" placeholder="enter Volume">
+                            <input type="text" class="form-control" name="volume1" placeholder="enter Volume">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="Construction_Acte" class="mr-sm-2">Construction d'acte :</label>

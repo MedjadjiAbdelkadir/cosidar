@@ -216,7 +216,7 @@ class IlotController extends Controller
             ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom')
             ->first();
 
-       
+
         // $ReferenceActe = ReferenceActe::where('Num_ilot',$Num_ilot)->first();
 
 
@@ -781,7 +781,7 @@ class IlotController extends Controller
             'totalSurface' => $totalSurface
         ];
 
-        // return view('dashboard.template.vue_identification', $data);
+        // return view('dashboard.template.etat-sortie', $data);
         return view('dashboard.template.vue_identification', compact(
             'ilot', 'sup_SDHO_total', 'sup_assiette',
             'nonRenseigneCount', 'bureauxCount', 'sallesArchivesCount', 'locauxHabitationsCount',

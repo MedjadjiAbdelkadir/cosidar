@@ -47,13 +47,16 @@ class EvaluationController extends Controller
     public function show($id)
     {
         $ilot = Ilot::find($id);
-        return view('dashboard.Evaluation.etat-immeuble', compact('ilot'));
+        return view('dashboard.template.etat-immeuble', compact('ilot'));
     }
 
     public function biensConsider(Request $request)
     {
         // dd($request->input('paye'));
         $proprietaires = Proprietaire::where('paye_name', $request->input('paye'))->first();
+        if (!$proprietaires) {
+            return redirect()->back()->with(['error' => 'Ce propriétaire n\'existe pas paye']);
+        }
         $proprietaires->paye = $proprietaires->paye_name;
         $proprietaires->region = $proprietaires->paye_region;
         $proprietaireIds = Proprietaire::where('paye_name', $request->input('paye'))->pluck('id')->toArray();
@@ -63,7 +66,7 @@ class EvaluationController extends Controller
     }
     public function immeuble($id)
     {
-        $ilot = Ilot::find($id);
+        // $ilot = Ilot::find($id);
         return view('dashboard.template.etat-immeuble', compact('ilot'));
     }
 

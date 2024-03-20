@@ -19,6 +19,7 @@ use App\Http\Controllers\Dashboard\Fournisseur\FournisseurController;
 use App\Http\Controllers\Dashboard\IlotsArchive\IlotsArchiveController;
 use App\Http\Controllers\Dashboard\Proprietaire\ProprietaireController;
 use App\Http\Controllers\Dashboard\EtatInventaire\EtatInventaireController;
+use App\Http\Controllers\dashboard\PdfExportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,10 +37,15 @@ define('PAGINATE_COUNT',7);
 Auth::routes();
 // ? Router for home pages starting
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/template', [HomeController::class, 'template']);
-// * end
-Route::group(['prefix' => 'dashboard','as' => 'dashboard.'],function(){
 
+Route::middleware(["auth"])->group(function() {
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+});
+
+Route::get('/template', [HomeController::class, 'template']);
+Route::get('/export-pdf', [PdfExportController::class, 'exportPDF'])->name('export.pdf');
+// * end
+Route::group(['prefix' => 'dashboard','as' => 'dashboard.', 'middleware' => ['auth']],function(){
     // ? Router for Ilots Management
     // Route::resource('ilots', IlotController::class)->only('show');
     Route::resource('/ilots', IlotController::class);
@@ -56,7 +62,7 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.'],function(){
         // Route::get('/create', [IlotController::class, 'create'])->name();
     });
     Route::get('activity-users', [IlotController::class, 'activity_users'])->name('ilots.activityUsers');
-    
+
     Route::get('details', [IlotController::class, 'details'])->name('ilots.details');
     Route::get('/proprietaire/pays/{pays}', [IlotController::class, 'getIlotsByPays'])->name('ilots.proprietaireby_country');
 
@@ -74,20 +80,14 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.'],function(){
     });
 });
 
-Route::middleware(["auth"])->group(function() {
-    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-});
+    Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard', 'middleware' => ['auth']], function (){
+        /**
+         * Dashboard Management
+         */
+        Route::get('/', DashboardController::class);
+    });
 
-Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard'], function (){
-    /**
-     * Dashboard Management
-     */
-    Route::get('/', DashboardController::class);
-});
-
-Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
-
-
+    Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.', 'middleware' => ['auth']], function (){
     /**
      * Batiment Management
      */
@@ -103,19 +103,14 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
     Route::resource('users', UserController::class);
     Route::group(['prefix'=> 'users','as'=>'users.'], function () {
         Route::put('changeuserstatus/{id}', [UserController::class ,'changeUserStatus'])->name('changeStatus');
-
         // Route::patch('changeuserstatus/{id}', 'UserController@changeUserStatus')->name('user.status')->middleware(['auth', 'xss']);
-
     });
-
-
     /**
      * inventaire Management
      */
     Route::resource('inventaires', InventaireController::class);
     Route::group(['prefix'=> 'inventaires','as'=>'inventaires.'], function () {
     });
-
     /**
      * Locaux Management
      */
@@ -124,8 +119,6 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
     Route::group(['prefix'=> 'locaux','as'=>'locaux.'], function () {
         // Route::resource('locaux', LocalController::class);
     });
-
-
     /**
      * Proprietaire Management
      */
@@ -135,18 +128,15 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
         Route::post('/pays', [ProprietaireController::class, 'payaSreach'])->name('pays.search');
         Route::post('/postes/search', [ProprietaireController::class, 'postes'])->name('postes.search');
     });
-
     /**
      * Actes Management
      */
     Route::resource('actes', ActeController::class);
     Route::group(['prefix'=> 'actes','as'=>'actes.'], function () {
     });
-
     // Route::resource('actes', 'ActeController')->middleware(['auth', 'xss']);
     // proprietaires
     // Route::resource('locaux', 'localController')->middleware(['auth', 'xss']);
-
 
     Route::resource('fournisseurs', FournisseurController::class);
 
@@ -157,7 +147,7 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
     Route::resource('ilots-archive', IlotsArchiveController::class);
 
     Route::post('/ilots-archive/search', [IlotsArchiveController::class, 'getIlotByProprietaireId'])->name('ilots-archive.search');
-    // 
+    //
     // MutationGlobale
 
 });

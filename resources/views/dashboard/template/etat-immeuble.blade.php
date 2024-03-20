@@ -6,7 +6,8 @@
         <div class="col-md-12">
             <div class="card" style="width: 100%;margin-left:0%">
             <div class="card-header">
-                <button class="btn btn-primary float-right" id="printButton" onclick="imprimerTableau()">Imprimer</button>
+                <button class="btn btn-primary float-right" id="printButton" onclick="imprimerTableau()">Imprimer </button>
+                <button class="btn btn-dark float-right mx-3" onclick="ConvertPDF()" id="create_pdf" >Export PDF</button>
             </div>
             <div id="invoices" class="card-body">
                 <div id="invoiceContent">
@@ -88,7 +89,7 @@
                                         NON RENSEIGNIE
                                         @break
                                     @default
-                                    Inconnu
+                                    /
                                 @endswitch
                             </p>
                             <p><strong>Int_VL: </strong>
@@ -106,7 +107,7 @@
                                         NON RENSEIGNER
                                         @break
                                     @default
-                                        Inconnu
+                                        /
                                 @endswitch
                             </p>
                         </div>
@@ -181,34 +182,85 @@
 
 
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.0/jspdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{{ asset('jsPDF/jspdf.umd.js') }}"></script>
+<script>
+    window.jsPDF = window.jspdf.jsPDF;
+    var doc = new jsPDF();
+    function generateRandomId(length) {
+        return Math.random().toString(36).substr(2, length);
+    }
+    // Usage
+    const randomId = generateRandomId(3);
+    // Convert HTML content to PDF
+    function ConvertPDF() {
+        var doc = new jsPDF();
+        // Source HTMLElement or a string containing HTML.
+        var elementHTML = document.querySelector("#invoiceContent");
+        doc.html(elementHTML, {
+            callback: function(doc) {
+                // Save the PDF
+                doc.save('annexe-'+randomId+'.pdf');
+            },
+            margin: [5, 5, 2, 5],
+            autoPaging: 'text',
+            x: 0,
+            y: 0,
+            width: 205, //target width in the PDF document
+            windowWidth: 950 //window width in CSS pixels
+        });
+    }
+</script>
 
 <script>
+    // $(document).ready(function () {
+    //     const invoiceContent = document.getElementById('invoiceContent');
+    //     var form = $('.overflow'),
+    //     cache_width = form.width(),
+    //     a4 = [895.28, 1841.89]; // for a4 size paper width and height
 
+    //     $('#create_pdf').on('click', function () {
+    //         invoiceContent.classList.remove('overflow');
+    //         $('body').scrollTop(0);
+    //         createPDF();
+    //     });
+
+    //     function createPDF() {
+    //         getCanvas().then(function (canvas) {
+    //             var
+    //                 img = canvas.toDataURL("image/png"),
+    //                 doc = new jsPDF({
+    //                     unit: 'px',
+    //                     format: 'a4'
+    //                 });
+    //             doc.addImage(img, 'JPEG', 5, 5);
+    //             doc.save('techsolutionstuff.pdf');
+    //             form.width(cache_width);
+    //         });
+    //     }
+
+    //     function getCanvas() {
+    //         form.width((a4[0] * 1.33333) - 80).css('max-width', 'none');
+    //         return html2canvas(form, {
+    //             imageTimeout: 2000,
+    //             removeContainer: true
+    //         });
+    //     }
+    // });
+</script>
+<script>
     const printButton = document.getElementById('printButton');
+    const createButton = document.getElementById('create_pdf');
     const invoiceContent = document.getElementById('invoiceContent');
 
     printButton.addEventListener('click', () => {
         printButton.style.display = 'none'; // hide the button while printing
+        createButton.style.display = 'none'; // hide the button while printing
         invoiceContent.classList.remove('overflow');
         invoiceContent.focus(); // Focus the invoice content for proper formatting
         window.print();
     });
-
-// function imprimerTableau() {
-//     var table = document.getElementById("tableToPrint");
-//     var button = document.getElementById("printInvoice");
-//     button.style.display = 'none';
-//     var newWin = window.open('', 'Print-Window');
-//         newWin.document.open();
-//         newWin.document.write('<html><head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"><style>@media print {.qr_code {display: block !important;} .bordered-cell {border: 2px solid black;padding: 5px;}}</style></head><body onload="window.print()">' + table.outerHTML + '</body></html>');
-//         newWin.document.close();
-//         setTimeout(function () {
-//             window.print();
-//             // newWin.close();
-//         }, 10);
-// }
-
 </script>
 @endsection

@@ -36,6 +36,7 @@
             <div class="card" style="width: 100%;margin-left:0%">
             <div class="card-header">
                 <button class="btn btn-primary float-right" id="printButton" onclick="imprimerTableau()">Imprimer</button>
+                <button class="btn btn-dark float-right mx-3" id="create" onclick="ConvertPDF()" >Export PDF</button>
             </div>
             <div id="invoices" class="card-body">
                 <div id="invoiceContent" class="overflow">
@@ -67,14 +68,14 @@
                                 Immatriculation: @if ($ilot->proprietaire)
                                     {{ $ilot->proprietaire->pe_num}}
                                 @else
-                                    Aucun propriétaire trouvé
+                                    /
                                 @endif
                             </td>
                             <td class="column right" style="padding-left:580px !important">
                                 Propriétaire: @if ($ilot->proprietaire)
                                     {{ $ilot->proprietaire->tutelle?->Intitule }}
                                 @else
-                                    Aucun propriétaire trouvé
+                                    /
                                 @endif
                             </td>
                         </tr>
@@ -99,7 +100,7 @@
                                             Dénomination:@if ($ilot->proprietaire)
                                             {{ $ilot->proprietaire->Denomination_fr }}
                                             @else
-                                                Aucun propriétaire trouvé
+                                                /
                                             @endif
                                         </td>
                                     </tr>
@@ -113,19 +114,19 @@
                                         <td>Statut:@if ($ilot->proprietaire)
                                             {{ $ilot->proprietaire->statut?->Intitule }}
                                             @else
-                                                Aucun propriétaire trouvé
+                                                /
                                             @endif
                                         </td>
                                         <td >N°:@if ($ilot->proprietaire)
                                             {{ $ilot->proprietaire->pe_num  }}
                                             @else
-                                                Aucun propriétaire trouvé
+                                                /
                                             @endif
                                         </td>
                                         <td >Date:@if ($ilot->proprietaire)
                                             {{ $ilot->proprietaire->Date_Decision_affectation }}
                                             @else
-                                                Aucun propriétaire trouvé
+                                                /
                                             @endif
                                         </td>
                                     </tr>
@@ -139,19 +140,19 @@
                                     <td>Affetctation:@if ($ilot->proprietaire)
                                         {{ $ilot->proprietaire->deciaffect?->Intitule_fr }}
                                         @else
-                                            Aucun propriétaire trouvé
+                                            /
                                         @endif
                                     </td>
-                                    <td>N°:@if ($ilot->proprietaire)
+                                    <td>N°:@if ($ilot->proprietaire->Num_Decision_affectation)
                                         {{ $ilot->proprietaire->Num_Decision_affectation }}
                                         @else
-                                            Aucun propriétaire trouvé
+                                            /
                                         @endif
                                     </td>
                                     <td>Date:@if ($ilot->proprietaire)
                                         {{ \Carbon\Carbon::parse($ilot->proprietaire->Date_Decision_affectation	)->format('Y-m-d') }}
                                         @else
-                                            Aucun propriétaire trouvé
+                                            /
                                         @endif
                                     </td>
                                 </tr>
@@ -166,7 +167,7 @@
                                             Création:@if ($ilot->proprietaire)
                                             {{ $ilot->proprietaire->anx_text_creati?->Intitule }}
                                             @else
-                                                Aucun propriétaire trouvé
+                                                /
                                             @endif
                                         </td>
                                     </tr>
@@ -218,7 +219,7 @@
                         </tr>
                         <tr>
                             <td class=" left">
-                                Pays:{{ $ilot->Pays }}
+                                Pays:{{ $ilot->proprietaire->paye_name }}
                             </td>
                         </tr>
                         <tr style="margin-top: 2px;">
@@ -298,9 +299,28 @@
                                 <table width="100%">
                                     <tr>
                                         <td>Acte ou texte:@if ($ilot->acteReference)
-                                            {{ $ilot->acteReference->Num_Nat_Acte}}
+                                            @switch($ilot->acteReference->Num_Nat_Acte)
+                                                @case(1)
+                                                    Loi
+                                                    @break
+                                                @case(2)
+                                                    Décret
+                                                    @break
+                                                @case(3)
+                                                    Arrêté
+                                                    @break
+                                                @case(4)
+                                                    Acte
+                                                    @break
+                                                @case(5)
+                                                    Convention bilatérale
+                                                    @break
+                                                @case(6)
+                                                    Non renseigner
+                                                    @break
+                                            @endswitch
                                             @else
-                                                Aucun acte trouvé
+                                                /
                                             @endif
                                         </td>
                                         <td >Nature:@if ($ilot->acteReference)
@@ -453,8 +473,47 @@
                             <td colspan="2" style="width: 100%;">
                                 <table width="100%">
                                     <tr>
-                                        <td>Valeur vénale:{{ $ilot->Int_VV }}</td>
-                                        <td >Valeur locative:{{ $ilot->Int_VL }}</td>
+                                        <td>
+                                            Valeur vénale:
+                                            @switch($ilot->Int_VV)
+                                                @case(1)
+                                                    CELLE INDIQUEE DANS L’ACTE D’AFFECTATION
+                                                    @break
+                                                @case(2)
+                                                    CELLE QUI RESULTE DU COUT DE REALISATION
+                                                    @break
+                                                @case(3)
+                                                    CELLE INDIQUEE DANS L-ACTE TRANSLATIF DE PROPRIETE LORSQU-IL S’AGIT D-UN IMMEUBLE ACQUIS
+                                                    @break
+                                                @case(4)
+                                                    LE CAS ECHEANT LA VALEUR EST DETERMINEE PAR L-ADMINISTRATION DES DOMAINES
+                                                    @break
+                                                @case(5)
+                                                    NON RENSEIGNIE
+                                                    @break
+                                                @default
+                                                Inconnu
+                                            @endswitch
+                                        </td>
+                                        <td >
+                                            Valeur locative:
+                                            @switch($ilot->Int_VL)
+                                                @case(1)
+                                                    LA VALEUR RESULTE DE L-ACTE D-AFFECTATION
+                                                    @break
+                                                @case(2)
+                                                    LA VALEUR RESULTE DE L’ACTE TRANSLATIF DE PROPRIETE EN CAS D-ACQUISITION OU D-ECHANGE
+                                                    @break
+                                                @case(3)
+                                                    LA VALEUR EST DETERMINEE PAR LE SERVICE DES DOMAINES
+                                                    @break
+                                                @case(4)
+                                                    NON RENSEIGNER
+                                                    @break
+                                                @default
+                                                    Inconnu
+                                            @endswitch
+                                        </td>
                                         <td >Age:{{ $ilot->Age }}</td>
                                     </tr>
                                 </table>
@@ -512,33 +571,100 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.0/jspdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script> --}}
+<!-- ** jsPDF library -->
+<!-- Include jQuery and jsPDF -->
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script> --}}
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{{ asset('jsPDF/jspdf.umd.js') }}"></script>
+<script>
+    window.jsPDF = window.jspdf.jsPDF;
+    var doc = new jsPDF();
+    function generateRandomId(length) {
+        return Math.random().toString(36).substr(2, length);
+    }
+    // Usage
+    const randomId = generateRandomId(3);
+    // Convert HTML content to PDF
+    function ConvertPDF() {
+        invoiceContent.classList.remove('overflow');
+        var doc = new jsPDF();
+        // Source HTMLElement or a string containing HTML.
+        var elementHTML = document.querySelector("#invoiceContent");
+        doc.html(elementHTML, {
+            callback: function(doc) {
+                // Save the PDF
+                doc.save('annexe-'+randomId+'.pdf');
+            },
+            margin: [5, 5, 2, 5],
+            autoPaging: 'text',
+            x: 0,
+            y: 0,
+            width: 205, //target width in the PDF document
+            windowWidth: 950 //window width in CSS pixels
+        });
+    }
+    
+</script>
 
 <script>
+    // $(document).ready(function () {
+    //     const invoiceContent = document.getElementById('invoiceContent');
+    //     function generateRandomId(length) {
+    //         return Math.random().toString(36).substr(2, length);
+    //     }
+    //     // Usage
+    //     const randomId = generateRandomId(3);
+    //     var form = $('.overflow'),
+    //     cache_width = form.width(),
+    //     a4 = [656.28, 841.89]; // for a4 size paper width and height
 
+    //     $('#create_pdf').on('click', function () {
+    //         invoiceContent.classList.remove('overflow');
+    //         $('body').scrollTop(0);
+    //         createPDF();
+    //     });
+
+    //     function createPDF() {
+    //         getCanvas().then(function (canvas) {
+    //             var
+    //                 img = canvas.toDataURL("image/png"),
+    //                 doc = new jsPDF({
+    //                     unit: 'px',
+    //                     format: 'a4'
+    //                 });
+    //             doc.addImage(img, 'JPEG', 5, 5);
+    //             doc.save('annexe-'+randomId+'.pdf');
+    //             form.width(cache_width);
+    //         });
+    //     }
+
+    //     function getCanvas() {
+    //         form.width((a4[0] * 1.33333) - 80).css('max-width', 'none');
+    //         return html2canvas(form, {
+    //             imageTimeout: 2000,
+    //             removeContainer: true
+    //         });
+    //     }
+    // });
+</script>
+<script>
     const printButton = document.getElementById('printButton');
+    const createpdfButton = document.getElementById('create_pdf');
+    const createpdfButton = document.getElementById('create_pdf');
     const invoiceContent = document.getElementById('invoiceContent');
-
     printButton.addEventListener('click', () => {
         printButton.style.display = 'none'; // hide the button while printing
+    const invoiceContent = document.getElementById('invoiceContent');
+        createpdfButton.style.display = 'none'; // hide the button while printing
         invoiceContent.classList.remove('overflow');
         invoiceContent.focus(); // Focus the invoice content for proper formatting
         window.print();
     });
-
-// function imprimerTableau() {
-//     var table = document.getElementById("tableToPrint");
-//     var newWin = window.open('', 'Print-Window');
-//         newWin.document.open();
-//         newWin.document.write('<html><head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"><style>@media print {.qr_code {display: block !important;} .bordered-cell {border: 2px solid black;padding: 5px;}}</style></head><body onload="window.print()">' + table.outerHTML + '</body></html>');
-//         newWin.document.close();
-//         setTimeout(function () {
-//             window.print();
-//             // newWin.close();
-//         }, 10);
-// }
-
 </script>
 
 @endsection
