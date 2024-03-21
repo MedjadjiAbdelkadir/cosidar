@@ -19,7 +19,6 @@ use App\Http\Controllers\Dashboard\Fournisseur\FournisseurController;
 use App\Http\Controllers\Dashboard\IlotsArchive\IlotsArchiveController;
 use App\Http\Controllers\Dashboard\Proprietaire\ProprietaireController;
 use App\Http\Controllers\Dashboard\EtatInventaire\EtatInventaireController;
-use App\Http\Controllers\dashboard\PdfExportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +42,6 @@ Route::middleware(["auth"])->group(function() {
 });
 
 Route::get('/template', [HomeController::class, 'template']);
-Route::get('/export-pdf', [PdfExportController::class, 'exportPDF'])->name('export.pdf');
 // * end
 Route::group(['prefix' => 'dashboard','as' => 'dashboard.', 'middleware' => ['auth']],function(){
     // ? Router for Ilots Management
