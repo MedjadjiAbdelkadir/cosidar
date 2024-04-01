@@ -143,11 +143,13 @@
                                             /
                                         @endif
                                     </td>
-                                    <td>N°:@if ($ilot->proprietaire->Num_Decision_affectation)
+                                    <td>N°:
+                                        @if ($ilot->proprietaire->Num_Decision_affectation)
                                         {{ $ilot->proprietaire->Num_Decision_affectation }}
                                         @else
                                             /
                                         @endif
+                                    
                                     </td>
                                     <td>Date:@if ($ilot->proprietaire)
                                         {{ \Carbon\Carbon::parse($ilot->proprietaire->Date_Decision_affectation	)->format('Y-m-d') }}
@@ -220,6 +222,8 @@
                         <tr>
                             <td class=" left">
                                 Pays:{{ $ilot->proprietaire->paye_name }}
+
+                                {{-- Pays:{{ $ilot->id }} --}}
                             </td>
                         </tr>
                         <tr style="margin-top: 2px;">
