@@ -240,6 +240,7 @@ class ProprietaireController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function edit($Num_proprietaire)
     {
          $proprietaire =  DB::table('dbo_personne')
@@ -335,4 +336,11 @@ class ProprietaireController extends Controller
         return response()->json($postes);
     }
 
+
+    public function getProprietaireByPays(Request $request){
+
+        // return response()->json($request);
+        $proprietaires = Proprietaire::has('ilot')->where('paye_name', $request->paye_name)->get();          
+        return response()->json($proprietaires);
+    }
 }

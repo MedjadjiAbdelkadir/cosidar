@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard\Inventaire;
 
 use App\Models\Ilot;
+use App\Models\Pays;
 use App\Models\Inventaire;
 use App\Models\Proprietaire;
 use Illuminate\Http\Request;
@@ -53,8 +54,11 @@ class InventaireController extends Controller
     public function create()
     {
         $ilotOptions = Ilot::get();
-        return view('dashboard.inventaire.create', compact('ilotOptions'));
+
+        $pays = Pays::all();
+        return view('dashboard.inventaire.create', compact('pays','ilotOptions'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -73,7 +77,14 @@ class InventaireController extends Controller
             'vedio'      => 'video.mp4',
             // 'photos'     => $request->photos,
             // 'vedio'      => $request->vedio,
-            'observation'=> $request->observation
+            'observation'=> $request->observation,
+
+            'Denom_Ilot' => $request->Denom_Ilot, 
+            'Denomination_fr' => $request->Denomination_fr, 
+            'paye_name' => $request->paye_name, 
+            'responsable_inventaire' => $request->responsable_inventaire, 
+            'statut_inventaire' => $request->statut_inventaire, 
+            'TypeInventaire'=> $request->TypeInventaire,
         ]);
         
 

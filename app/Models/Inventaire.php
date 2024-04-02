@@ -33,6 +33,13 @@ class Inventaire extends Model
         // 'DateInventaire',
         // 'idFournisseur',
         // 'prixDacha',
+
+        'Denom_Ilot', 
+        'Denomination_fr', 
+        'paye_name', 
+        'responsable_inventaire', 
+        'statut_inventaire', 
+        'TypeInventaire'
     ];
 
     public function ilot()

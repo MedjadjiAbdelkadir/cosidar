@@ -879,4 +879,16 @@ class IlotController extends Controller
         }
 
     }
+
+
+    public function getIlotByProprietaire(Request $request){
+        $proprietaire = Proprietaire::where('Denomination_fr', $request->Denomination_fr)->first();          
+        $ilots = Ilot::where('proprietaire_id', $proprietaire->id)->get();          
+        return response()->json($ilots);
+    }
+
+    public function getNuméroIlotByDenom_Ilot(Request $request){
+        $ilot = Ilot::where('proprietaire_id', $request->Denom_Ilot)->first();          
+        return response()->json($ilot);
+    }
 }
