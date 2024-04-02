@@ -180,7 +180,34 @@
 <script>
     $(document).ready(function() {
         // addArchiveIlot
-        $('#accept').on('click', function(){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $('#proprietaire').on('change', function() {
+            var id = $('#proprietaire').val();
+
+            $.ajax({
+
+                url: '{{ route('dashboard.ilots-archive.search') }}',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    id: id
+                },
+                success: function(response) {
+                    // console.log(response);
+                    $('#ilot').empty();
+                    $.each(response, function(key, value) {
+                        // console.log("value" ,value.id);
+                        $('#ilot').append('<option value="' + value.id + '">' +
+                            value.Denom_Ilot + '</option>');
+                    });
+                }
+            })
+        })
+        $('#accept').on('click', function() {
             $('#addArchiveIlot').submit();
         });
     });
