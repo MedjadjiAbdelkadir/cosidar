@@ -72,7 +72,7 @@ Inventaires
 
                                 <td>{{$Ilot->Denom_Ilot }}</td>
                                 <td>{{$natureList[$Ilot->Nature] }}</td>
-                                <td>{{$Ilot->proprietaire->Denomination_fr }}</td>
+                                <td>{{$Ilot->proprietaire?->Denomination_fr }}</td>
                                 <td>{{$Ilot->Localite }}</td>
                                 <td>{{$Ilot->Pays }}</td>
                                 <td>{{$Ilot->Ville }}</td>

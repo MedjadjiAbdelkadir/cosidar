@@ -60,6 +60,10 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.'],function(){
     Route::get('/proprietaire/pays/{pays}', [IlotController::class, 'getIlotsByPays'])->name('ilots.proprietaireby_country');
 
     Route::get('/proprietaire/{proprietaire_id}', [IlotController::class, 'getIlotsByPproprietaire'])->name('ilots.by_proprietaire');
+    Route::get('/getIlotByProprietaire', [IlotController::class, 'getIlotByProprietaire'])->name('ilots.getIlotByProprietaire');
+    Route::get('/getNuméroIlotByDenom_Ilot', [IlotController::class, 'getNuméroIlotByDenom_Ilot'])->name('ilots.getNuméroIlotByDenom_Ilot');
+
+    // 
     Route::get('/ilots/get_full_detail_ilot/{Num_ilot}',[IlotController::class, 'get_full_detail_ilot'])->name('ilots.get_full_detail_ilot');
     // Route::get('/ilots/pays/{pays}', 'IlotController@getIlotsByPays')->name('ilots.by_pays');
     //*  End Ilots Management ****************************************************************
@@ -129,7 +133,11 @@ Route::group(['prefix'=> 'dashboard', 'as'=>'dashboard.'], function (){
      * Proprietaire Management
      */
     Route::resource('proprietaires', ProprietaireController::class);
+    // Route::resource('proprietaires', ProprietaireController::class);
+    Route::post('getProprietaireByPays', [ProprietaireController::class ,'getProprietaireByPays' ])->name('getProprietaireByPays');
 
+
+    // 
     Route::group(['prefix'=> 'proprietaires','as'=>'proprietaires.'], function () {
         Route::post('/pays', [ProprietaireController::class, 'payaSreach'])->name('pays.search');
         Route::post('/postes/search', [ProprietaireController::class, 'postes'])->name('postes.search');
