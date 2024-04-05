@@ -81,11 +81,11 @@ class InventaireController extends Controller
             // 'vedio'      => $request->vedio,
             'observation'=> $request->observation,
 
-            'Denom_Ilot' => $request->Denom_Ilot, 
-            'Denomination_fr' => $request->Denomination_fr, 
-            'paye_name' => $request->paye_name, 
-            'responsable_inventaire' => $request->responsable_inventaire, 
-            'statut_inventaire' => $request->statut_inventaire, 
+            'Denom_Ilot' => $request->Denom_Ilot,
+            'Denomination_fr' => $request->Denomination_fr,
+            'paye_name' => $request->paye_name,
+            'responsable_inventaire' => $request->responsable_inventaire,
+            'statut_inventaire' => $request->statut_inventaire,
             'TypeInventaire'=> $request->TypeInventaire,
         ]);
 
@@ -145,8 +145,10 @@ class InventaireController extends Controller
         if (is_null($inventaire)) {
             return redirect('dashboard/inventaires')->with('error',"Désolé, une erreur s'est inventaire. Veuillez réessayer");
         }
+        $proprietaire = Proprietaire::where('id', $ilot->proprietaire_id)->first();
+        // dd($proprietaire);
         $fournisseur = Fournisseur::where('inventaire_id',$inventaire->id)->first();
         $products = Product::where('inventaire_id',$inventaire->id)->get();
-        return view('dashboard.template.inventoire', compact('ilot','inventaire','products','fournisseur'));
+        return view('dashboard.template.inventoire', compact('ilot','inventaire','products','proprietaire'));
     }
 }

@@ -49,8 +49,8 @@
                         </tr>
 
                         <td colspan="2" >
-                            @if (!is_null($fournisseur))
-                                <table class="table" width="40%">
+                            @if (!is_null($proprietaire))
+                                <table class="table table-bordered" width="60%">
                                     <thead>
                                         <tr>
                                             <th colspan="2">INFO PROPRIETAIRE</th>
@@ -58,24 +58,20 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th >NAME</th>
-                                            <th >{{ $fournisseur->nom }} {{ $fournisseur->prenom }}</th>
+                                            <th >Name</th>
+                                            <th >{{ $proprietaire->Denomination_fr }} </th>
                                         </tr>
                                         <tr>
-                                            <th>ADDRESS</th>
-                                            <th>{{ $fournisseur->address }}</th>
+                                            <th>Nom En Clature</th>
+                                            <th>{{ $proprietaire->NOMENCLATURE }}</th>
                                         </tr>
                                         <tr>
-                                            <th>VILLE</th>
-                                            <th></th>
+                                            <th>Utlisation</th>
+                                            <th>{{ $ilot->Utlisation }}</th>
                                         </tr>
                                         <tr>
-                                            <th>TEL MAISON</th>
-                                            <th>{{ $fournisseur->numero_telephone }}</th>
-                                        </tr>
-                                        <tr>
-                                            <th>TEL PORTABLE</th>
-                                            <th>-</th>
+                                            <th>Adderss</th>
+                                            <th>{{ $ilot->Localite }}</th>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -85,14 +81,14 @@
                         <tr>
                             <th class="border" colspan="2">
                                 <h6 >
-                                    Denomination ilot: {{ $inventaire->Denomination_fr }}
+                                    Denomination ilot: {{ $ilot->Denom_Ilot }}
                                 </h6>
                             </th>
                         </tr>
 
-                        <table class="table" >
-                            <thead>
-                                <tr>
+                        <table class="table table-bordered border-dark  " >
+                            <thead class="border-dark">
+                                <tr class="border-dark">
                                     <td>#</td>
                                     <th>Produit</th>
                                     <th>Description</th>
@@ -113,10 +109,15 @@
                             <tbody>
                                 @foreach ($products as $product)
                                 <tr>
-                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->Descrption }}</td>
-                                    <td>{{ $product->id }}</td>
+                                    <td>
+                                        @foreach ($product->inventaire->fournisseurs as $fr)
+                                        {{ $fr->nom }}
+                                        @endforeach
+
+                                    </td>
                                     <td>{{ $product->price }}</td>
                                     <td>
                                         <span>{{ $product->garantie }}  </span>
