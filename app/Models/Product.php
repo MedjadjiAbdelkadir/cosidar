@@ -13,6 +13,18 @@ class Product extends Model
         'name', 
         'price', 
         'quantity',
+
+        'descrption',
+        'garantie',
+        'garanDateJusq',
+        'dateAchat',
+        'marque',
+        'style',
+        'serieNum',
+        'EtaAticle',
+        'remarque',
+        'typeProduit',
+        'founisseur_id',
         // 'image'
     ];
 

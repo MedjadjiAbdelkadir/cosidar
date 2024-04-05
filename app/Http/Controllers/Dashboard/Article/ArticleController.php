@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Inventaire;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Fournisseur;
 
 class ArticleController extends Controller
 {
@@ -29,7 +30,8 @@ class ArticleController extends Controller
     {
         // dd("create artisv");
         $inventaires = Inventaire::get();
-        return view('dashboard.article.create',compact('inventaires'));   
+        $fournisseurs = Fournisseur::get();
+        return view('dashboard.article.create',compact('inventaires','fournisseurs'));   
         // return view('dashboard.articles.create', compact('fournisseur'));   
     }
 
@@ -41,15 +43,23 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-
         $product = Product::create([
             'inventaire_id' => $request->inventaire_id,
             'name' => $request->name, 
             'price' => $request->price,
             'quantity' => $request->quantity,
-            // 'image'  => 'image product',
-            // 'image'  => $request->image,
+
+            'descrption'=> $request->descrption,
+            'garantie'=> $request->garantie,
+            'garanDateJusq'=> $request->garanDateJusq,
+            'dateAchat'=> $request->dateAchat,
+            'marque'=> $request->marque,
+            'style'=> $request->style,
+            'serieNum'=> $request->serieNum,
+            'EtaAticle'=> $request->EtaAticle,
+            'remarque'=> $request->remarque,
+            'typeProduit'=> $request->typeProduit,
+            'founisseur_id'=> $request->founisseur_id,
         ]);
 
         return redirect()->route('dashboard.articles.index')->with('success', 'Article ajouté avec succès.');
