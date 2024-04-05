@@ -77,9 +77,10 @@ Inventaires
                                 <td>{{$Ilot->Pays }}</td>
                                 <td>{{$Ilot->Ville }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#showInventaireModal{{$Ilot->Num_ilot}}">
+                                    <a target="_blank" href="{{ url('dashboard/view-template-inventaires/'.$Ilot->id.'/get' ) }}" class="btn btn-outline-dark" rel="noopener noreferrer" ><i class="fa fa-print"></i></a>
+                                    {{-- <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#showInventaireModal{{$Ilot->Num_ilot}}">
                                         <i class="fa fa-eye"></i>
-                                    </button>
+                                    </button> --}}
                                 </td>
                                 {{-- @if($proprietaire->Nature)
                                     <td>{{ $natureList[$proprietaire->ilot->Nature] ?? 'Unknown' }}</td>
