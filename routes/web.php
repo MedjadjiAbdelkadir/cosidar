@@ -108,7 +108,9 @@ Route::group(['prefix' => 'dashboard','as' => 'dashboard.', 'middleware' => ['au
      */
     Route::resource('inventaires', InventaireController::class);
     Route::group(['prefix'=> 'inventaires','as'=>'inventaires.'], function () {
+
     });
+    Route::get('view-template-inventaires/{id}/get', [InventaireController::class,'getInvoice']);
     /**
      * Locaux Management
      */

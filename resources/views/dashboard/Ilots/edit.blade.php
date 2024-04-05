@@ -174,12 +174,12 @@ LISTE DES ILOTS
 
                         <div class="form-group col-md-6">
                             <label class="mr-sm-2">Images</label>
-                            <input type="file" name="images[]" multiple class="form-control"  >
+                            <input type="file" name="images"  class="form-control"  >
                         </div>
                         @if ($ilot->image)
                             <div class="form-group col-md-6">
                                 <div class="d-flex justify-content-center">
-                                    <img src="{{ $ilot->image }}" width="150px" alt="Image">
+                                    <img src="{{ asset( $ilot->image) }}" width="250px" alt="Image">
                                 </div>
                             </div>
                         @endif

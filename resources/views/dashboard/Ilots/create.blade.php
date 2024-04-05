@@ -199,7 +199,7 @@ LISTE DES ILOTS
 
                         <div class="form-group col-md-6">
                             <label class="mr-sm-2">Images</label>
-                            <input type="file" name="images[]" multiple class="form-control" >
+                            <input type="file" name="images"  class="form-control" >
                         </div>
                     </div>
                     {{-- end create Ilot --}}

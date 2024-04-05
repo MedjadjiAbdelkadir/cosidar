@@ -141,19 +141,27 @@ class IlotController extends Controller
         ]);
 
         if ($request->hasFile('images')) {
-            $imagePaths = [];
-            foreach ($request->file('images') as $file) {
-                //? Générez un nom de fichier unique pour éviter les conflits
-                $fileName = time() . '_' . $file->getClientOriginalName();
+            $image = $request->images ;
+            $folder = 'public/images';
+            $file_extension =  $image->getClientOriginalExtension();
+            $file_name = time().'.'.$file_extension;
+            $path = $folder;
+            $path_image = $image->move($path , $file_name);
+            $ilot->image = $path_image;
+            // dd($path_image);
+            // $imagePaths = [];
+            // foreach ($request->file('images') as $file) {
+            //     //? Générez un nom de fichier unique pour éviter les conflits
+            //     $fileName = time() . '_' . $file->getClientOriginalName();
 
-                //? Déplacez le fichier vers le répertoire de stockage (par exemple, public/images)
-                $file->move('public/images', $fileName);
+            //     //? Déplacez le fichier vers le répertoire de stockage (par exemple, public/images)
+            //     $file->move('public/images', $fileName);
 
-                //? Ajoutez le chemin du fichier à notre tableau
-                $imagePaths[] = 'public/images/' . $fileName;
-            }
-            //? Concaténez les chemins avec le caractère '|' et enregistrez-les dans la base de données
-            $ilot->image = implode('|', $imagePaths);
+            //     //? Ajoutez le chemin du fichier à notre tableau
+            //     $imagePaths[] = 'public/images/' . $fileName;
+            // }
+            // //? Concaténez les chemins avec le caractère '|' et enregistrez-les dans la base de données
+            // $ilot->image = implode('|', $imagePaths);
         }
 
         //? Enregistrez le modèle dans la base de données
@@ -215,13 +223,9 @@ class IlotController extends Controller
             ->where('dbo_ilot.Num_ilot', $Num_ilot)
             ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom')
             ->first();
-
-
-        // $ReferenceActe = ReferenceActe::where('Num_ilot',$Num_ilot)->first();
-
-
+        $ReferenceActe = ReferenceActe::where('Num_ilot',$Num_ilot)->first();
         // dd($ilot);
-        // return view('dashboard.ilots.show', compact('ilot', 'ReferenceActe'));
+        return view('dashboard.ilots.show', compact('ilot', 'ReferenceActe'));
     }
 
     public function edit($ilot_Num)
@@ -275,6 +279,13 @@ class IlotController extends Controller
         if (!$ilot) {
             return redirect()->route('dashboard.ilots.index')->with('error', 'L\'îlot n\'existe pas.');
         }
+            $image = $request->images ;
+            $folder = 'public/images';
+            $file_extension =  $image->getClientOriginalExtension();
+            $file_name = time().'.'.$file_extension;
+            $path = $folder;
+            $path_image = $image->move($path , $file_name);
+            $ilot->image = $path_image;
         // Mettez à jour les données de l'îlot avec les nouvelles valeurs
         $ilot->N_ilot       = $request->input('N_ilot');
         $ilot->proprietaire_id = $request->input('proprietaire_id');

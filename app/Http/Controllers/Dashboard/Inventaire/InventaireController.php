@@ -7,6 +7,8 @@ use App\Models\Inventaire;
 use App\Models\Proprietaire;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Fournisseur;
+use App\Models\Product;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Gd\Commands\InvertCommand;
 
@@ -20,14 +22,14 @@ class InventaireController extends Controller
     public function index()
     {
         // $Ilots = Ilot::paginate(PAGINATE_COUNT);
-// with('proprietaire','')->
+            // with('proprietaire','')->
         // $proprietaires = Proprietaire::has('ilot')->with('ilot')->paginate(PAGINATE_COUNT);
         // dd($proprietaires);
 
         // $proprietaires = Proprietaire::where('id',17)->with('ilot')->get();
 
         $ilotOptions = Ilot::get();
-        
+
 
         $jsonPath = public_path('country.json');
 
@@ -75,7 +77,7 @@ class InventaireController extends Controller
             // 'vedio'      => $request->vedio,
             'observation'=> $request->observation
         ]);
-        
+
 
         return redirect()->route('dashboard.fournisseurs.create', compact('inventaire'))->with('success', 'Le Inventaires a été créé avec succès.');
     }
@@ -123,5 +125,17 @@ class InventaireController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getInvoice($id)
+    {
+        $ilot = Ilot::find($id);
+        $inventaire = Inventaire::where('num_ilot',$id)->first();
+        if (is_null($inventaire)) {
+            return redirect('dashboard/inventaires')->with('error',"Désolé, une erreur s'est inventaire. Veuillez réessayer");
+        }
+        $fournisseur = Fournisseur::where('inventaire_id',$inventaire->id)->first();
+        $products = Product::where('inventaire_id',$inventaire->id)->get();
+        return view('dashboard.template.inventoire', compact('ilot','inventaire','products','fournisseur'));
     }
 }
