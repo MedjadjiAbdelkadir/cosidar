@@ -149,6 +149,6 @@ class InventaireController extends Controller
         // dd($proprietaire);
         $fournisseur = Fournisseur::where('inventaire_id',$inventaire->id)->first();
         $products = Product::where('inventaire_id',$inventaire->id)->get();
-        return view('dashboard.template.inventoire', compact('ilot','inventaire','products','proprietaire'));
+        return view('dashboard.template.inventoire', compact('ilot','inventaire','products','proprietaire','fournisseur'));
     }
 }

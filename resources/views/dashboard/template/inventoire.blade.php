@@ -21,6 +21,9 @@
         max-width: 100%;
         overflow-x: auto;
     }
+    .height {
+        transform: rotate(90deg);
+    }
 
 </style>
 <div class="container">
@@ -32,7 +35,8 @@
                 <button class="btn btn-dark float-right mx-3" onclick="ConvertPDF()" id="create_pdf" >Export PDF</button>
             </div>
             <div id="invoices" class="card-body">
-                <div id="invoiceContent" class="overflow">
+                <div id="invoiceContent" class="overflow" >
+                    
                     <table class="table" id="tableToPrint" >
                     <tbody>
                         <tr>
@@ -85,54 +89,53 @@
                                 </h6>
                             </th>
                         </tr>
+                        <div style="position: relative;">
+                            <div style="position: absolute; top:0;">
+                            <table class="table table-bordered " >
+                                <thead class="border-dark">
+                                    <tr class="border-dark">
+                                        <td>#</td>
+                                        <th>Produit</th>
+                                        <th>Description</th>
+                                        <th>Fournisseurl </th>
+                                        <th>Cout</th>
+                                        <th >
+                                            Garantie
+                                        </th>
+                                        <th>Date D'achat</th>
+                                        <th>Marque</th>
+                                        <th>Style</th>
+                                        <th>No De Série</th>
+                                        <th>Condition</th>
+                                        <th>Remarques</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($products as $product)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $product->name }}</td>
+                                        <td>{{ $product->Descrption }}</td>
+                                        <td>
+                                            {{ $fournisseur->nom }}
+                                        </td>
+                                        <td>{{ $product->price }}</td>
+                                        <td>
+                                            <span>{{ $product->garantie }}  </span>
+                                            <span>{{ $product->garanDateJusq    }}</span>
 
-                        <table class="table table-bordered border-dark  " >
-                            <thead class="border-dark">
-                                <tr class="border-dark">
-                                    <td>#</td>
-                                    <th>Produit</th>
-                                    <th>Description</th>
-                                    <th>Fournisseurl </th>
-                                    <th>Cout</th>
-                                    <th >
-                                        Garantie
-
-                                    </th>
-                                    <th>Date D'achat</th>
-                                    <th>Marque</th>
-                                    <th>Style</th>
-                                    <th>No De Série</th>
-                                    <th>Condition</th>
-                                    <th>Remarques</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($products as $product)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $product->name }}</td>
-                                    <td>{{ $product->Descrption }}</td>
-                                    <td>
-                                        @foreach ($product->inventaire->fournisseurs as $fr)
-                                        {{ $fr->nom }}
-                                        @endforeach
-
-                                    </td>
-                                    <td>{{ $product->price }}</td>
-                                    <td>
-                                        <span>{{ $product->garantie }}  </span>
-                                        <span>{{ $product->garanDateJusq    }}</span>
-
-                                    </td>
-                                    <td>{{ $product->dateAchat }}</td>
-                                    <td>{{ $product->marque }}</td>
-                                    <td>{{ $product->serieNum }}</td>
-                                    <td>{{ $product->id }}</td>
-                                    <td>{{ $product->remarque }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                        </td>
+                                        <td>{{ $product->dateAchat }}</td>
+                                        <td>{{ $product->marque }}</td>
+                                        <td>{{ $product->serieNum }}</td>
+                                        <td>{{ $product->id }}</td>
+                                        <td>{{ $product->remarque }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            </dir>
+                        </div>
 
                     </tbody>
                     </table>
