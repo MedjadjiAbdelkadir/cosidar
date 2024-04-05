@@ -25,23 +25,15 @@ SERVICE AFFECTATAIRE
 @section('content')
 <!-- row -->
 <div class="row">
-    {{-- @include('dashboard.user.create') --}}
-
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                <button type="button"class="button x-small"  data-toggle="modal" data-target="#createUserModal">
-                    AJOUTER SERVICE AFFECTATAIRE
-                </button>
-                
-                {{-- <h3 class="mb-0">
-                    @if(Auth::user()->parent_id == 0) 
-                        SERVICE AFFECTATAIRE
-                    @else 
-                        SERVICE AFFECTATAIRE
-                    @endif
-                </h3> --}}
-                
+                @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
+                    <a class="btn btn-info btn-sm" href="{{ route('dashboard.proprietaires.create') }}">
+                        <i class="fa fa-plus"></i>
+                        AJOUTER SERVICE AFFECTATAIRE
+                    </a>
+                @endif
                 <br><br>
                 <div class="table-responsive">
                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0" data-page-length="50" style="text-align: center"  role="grid">
@@ -49,14 +41,14 @@ SERVICE AFFECTATAIRE
                             <tr>
                                 <th>#</th>
                                 <th>N°SER.AFFECT </th>
-                                <th>N° BIEN</th> 
+                                <th>N° BIEN</th>
                                 <th>DENOMINATION</th>
                                 <th>STATUT</th>
                                 <th>TUTELLE</th>
                                 <th>DATE CREATION</th>
                                 <th>TEXTE DE CREATION</th>
                                 <th>DECISION D-AFFECTATION</th>
-                                
+
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -64,33 +56,42 @@ SERVICE AFFECTATAIRE
                             @foreach ($proprietaires as $key => $proprietaire)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <th>{{ $proprietaire->  pe_num }}</th>
-                                <th>{{ $proprietaire->Num_ilot }}</th>
-                                <th>{{ $proprietaire->Denomination_fr }}</th>
-                                <th>{{ $proprietaire->anx_statut_intitule }}</th>
-                                <th>{{ $proprietaire->tutelle_intitule }}</th>
-                                <th>{{ \Carbon\Carbon::parse($proprietaire->Date_txt_creation)->format('Y-m-d') }}</th>
-                                <th>{{ $proprietaire->text_creati_intitule }}</th>
-                                <th>{{ $proprietaire->deciaffect_intitule }}</th> 
+                                <td>{{ $proprietaire-> pe_num }}</td>
+                                <td>{{ $proprietaire->Denomination_fr }}</td>
+                                <td>{{ $proprietaire->statut?->Intitule }}</td>
+                                <td>{{ $proprietaire->tutelle?->Intitule }}</td>
+                                {{-- <td>{{ $proprietaire->txt_creation }}</td> --}}
+                                <td>{{ $proprietaire->anx_text_creati?->Intitule }}</td>
+                                <td>{{ \Carbon\Carbon::parse($proprietaire->Date_txt_creation)->format('Y-m-d') }}</td>
+                                <td>{{ $proprietaire->anx_text_creati?->Intitule }}</td>
+                                <td>{{ $proprietaire->deciaffect?->Intitule_fr }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-neutral Num_proprietaire" data-toggle="modal" data-target="#proprietaireModal" data-id="{{$proprietaire->pe_num}}">
-                                        <i class="fa fa-eye"></i>
-                                    </button>
+                                    @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
+                                        <a class="btn btn-info btn-sm" href="{{ route('dashboard.proprietaires.show' , $proprietaire->pe_num) }}">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editProprietaireModal{{$proprietaire->pe_num}}">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteProprietaireModal{{$proprietaire->pe_num}}">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    @else
+                                        <a class="btn btn-info btn-sm" href="{{ route('dashboard.proprietaires.show' , $proprietaire->pe_num) }}">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    @endif
 
-                                    <a href="{{ route('dashboard.proprietaires.destroy', $proprietaire->pe_num) }}" class="btn btn-sm btn-danger delete_proprietaire" data-toggle="modal" data-target="#proprietaireModal" data-url="{{ route('dashboard.proprietaires.destroy', $proprietaire->pe_num) }}">
-                                        <i class="fa fa-trash"></i>                                                
-                                    </a>
-
-                                    <button type="button" class="btn btn-sm btn-success edit_proprietaire" data-toggle="modal" data-target="#proprietaireModal" data-id="{{$proprietaire->pe_num}}">
-                                        <i class="fa fa-pencil-alt"></i>                                                 
-                                    </button>                                        
                                 </td>
                             </tr>
+                            @include('dashboard.proprietaire.edit')
+
+                            @include('dashboard.proprietaire.delete')
                             @endforeach
 
                         </tbody>
                     </table>
-                    {{ $proprietaires->links() }}                                            
+                    {{ $proprietaires->links() }}
                 </div>
             </div>
         </div>

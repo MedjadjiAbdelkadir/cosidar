@@ -19,8 +19,12 @@ class ActeController extends Controller
     {
         $actes =  DB::table('dbo_reference_acte')
         ->paginate(PAGINATE_COUNT);
+        $ilotOptions = Ilot::whereNotIn('Num_ilot', function ($query) {
+            $query->select('Num_ilot')
+                  ->from('dbo_reference_acte');
+        })->pluck('Num_ilot', 'Num_ilot');
 
-        return view('dashboard.acte.index')->with('actes', $actes);
+        return view('dashboard.acte.index',compact('actes','ilotOptions'));
     }
 
     /**
@@ -112,7 +116,7 @@ class ActeController extends Controller
     {
         $acte = DB::table('dbo_reference_acte')->where('id', $id)->first();
 
-         $ilotOptions = Ilot::whereNotIn('Num_ilot', function ($query) {
+        $ilotOptions = Ilot::whereNotIn('Num_ilot', function ($query) {
             $query->select('Num_ilot')
                   ->from('dbo_reference_acte');
         })->pluck('Num_ilot', 'Num_ilot');
@@ -127,7 +131,7 @@ class ActeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $request->validate([
             'date_pub' => '',
@@ -159,7 +163,7 @@ class ActeController extends Controller
             $Num_Nat_Acte=6;
         }
 
-        $acte = ReferenceActe::where('id', $id)->first();
+        $acte = ReferenceActe::where('id', $request->id)->first();
 
     // Vérifie si le champ 'Num_ilot' est vide, sinon utilise la valeur actuelle
         $acte->Num_ilot = $request->input('Num_ilot') ? $request->input('Num_ilot') :$acte->Num_ilot;
@@ -184,9 +188,9 @@ class ActeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        ReferenceActe::where('id', $id)->delete();
+        ReferenceActe::where('id', $request->id)->delete();
         return redirect()->route('dashboard.actes.index')->with('success', 'acte supprimé avec succès.');
     }
      

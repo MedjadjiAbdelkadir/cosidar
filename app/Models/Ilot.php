@@ -4,20 +4,24 @@ namespace App\Models;
 
 use App\Models\Utility;
 use App\Models\Batiment;
+use App\Models\Customer;
+use App\Models\Inventaire;
 use App\Models\AnxEntretien;
+use App\Models\AnxNatureImm;
 use App\Models\Proprietaire;
+use App\Models\ReferenceActe;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Ilot extends Model
 {
     use HasFactory;
-    
+
     public $timestamps = false;
     protected $table = 'dbo_ilot';
 
     protected $fillable = [
-
+        'proprietaire_id',
         'Num_ilot',
         'N_ilot',
         'Denom_Ilot',
@@ -46,6 +50,7 @@ class Ilot extends Model
         'NumVV',
         'mantant_VV',
         'Int_VL',
+        'N_ilot',
         'Int_VLAr',
         'mantant_VL',
         'NumVL',
@@ -68,9 +73,15 @@ class Ilot extends Model
         'mantVV',
         'mantVL',
         'validation',
-        'created_by'
+        'created_by',
+        'notes'
     ];
 
+
+    public function inventaires()
+    {
+        return $this->hasMany(Inventaire::class, 'num_ilot', 'id');
+    }
 
     ///////////////////////
     public function batiments()
@@ -78,19 +89,29 @@ class Ilot extends Model
         return $this->hasMany(Batiment::class, 'Num_ilot', 'Num_ilot');
     }
 
+
     public function proprietaire()
     {
-        return $this->hasOne(Proprietaire::class, 'Num_ilot', 'Num_ilot');
+        return $this->belongsTo(Proprietaire::class, 'proprietaire_id', 'id');
     }
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+    }
+
+    // public function proprietaire()
+    // {
+    //     return $this->belongsTo(Proprietaire::class, 'proprietaire_id', 'proprietaire_id');
+    // }
 
     public function acteReference()
     {
-        return $this->hasOne(Reference_acte::class, 'Num_ilot', 'Num_ilot');
+        return $this->hasOne(ReferenceActe::class, 'Num_ilot', 'Num_ilot');
     }
 
     public function anx_nature_imm()
     {
-        return $this->belongsTo(Anx_nature_imm::class, 'Nature', 'Num_Nat_imm');
+        return $this->belongsTo(AnxNatureImm::class, 'Nature', 'Num_Nat_imm');
     }
 
 

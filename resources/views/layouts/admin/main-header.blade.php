@@ -1,11 +1,11 @@
-use Illuminate\Support\Facades\Auth;
+
         <!--=================================
  header start-->
         <nav class="admin-header navbar navbar-default col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <!-- logo -->
-            <div class="text-left navbar-brand-wrapper">
-                <a class="navbar-brand brand-logo" href="index.html"><img src="{{ asset('assets/images/logo-dark.png') }}" alt=""></a>
-                <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{ asset('assets/images/logo-icon-dark.png') }}"
+            <div class="text-left navbar-brand-wrapper text-center">
+                <a class="navbar-brand brand-logo"  href="{{ route('dashboard') }}"><img src="{{ asset('cosidar/logo.png') }}" width="150" height="80" alt=""></a>
+                <a class="navbar-brand brand-logo-mini" href="{{ route('dashboard') }}"><img src="{{ asset('cosidar/logo.png') }}"
                         alt=""></a>
             </div>
             <!-- Top bar left -->
@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Auth;
                 <li class="nav-item fullscreen">
                     <a id="btnFullscreen" href="#" class="nav-link"><i class="ti-fullscreen"></i></a>
                 </li>
-                <li class="nav-item dropdown ">
+                {{-- <li class="nav-item dropdown ">
                     <a class="nav-link top-nav" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                         aria-expanded="false">
                         <i class="ti-bell"></i>
@@ -53,8 +53,8 @@ use Illuminate\Support\Facades\Auth;
                         <a href="#" class="dropdown-item">Order confirmation<small class="float-right text-muted time">2
                                 days</small> </a>
                     </div>
-                </li>
-                <li class="nav-item dropdown ">
+                </li> --}}
+                {{-- <li class="nav-item dropdown ">
                     <a class="nav-link top-nav" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                         aria-expanded="true"> <i class=" ti-view-grid"></i> </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-big">
@@ -79,7 +79,7 @@ use Illuminate\Support\Facades\Auth;
                             </a>
                         </div>
                     </div>
-                </li>
+                </li> --}}
                 <li class="nav-item dropdown mr-30">
                     <a class="nav-link nav-pill user-avatar" data-toggle="dropdown" href="#" role="button"
                         aria-haspopup="true" aria-expanded="false">
@@ -93,8 +93,8 @@ use Illuminate\Support\Facades\Auth;
                                     <span>{{ Auth::user()->email }}</span>
                                 </div> --}}
                                 <div class="media-body">
-                                    <h5 class="mt-0 mb-0">Medjadji/h5>
-                                    <span>medjadji@gmail.com</span>
+                                    <h5 class="mt-0 mb-0">{{ auth()->user()->name }}</h5>
+                                    <span>{{ auth()->user()->email }}</span>
                                 </div>
                             </div>
                         </div>

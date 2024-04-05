@@ -25,14 +25,15 @@ Inventaires
 @section('content')
 <!-- row -->
 <div class="row">
-    {{-- @include('dashboard.user.create') --}}
-
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                <button type="button"class="button x-small"  data-toggle="modal" data-target="#createUserModal">
-                    Create
-                </button>
+                @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
+                    <a class="btn btn-info btn-sm" href="{{ route('dashboard.inventaires.create') }}">
+                        <i class="fa fa-plus"></i>
+                        AJOUTER Inventaire
+                    </a>
+                @endif
                 <br><br>
                 <div class="table-responsive">
                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0" data-page-length="50" style="text-align: center">
@@ -63,12 +64,25 @@ Inventaires
                                 '22' => '22-AUTRE'
                             ];
                         @endphp
-                            @foreach ($proprietaires as $key => $proprietaire)
+                            @foreach ($Ilots as $key => $Ilot)
                             {{-- @foreach ($batimentas;$batiment) --}}
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{$proprietaire->ilot->Denom_Ilot }}</td>
-                                @if($proprietaire->ilot)
+                                {{-- <td>{{$proprietaire->ilot }}</td> --}}
+
+                                <td>{{$Ilot->Denom_Ilot }}</td>
+                                <td>{{$natureList[$Ilot->Nature] }}</td>
+                                <td>{{$Ilot->proprietaire?->Denomination_fr }}</td>
+                                <td>{{$Ilot->Localite }}</td>
+                                <td>{{$Ilot->Pays }}</td>
+                                <td>{{$Ilot->Ville }}</td>
+                                <td>
+                                    <a target="_blank" href="{{ url('dashboard/view-template-inventaires/'.$Ilot->id.'/get' ) }}" class="btn btn-outline-dark" rel="noopener noreferrer" ><i class="fa fa-print"></i></a>
+                                    {{-- <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#showInventaireModal{{$Ilot->Num_ilot}}">
+                                        <i class="fa fa-eye"></i>
+                                    </button> --}}
+                                </td>
+                                {{-- @if($proprietaire->Nature)
                                     <td>{{ $natureList[$proprietaire->ilot->Nature] ?? 'Unknown' }}</td>
                                 @else
                                     <td>No ilot associated</td>
@@ -76,42 +90,21 @@ Inventaires
                                 <td>{{ $proprietaire->Denomination_fr }}</td>
                                 <td>{{ $proprietaire->ilot->Localite }}</td>
                                 <td>{{ $proprietaire->ilot->Pays }}</td>
-                                <td>{{ $proprietaire->ilot->Ville }}</td>
+                                <td>{{ $proprietaire->ilot->Ville }}</td> --}}
 
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-neutral Num_ilot" data-toggle="modal" data-target="#ilotModal" data-id="{{$proprietaire->ilot->Num_ilot}}">
+                                {{-- <td>
+                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#showInventaireModal{{$proprietaire->ilot->Num_ilot}}">
                                         <i class="fa fa-eye"></i>
                                     </button>
-                                    <script>
-                                        function openNewFrameAndShowModal(numIlot) {
-                                            openNewFrame(numIlot);
-                                            $('#ilotModal').modal('show1');
-                                        }
-                                    </script>
-                                    {{-- <button type="button" class="btn btn-sm btn-neutral Num_batiment" data-toggle="modal" data-target="#batimentModal" data-id="{{$batiment->Num_Bat}}">
-                                        <i class="fa fa-eye"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-danger delete_batiment" data-toggle="modal" data-target="#batimentModal" data-id="{{$batiment->Num_Bat}}">
-                                        <i class="fa fa-trash"></i>
-                                    </button> 
-
-                                    <button type="button" class="btn btn-success btn-sm Num_batiment" data-toggle="modal"
-                                        data-target="#editBatimentModal"  data-id="{{$batiment->Num_Bat}}" title="Edit">
-                                        <i class="fa fa-edit"></i>
-                                    </button> --}}
-
-
-
-                                    {{-- <button type="button" class="btn btn-sm btn-success edit_batiment" data-toggle="modal" data-target="#batimentModal" data-id="{{$batiment->Num_Bat}}">
-                                        <i class="fa fa-pencil-alt"></i>
-                                    </button>  --}}
-                                </td>
+                                </td> --}}
                             </tr>
+                            {{-- @include('dashboard.inventaire.show') --}}
+
                             @endforeach
 
                         </tbody>
                     </table>
-                    {{ $proprietaires->links() }}                                            
+                    {{ $Ilots->links() }}
                 </div>
             </div>
         </div>
@@ -123,7 +116,7 @@ Inventaires
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const table = $('#datatable-basic').DataTable();
-        
+
             $('#pays_placeholder').on('change', function () {
                 var selectedValue_pays = $(this).val();
                 console.log(selectedValue_pays);

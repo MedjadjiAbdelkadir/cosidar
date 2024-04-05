@@ -1,5 +1,3 @@
-{{-- deleteUserModal{{ $user->id }} --}}
-
 <div class="modal fade" id="deleteBienModal{{ $ilot->Num_ilot }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog " role="document">
@@ -24,8 +22,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
-                    Fermer
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Close
                 </button>
                 <button type="submit" class="btn btn-danger">
                     Supprimer

@@ -16,56 +16,63 @@ class Proprietaire extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'dbo_personne';
-     protected $fillable = [
- 
+    protected $fillable = [
+        'id',
         'pe_num',
-        'Num_ilot',        
         'Denomination_fr',
-        'Denomination_ar', 
-        'Statut', 
-        'Statut_ar',   
-        'Tutelle', 
-        'Tutelle_ar',  
-        'txt_creation',    
-        'txt_creation_ar',     
-        'Num_txt_creation',  
-        'Date_txt_creation',   
-        'Decision_affectation',    
-        'Decision_affectationAr',  
-        'Num_Decision_affectation',    
-        'Date_Decision_affectation',   
-        'N_creation',  
-        'N_Decision_affectation',  
-        'Num_Statut',  
-        'Num_tutelle', 
+        'Denomination_ar',
+        'Statut',
+        'Statut_ar',
+        'Tutelle',
+        'Tutelle_ar',
+        'txt_creation',
+        'txt_creation_ar',
+        'Num_txt_creation',
+        'Date_txt_creation',
+        'Decision_affectation',
+        'Decision_affectationAr',
+        'Num_Decision_affectation',
+        'Date_Decision_affectation',
+        'N_creation',
+        'N_Decision_affectation',
+        'Num_Statut',
+        'Num_tutelle',
+
+        'CODE_II',
+        'NOMENCLATURE',
+        'paye_name',
+        'paye_region',
+        'paye_code',
+        'Ref_JRN',
     ];
 
     public function ilot()
     {
-        return $this->belongsTo(Ilot::class, 'Num_ilot', 'Num_ilot');
+        return $this->hasMany(Ilot::class, 'proprietaire_id', 'id');
+        // return $this->hasMany(Ilot::class, 'id', 'proprietaire_id');
     }
- 
- 
+
+
     public function tutelle()
     {
-        return $this->belongsTo(Tutelle::class, 'Tutelle', 'bi_natjur');
+        return $this->belongsTo(Tutelle::class, 'Tutelle', 'id');
     }
- 
+
     public function statut()
     {
         return $this->belongsTo(AnxStatut::class, 'Statut', 'bi_natjur');
-    }   
- 
+    }
+
     public function deciaffect()
     {
-        return $this->belongsTo(Deciaffect::class, 'Decision_affectation', 'Deci_Af');
-    }   
- 
+        return $this->belongsTo(Deciaffect::class, 'Decision_affectation', 'id');
+    }
+
     public function anx_text_creati()
     {
         return $this->belongsTo(AnxTextCreati::class, 'txt_creation', 'bi_natjur');
-    } 
- 
+    }
+
     public function dateFormat($date)
     {
         $settings = Utility::settings();

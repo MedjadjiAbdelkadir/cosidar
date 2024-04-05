@@ -25,14 +25,17 @@ Batiments
 @section('content')
 <!-- row -->
 <div class="row">
-    {{-- @include('dashboard.user.create') --}}
+    {{-- @include('dashboard.batiment.create') --}}
 
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                <button type="button"class="button x-small"  data-toggle="modal" data-target="#createUserModal">
-                    Create
-                </button>
+                @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
+                    <a href="{{ route('dashboard.batiments.create') }}" class="button x-small"  >
+                        Create Batiment
+                    </a>
+                @endif
+
                 <br><br>
                 <div class="table-responsive">
                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0" data-page-length="50" style="text-align: center">
@@ -58,19 +61,26 @@ Batiments
                                 <td>{{ $batiment->sup_bati_cons }}</td>
                                 <td>{{ $batiment->nom_bat }}</td>
                                 <td>
-                                    <button type="button"  class="btn btn-info btn-sm" data-toggle="modal" data-target="#showBatimentModal{{$batiment->Num_Bat}}">
-                                        <i class="fa fa-eye"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editBatimentModal{{$batiment->Num_Bat}}">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteBatimentModal{{$batiment->Num_Bat}}">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
+                                    @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
+                                        <a class="btn btn-info btn-sm" href="{{ route('dashboard.batiments.show' , $batiment->Num_Bat) }}">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editBatimentModal{{$batiment->Num_Bat}}">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteBatimentModal{{$batiment->Num_Bat}}">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    @else
+                                        <a class="btn btn-info btn-sm" href="{{ route('dashboard.batiments.show' , $batiment->Num_Bat) }}">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    @endif
+
                                 </td>
                             </tr>
                             @include('dashboard.batiment.edit')
-                            @include('dashboard.batiment.show')
+
                             @include('dashboard.batiment.delete')
                             {{-- @include('dashboard.user.changeStatus') --}}
                             {{-- batiment --}}
@@ -78,7 +88,7 @@ Batiments
 
                         </tbody>
                     </table>
-                    {{ $batiments->links() }}                                            
+                    {{ $batiments->links() }}
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
- <!-- Topbar Start -->
- <div class="container-fluid bg-dark p-0 wow fadeIn" data-wow-delay="0.1s">
+<!-- Topbar Start -->
+<div class="container-fluid bg-dark p-0 wow fadeIn" data-wow-delay="0.1s">
     <div class="row gx-0 d-none d-lg-flex">
         <div class="col-lg-7 px-5 text-start">
             <div class="h-100 d-inline-flex align-items-center py-3 me-3">
@@ -29,7 +29,7 @@
 
 <!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
-    <a href="index.html" class="navbar-brand ms-4 ms-lg-0">
+    <a href="{{ URL('/') }}" class="navbar-brand ms-4 ms-lg-0">
         <h1 class="text-primary m-0"><img class="me-3" src="{{ asset('cosidar/logo.png') }}" width="100" alt="Icon">Cosidar</h1>
     </a>
     <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -37,7 +37,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto p-4 p-lg-0">
-            <a href="{{ url('/') }}" class="nav-item nav-link active">Home</a>
+            <a href="{{ URL('/') }}"  class="nav-item nav-link active">Home</a>
             <a href="#about" class="nav-item nav-link">About</a>
             <a href="#services" class="nav-item nav-link">Services</a>
             {{-- <div class="nav-item dropdown">

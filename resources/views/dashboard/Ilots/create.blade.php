@@ -1,21 +1,72 @@
-<div class="modal fade" id="createBienModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">
-                    Situation de L'immeuble
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <h4>Ajouter un ilot</h4>
-                <!-- add_form -->
+@extends('layouts.admin.master')
+@section('css')
+
+@section('title')
+LISTE DES ILOTS
+@stop
+@endsection
+
+@section('page-header')
+<div class="page-title">
+    <div class="row">
+        <div class="col-sm-6">
+            <h4 class="mb-0">Ajoute un ilot</h4>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="default-color">Dashboard</a></li>
+                <li class="breadcrumb-item active">Ilots</li>
+            </ol>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('content')
+<div class="row">
+    <div class="col-md-12 mb-30">
+        <div class="card card-statistics h-100">
+            <div class="card-body">
+                {{-- <div class="d-flex justify-content-between">
+                    <div>
+                        <a href="{{ route('dashboard.ilots.create') }}" class="btn btn-primary x-small filter-ilots">
+                            <h5 class="card-title">Nouveau Ilot</h5>
+                        </a>
+                        <button type="button" class="btn btn-success x-small filter-ilots" data-validation="1" >
+
+                        </button>
+                        <button type="button" class="btn btn-danger x-small filter-ilots" data-validation="0" >
+
+                        </button>
+                    </div>
+                    <div>
+                        <a href="{{ route('dashboard.ilots.create') }}" class="button x-small" >
+                            Créer Bien
+                        </a>
+                    </div>
+                </div> --}}
                 <form action="{{ route('dashboard.ilots.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    {{-- Start create Ilot --}}
                     <div class="row">
+                        @if (isset($proprietaire))
+                            <div class="form-group col-md-6">
+                                <label for="proprietaire_id" class="mr-sm-2">Denomination</label>
+                                <input type="hidden" name="proprietaire_id" value="{{ $proprietaire->id }}">
+                                <input type="text" disabled value="{{ $proprietaire->Denomination_fr }}" class="form-control">
+                            </div>
+                        @else
+                            <div class="form-group col-md-6">
+                                <label for="proprietaire_id" class="mr-sm-2">Choose un Proprietaire</label>
+                                <select class="custom-select" name="proprietaire_id">
+                                    <option disabled value="">Select Proprietaire</option>
+                                    @foreach ($Proprietaires as $item)
+                                        <option value="{{ $item->id }}">{{ $item->Denomination_fr }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
+
                         <div class="form-group col-md-6">
                             <label class="mr-sm-2">Numéro d'ilot</label>
                             <input type="text"  name="N_ilot" class="form-control" required placeholder="Enter Numéro d'ilot">
@@ -30,7 +81,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label class="mr-sm-2">Intitulé d'entretien</label>
-                            <select  name="intit_Entretien" id="" required class="form-control">
+                            <select  name="intit_Entretien" id="" required class="custom-select ">
                                 <option value="1">1-BON ETAT</option>
                                 <option value="2">2-ASSEZ BON ETAT</option>
                                 <option value="3">3-VETUSTE</option>
@@ -39,7 +90,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label class="mr-sm-2">Nature</label>
-                            <select class="form-control" name="Nature" id="" required>
+                            <select class="custom-select" name="Nature" id="" required>
                                 <option value="0">0-NON RENSEIGNIE</option>
                                 <option value="1">1-IMMEUBLE ADMINISTRATIFS</option>
                                 <option value="2">2-IMMEUBLE D-HABITATION</option>
@@ -66,7 +117,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label class="mr-sm-2">Rue_fr</label>
-                            <select name="Rue_fr" id="" class="form-control" required>
+                            <select name="Rue_fr" id="" class="custom-select" required>
                                 <option value="LIEU-DIT">LIEU-DIT</option>
                                 <option value="ZONE">ZONE</option>
                                 <option value="ROUTE">ROUTE</option>
@@ -90,8 +141,8 @@
                             <label class="mr-sm-2">Localite</label>
                             <input type="text" name="Localite" id="localite-input" autocomplete="off" class="form-control" placeholder="Enter Localite">
                             <ul id="suggestions-list"></ul>
-                            <input type="hidden" name="cord_X">
-                            <input type="hidden" name="cord_y">
+                            <input hidden type="text" name="cord_X">
+                            <input hidden type="text" name="cord_y">
                         </div>
                         <div class="form-group col-md-6">
                             <label class="mr-sm-2">Numéro téléphone de l'enquêteur</label>
@@ -103,7 +154,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label class="mr-sm-2">Evaluation vénale</label>
-                            <select name="Int_VV"  class="form-control" required>
+                            <select name="Int_VV"  class="custom-select" required>
                                 <option value="1">CELLE INDIQUEE DANS L’ACTE D’AFFECTATION</option>
                                 <option value="2">CELLE QUI RESULTE DU COUT DE REALISATION</option>
                                 <option value="3">CELLE INDIQUEE DANS L-ACTE TRANSLATIF DE PROPRIETE LORSQU-IL S’AGIT D-UN IMMEUBLE ACQUIS</option>
@@ -111,24 +162,17 @@
                                 <option value="5">NON RENSEIGNIE</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label class="mr-sm-2">Pays</label>
-                            <div class="custom-select">
-                                <span class="selected-option" style="margin-top: -10px;">Sélectionnez un pays</span>
-                                {{-- <ul class="options" style="background-color:white;height: 200px;overflow-y: scroll;">
-                                    @foreach($pays as $paysInfo)
-                                        <li data-value="{{ $paysInfo['name'] }}">
-                                            <img src="{{ asset('public/'.$paysInfo['flag_1x1']) }}" alt="{{ $paysInfo['name'] }}" class="flag-icon">
-                                            {{ $paysInfo['name'] }}
-                                        </li>
-                                    @endforeach
-                                </ul> --}}
-                            </div>
-                            <input type="hidden" name="Pays" id="pays" value="">
-                        </div>
+                        {{-- <div class="form-group col-md-6">
+                            <label class="mr-sm-2">Sélectionnez un pays</label>
+                            <select name="Pays" id="pays"  class="custom-select" required>
+                                @foreach ($pays as $pay)
+                                    <option value="{{ $pay->name }}"><img src="{{ asset($pay->flag_1x1) }}" class="flag-icon" alt="{{ $pay->flag_1x1 }}"> -  {{ $pay->name }}</option>
+                                @endforeach
+                            </select>
+                        </div> --}}
                         <div class="form-group col-md-6">
                             <label class="mr-sm-2">Evaluation locative</label>
-                            <select name="Int_VL" class="form-control" required>
+                            <select name="Int_VL" class="custom-select" required>
                                 <option value="1">1-LA VALEUR RESULTE DE L-ACTE D-AFFECTATION</option>
                                 <option value="2">2-LA VALEUR RESULTE DE L’ACTE TRANSLATIF DE PROPRIETE EN CAS D-ACQUISITION OU D-ECHANGE</option>
                                 <option value="3">3-LA VALEUR EST DETERMINEE PAR LE SERVICE DES DOMAINES</option>
@@ -155,19 +199,78 @@
 
                         <div class="form-group col-md-6">
                             <label class="mr-sm-2">Images</label>
-                            <input type="file" name="images[]" multiple class="form-control" >
+                            <input type="file" name="images"  class="form-control" >
                         </div>
                     </div>
+                    {{-- end create Ilot --}}
                     <br><br>
-            </div>
+                    {{-- Start create acte --}}
+                    <h4>Ajoute acte  d'ilot :</h4>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="date_pub" class="mr-sm-2">Date de publication :</label>
+                            <input type="date" class="form-control" name="date_pub">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="nature_acte" class="mr-sm-2">Nature d'acte :</label>
+                            <select class="custom-select" name="nature_acte">
+                                <option disabled value="">Select Nature d'acte</option>
+                                <option value="Loi">Loi</option>
+                                <option value="Décret">Décret</option>
+                                <option value="Arrêté">Arrêté</option>
+                                <option value="Acte">Acte</option>
+                                <option value="Convention bilatérale">Convention bilatérale</option>
+                                <option value="Non renseigné">Non renseigné</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="volume1" class="mr-sm-2">Volume :</label>
+                            <input type="text" class="form-control" name="volume1" placeholder="enter Volume">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="Construction_Acte" class="mr-sm-2">Construction d'acte :</label>
+                            <select class="custom-select" name="Construction_Acte">
+                                <option disabled >Select Construction d'acte</option>
+                                <option value="lorsque les constructions ont été réalisées après acquisition du terrain d\'assiette">lorsque les constructions ont été réalisées après acquisition du terrain d\'assiette</option>
+                                <option value="lorsque les constructions ont été affectées avec le terrain">lorsque les constructions ont été affectées avec le terrain</option>
+                                <option value="Non renseigné">Non renseigné</option>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group col-md-6">
+                            <label for="Origine_Acte" class="mr-sm-2">Origine_Acte :</label>
+                            <select class="custom-select" name="Origine_Acte">
+                                <option disabled >Select Origine Acte</option>
+                                <option value="Non renseigner">Non renseigner</option>
+                                <option value="Don">Don</option>
+                                <option value="Cession à l-Etat à titre gratuit">Cession à l-Etat à titre gratuit</option>
+                                <option value="Acquisition">Acquisition</option>
+                                <option value="Réalisation">Réalisation</option>
+                                <option value="Échange">Échange</option>
+                                <option value="Bail ou convention">Bail ou convention</option>
+                            </select>
+                        </div>
+
+
+
+                        <div class="form-group col-md-6">
+                            <label for="case11" class="mr-sm-2">Case :</label>
+                            <input type="text" class="form-control" name="case" placeholder="enter Case11">
+                        </div>
+                    </div>
+                    {{-- end create acte --}}
+
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" aria-label="Close" ata-dismiss="modal">Fermer</button>
                         <button type="submit" class="btn btn-success">Ajoter</button>
                     </div>
                 </form>
+            </div>
         </div>
     </div>
 </div>
+@endsection
+
 
 @section('js')
 <script>
@@ -248,21 +351,6 @@
         // Gérez la fermeture de la liste des suggestions lors de la perte de focus du champ de texte
         $localiteInput.on('blur', function() {
        // $suggestionsList.empty().hide();
-        });
-    });
-
-    $(document).ready(function () {
-        $('.options').hide();
-        // Ouvrir et fermer la liste déroulante personnalisée
-        $('.selected-option').click(function () {
-            $('.options').toggle();
-        });
-        // Sélectionner une option
-        $('.options li').click(function () {
-            var selectedValue = $(this).data('value');
-            $('.selected-option').text(selectedValue);
-            $('input[name="Pays"]').val(selectedValue);
-            $('.options').hide();
         });
     });
 

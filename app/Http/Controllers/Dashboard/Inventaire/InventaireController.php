@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers\Dashboard\Inventaire;
 
+use App\Models\Ilot;
+use App\Models\Pays;
+use App\Models\Inventaire;
 use App\Models\Proprietaire;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Fournisseur;
+use App\Models\Product;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Gd\Commands\InvertCommand;
+
 class InventaireController extends Controller
 {
     /**
@@ -15,7 +22,15 @@ class InventaireController extends Controller
      */
     public function index()
     {
-        $proprietaires = Proprietaire::has('ilot')->paginate(PAGINATE_COUNT);
+        // $Ilots = Ilot::paginate(PAGINATE_COUNT);
+            // with('proprietaire','')->
+        // $proprietaires = Proprietaire::has('ilot')->with('ilot')->paginate(PAGINATE_COUNT);
+        // dd($proprietaires);
+
+        // $proprietaires = Proprietaire::where('id',17)->with('ilot')->get();
+
+        $ilotOptions = Ilot::get();
+
 
         $jsonPath = public_path('country.json');
 
@@ -24,8 +39,13 @@ class InventaireController extends Controller
         } else {
             $jsonData = [];
         }
+        $Ilots = Ilot::with('proprietaire','anx_nature_imm','anx_entretien','acteReference', 'batiments.locaux')
+        ->join('dbo_anx_nature_imm', 'dbo_ilot.Nature', '=', 'dbo_anx_nature_imm.Num_Nat_imm')
+        ->join('dbo_anx_entretien', 'dbo_anx_entretien.num_Lv', '=', 'dbo_ilot.intit_Entretien')
+        ->select('dbo_ilot.*', 'dbo_anx_nature_imm.intitule as nature_nom', 'dbo_anx_entretien.intitule as entretien_intitule')
+        ->paginate(PAGINATE_COUNT);
 
-        return view('dashboard.inventaire.index', compact('proprietaires', 'jsonData'));
+        return view('dashboard.inventaire.index', compact('ilotOptions' ,'Ilots', 'jsonData'));
     }
 
     /**
@@ -35,8 +55,12 @@ class InventaireController extends Controller
      */
     public function create()
     {
-        //
+        $ilotOptions = Ilot::get();
+
+        $pays = Pays::all();
+        return view('dashboard.inventaire.create', compact('pays','ilotOptions'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -46,7 +70,27 @@ class InventaireController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->N_ilot);
+        $inventaire = Inventaire::create([
+            'num_ilot' => $request->N_ilot,
+            'date_inv' => $request->date_inv,
+            'designation'=> $request->designation,
+            'photos'     => 'img.png',
+            'vedio'      => 'video.mp4',
+            // 'photos'     => $request->photos,
+            // 'vedio'      => $request->vedio,
+            'observation'=> $request->observation,
+
+            'Denom_Ilot' => $request->Denom_Ilot, 
+            'Denomination_fr' => $request->Denomination_fr, 
+            'paye_name' => $request->paye_name, 
+            'responsable_inventaire' => $request->responsable_inventaire, 
+            'statut_inventaire' => $request->statut_inventaire, 
+            'TypeInventaire'=> $request->TypeInventaire,
+        ]);
+
+
+        return redirect()->route('dashboard.fournisseurs.create', compact('inventaire'))->with('success', 'Le Inventaires a été créé avec succès.');
     }
 
     /**
@@ -92,5 +136,17 @@ class InventaireController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getInvoice($id)
+    {
+        $ilot = Ilot::find($id);
+        $inventaire = Inventaire::where('num_ilot',$id)->first();
+        if (is_null($inventaire)) {
+            return redirect('dashboard/inventaires')->with('error',"Désolé, une erreur s'est inventaire. Veuillez réessayer");
+        }
+        $fournisseur = Fournisseur::where('inventaire_id',$inventaire->id)->first();
+        $products = Product::where('inventaire_id',$inventaire->id)->get();
+        return view('dashboard.template.inventoire', compact('ilot','inventaire','products','fournisseur'));
     }
 }

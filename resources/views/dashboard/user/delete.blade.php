@@ -13,23 +13,23 @@
                 </button>
             </div>
             <form action="{{ route('dashboard.users.destroy' , 'test') }}" method="POST">
-            <div class="modal-body">
-                <!-- add_form -->
-                @csrf
-                @method('DELETE')
-                <div class="form-group">
-                    <h6>Etes-vous sûr de supprimer ?</ا>
-                    <input type="hidden" name="id" value="{{ $user->id }}" class="form-control">
+                <div class="modal-body">
+                    <!-- add_form -->
+                    @csrf
+                    @method('DELETE')
+                    <div class="form-group">
+                        <h6>Etes-vous sûr de supprimer ?</ا>
+                        <input type="hidden" name="id" value="{{ $user->id }}" class="form-control">
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    Close
-                </button>
-                <button type="submit" class="btn btn-danger">
-                    Delete
-                </button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-danger">
+                        Delete
+                    </button>
+                </div>
             </form>
 
         </div>

@@ -1,42 +1,80 @@
-<div class="modal fade" id="showBatimentModal{{$batiment->Num_Bat}}">" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">
-                    Show Batiment
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- add_form -->
+@extends('layouts.admin.master')
+@section('css')
 
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="name" class="mr-sm-2">Nom & Prénom :</label>
-                            {{-- <input id="name" type="text" name="name" value="{{ $user->name }}" class="form-control"> --}}
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="email" class="mr-sm-2">Compte (Compte@gmail.com) :</label>
-                            {{-- <input type="text" class="form-control" name="email" value="{{ $user->email }}"> --}}
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="password" class="mr-sm-2">Mot de Passe :</label>
-                            {{-- <input id="password" type="text" name="password" class="form-control"> --}}
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="password_confirmation" class="mr-sm-2">Confirmation de Mot de Passe :</label>
-                            {{-- <input type="password" class="form-control" name="password_confirmation"> --}}
-                        </div>
-                    </div>
-                    <br><br>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success">Update</button>
-            </div>
+@section('title')
+ORIGINE DES DROITS
+@stop
+@endsection
+@section('page-header')
+<!-- breadcrumb -->
+<div class="page-title">
+    <div class="row">
+        <div class="col-sm-6">
+            <h4 class="mb-0">Dashboard</h4>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
+                <li class="breadcrumb-item"><a href="#" class="default-color">Dashboard</a></li>
+                <li class="breadcrumb-item">ORIGINE DES DROITS</li>
+                <li class="breadcrumb-item active">ORIGINE DES DROITS</li>
+            </ol>
         </div>
     </div>
 </div>
+<!-- breadcrumb -->
+@endsection
+@section('content')
+<!-- row -->
+<div class="row">
+    <div class="col-md-12 mb-30">
+        <div class="card card-statistics ">
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="name" class="mr-sm-2">Numéro interne du Bâtiment (bat_no) :</label>
+                        <input id="name" type="text" name="name" disabled value="{{ $batiment->bat_no }}" class="form-control">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="Num_ilot" class="mr-sm-2">Sélectionnez un Numéro d\'îlot' :</label>
+                        <input id="Num_ilot" type="text" name="Num_ilot" disabled value="{{ $batiment->Num_ilot }}" class="form-control">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="Nbr_Niveau" class="mr-sm-2">Nombre de Niveaux' :</label>
+                        <input id="Num_ilot" type="text" name="Num_ilot" disabled value="{{ $batiment->Nbr_Niveau }}" class="form-control">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="sup_SDHO" class="mr-sm-2">Surface SDHO :</label>
+                        <input type="text" class="form-control" disabled name="sup_SDHO" value="{{ $batiment->sup_SDHO }}">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="nom_bat" class="mr-sm-2">Nom du Bâtiment :</label>
+                        <input type="text" class="form-control" disabled name="nom_bat" value="{{ $batiment->nom_bat }}">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="bat_desc" class="mr-sm-2">Description du Bâtiment :</label>
+                        <input type="text" class="form-control" disabled name="bat_desc" value="{{ $batiment->bat_desc }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
+            <div class="card card-statistics h-100 mt-5">
+                <div class="card-body">
+                    <div class="d-flex justify-content-end">
+                        <form action="{{ route('dashboard.locaux.create') }}" method="GET">
+                            <input hidden name="batiment_id" type="text" value="{{ $batiment->id }}">
+                            <button type="submit" class="btn btn-outline-success">Ajoute un Batiment</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endif
+    </div>
+</div>
+<!-- row closed -->
+@endsection
+@section('js')
+
+@endsection

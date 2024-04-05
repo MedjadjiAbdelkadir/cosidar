@@ -73,6 +73,8 @@
 
     // Envoyez la requête
     xhr.send();
+
+            
 </script>
 </div>
 @endsection

@@ -3,48 +3,42 @@
 namespace App\Http\Controllers\Dashboard\Batiment;
 
 use App\Models\Ilot;
+use App\Models\Local;
 use App\Models\Batiment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-
+use App\Models\NatureLocaux;
 
 class BatimentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $batiments =  DB::table('dbo_batiment')->select('dbo_batiment.*')->paginate(PAGINATE_COUNT);
-        $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
+        $ilotOptions = Ilot::get();
         return view('dashboard.batiment.index',compact(['batiments','ilotOptions']));
-
-        return view('dashboard.batiment.index')->with('batiments', $batiments);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(Request $request)
     {
-        $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
+        // dd($request->ilot_id);
+        // $ilot = Ilot::find($request->ilot_id);
+        $ilot = Ilot::where('Num_ilot',$request->ilot_id)->first();
+        
+        // dd($ilot);
+        $ilotOptions = Ilot::get();
+        if (!$ilot) {
+            return view('dashboard.batiment.create', compact('ilotOptions'));
+            // return redirect()->back()->with('error','Désolé, une erreur s\'est produite. Veuillez réessayer');
+        } else {
+            return view('dashboard.batiment.create', compact('ilot'));
+        }
 
-
-        return view('batiments.create', compact('ilotOptions'));
     }
 
     public function create_ajax()
     {
-
-
-    $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
-
-
+        $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot');
         return view('dashboard.batiment.create_ajax', compact('ilotOptions'));
     }
 
@@ -57,6 +51,8 @@ class BatimentController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
+
         $maxNumBat = Batiment::max('Num_Bat');
         $maxNumBat = $maxNumBat + 1;
 
@@ -73,9 +69,7 @@ class BatimentController extends Controller
             'nom_bat'=> '',
             'bat_desc'=> '',
             //'nbr_loc'=> '',
-
         ]);
-
             // Créez un nouveau modèle Ilot avec le nouveau Num_ilot
         $batiment =  Batiment::create([
             ///////////////////
@@ -83,7 +77,7 @@ class BatimentController extends Controller
             'bat_no'=> $validatedData['bat_no'],
             'Num_ilot'=> $validatedData['Num_ilot'],
             'Nbr_Niveau'=> $validatedData['Nbr_Niveau'],
-            'sup_bati_cons'=> $validatedData['sup_bati_cons'],
+            // 'sup_bati_cons'=> $validatedData['sup_bati_cons'],
             'sup_SDHO'=> $validatedData['sup_SDHO'],
             //'lot_bat'=> $validatedData['lot_bat'],
             'nom_bat'=> $validatedData['nom_bat'],
@@ -93,8 +87,31 @@ class BatimentController extends Controller
         ]);
 
         $idBatimentAjoute =$batiment->Num_Bat;
+        $batimentLoc = Batiment::find($batiment->id);
+        $nature_locaux = NatureLocaux::get();
+        $ilotOptions = Ilot::get();
+        
+        $batiment = Batiment::get();
+
+        
+        // Num_ilot
+        // $ilot = Ilot::find($batimentLoc->Num_ilot);
+        // dd($ilot);
+
+        // dd($batimentLoc->Num_ilot);
+        // $ilot = Ilot::where('Num_ilot',$batimentLoc->Num_ilot)->first();
+
+        $ilot = Ilot::find($batimentLoc->Num_ilot);
+
+        // dd($ilot);
+
+        return view('dashboard.batiment.select', compact('ilot','batimentLoc','nature_locaux','ilotOptions','batiment'));
+
+        // return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux','ilotOptions','batiment'));
+
+        // return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux','ilotOptions','batiment'));
         // Redirigez vers l'index avec un message de succès
-        return redirect()->route('batiments.index')->with('success', "Batiment ajouté avec succès ! (ID : $idBatimentAjoute)");// il faut retourner que json
+        // return redirect()->route('dashboard.locaux.create')->with('success', "Batiment ajouté avec succès ! (ID : $idBatimentAjoute)");// il faut retourner que json
     }
 
     public function store_ajax(Request $request)
@@ -132,14 +149,9 @@ class BatimentController extends Controller
 
 
         // Redirigez vers l'index avec un message de succès
-        return redirect()->route('dashboard.batiment.index')->with('success', 'Batiment ajouté avec succès !'); // il faut retourner que json
+        return redirect()->route('dashboard.locaux.create')->with('success', 'Batiment ajouté avec succès !'); // il faut retourner que json
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($Num_batiment)
     {
         $batiment = DB::table('dbo_batiment')
@@ -154,30 +166,18 @@ class BatimentController extends Controller
         return view('dashboard.batiment.show', compact('batiment','nombreLocaux'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($Num_batiment)
     {
         $batiment = Batiment::where('Num_Bat', $Num_batiment)->first();
 
-        $ilotOptions = Ilot::pluck('Num_ilot', 'Num_ilot'); // Remplacez 'Ilot' par le nom de votre modèle d'îlot si nécessaire
+        $ilotOptions = Ilot::get();
 
         return view('dashboard.batiment.edit', compact('batiment', 'ilotOptions'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $Num_batiment)
     {
+        // dd($request->all());
         $request->validate([
             'bat_no' => '',
             'Num_ilot' => '',
@@ -189,20 +189,26 @@ class BatimentController extends Controller
             'bat_desc' => '',
             'nbr_loc' => '',
         ]);
+        $batiment_id = $request->batiment_id;
 
-        $batiment = Batiment::where('Num_Bat', $Num_batiment)->first();
-        $batiment->update([
-            'bat_no' => $request->input('bat_no'),
-            'Num_ilot' => $request->input('Num_ilot'),
-            'Nbr_Niveau' => $request->input('Nbr_Niveau'),
-            'sup_bati_cons' => $request->input('sup_bati_cons'),
-            'sup_SDHO' => $request->input('sup_SDHO'),
-            'lot_bat' => $request->input('lot_bat'),
-            'nom_bat' => $request->input('nom_bat'),
-            'bat_desc' => $request->input('bat_desc'),
-            'nbr_loc' => $request->input('nbr_loc'),
-        ]);
-        return redirect()->route('batiments.index')->with('success', 'Le bâtiment a été mis à jour avec succès.');
+        $batiment = Batiment::find($batiment_id);
+        // $batiment->Num_Bat    = $batiment;
+        $batiment->bat_no     = $request->input('bat_no');
+        $batiment->Num_ilot   = $request->input('Num_ilot');
+        $batiment->Nbr_Niveau = $request->input('Nbr_Niveau');
+        $batiment->sup_bati_cons = $request->input('sup_bati_cons');
+        $batiment->sup_SDHO = $request->input('sup_SDHO');
+        $batiment->lot_bat  = $request->input('lot_bat');
+        $batiment->nom_bat  = $request->input('nom_bat');
+        $batiment->bat_desc = $request->input('bat_desc');
+        $batiment->nbr_loc  = $request->input('nbr_loc');
+        $batiment->save();
+
+        $batimentLoc = $batiment;
+        $nature_locaux = NatureLocaux::pluck('intitule','NNatLoc');
+        // dd($nature_locaux);
+        return view('dashboard.locaux.create', compact('batimentLoc','nature_locaux'));
+        // return redirect()->route('dashboard.locaux.create')->with('success', 'Le bâtiment a été mis à jour avec succès.');
     }
 
     /**

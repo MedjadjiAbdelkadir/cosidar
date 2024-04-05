@@ -24,15 +24,16 @@ Locaux
 @endsection
 @section('content')
 <!-- row -->
-<div class="row">
-    {{-- @include('dashboard.user.create') --}}
 
+<div class="row">
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                <button type="button"class="button x-small"  data-toggle="modal" data-target="#createUserModal">
-                    Ajouter Local
-                </button>
+                @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
+                    <a href="{{ route('dashboard.locaux.create') }}" class="button x-small" >
+                        Ajouter Local
+                    </a>
+                @endif
                 <br><br>
                 <div class="table-responsive">
                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0" data-page-length="50" style="text-align: center">
@@ -40,7 +41,7 @@ Locaux
                             <tr>
                                 <th>#</th>
                                 <th>N°LOCAUX</th>
-                                <th>N°BIEN</th> 
+                                <th>N°BIEN</th>
                                 <th>N°BATIMENT</th>
                                 <th>SURFACE LOCAUX</th>
                                 <th>NBR LOCAUX</th>
@@ -51,7 +52,6 @@ Locaux
                         </thead>
                         <tbody>
                             @foreach ($locaux as $key => $local)
-                            {{-- @foreach ($batimentas;$batiment) --}}
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{ $local->lot_no }}</td>
@@ -60,27 +60,34 @@ Locaux
                                 <td>{{ $local->lot_surface }}</td>
                                 <td>{{ $local->nb_indiv }}</td>
                                 <td>{{ $local->nature_loc }}</td>
-                                <td>{{ $local->nb_piece }}</td> 
+                                <td>{{ $local->nb_piece }}</td>
 
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-neutral Num_local" data-toggle="modal" data-target="#localModal" data-id="{{$local->lot_no}}">
-                                        <i class="fa fa-eye"></i>                                                
-                                    </button>
+                                    @if (auth()->user()->role == 'user_direction' || auth()->user()->role == 'user_sous_direction' || auth()->user()->role == 'user_consultation_direction')
+                                        <a class="btn btn-info btn-sm" href="{{ route('dashboard.locaux.show' , $local->lot_no) }}">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editLocauxModal{{$local->lot_no}}">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteLocauxModal{{$local->lot_no}}">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    @else
+                                        <a class="btn btn-info btn-sm" href="{{ route('dashboard.locaux.show' , $local->lot_no) }}">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    @endif
 
-                                    <a href="{{ route('dashboard.locaux.destroy', $local->lot_no) }}" class="btn btn-sm btn-danger delete_local" data-toggle="modal" data-target="#localModal" data-url="{{ route('dashboard.locaux.destroy', $local->lot_no) }}">
-                                        <i class="fa fa-trash"></i>                                                
-                                    </a>
-
-                                    <button type="button" class="btn btn-sm btn-success edit_local" data-toggle="modal" data-target="#localModal" data-id="{{$local->lot_no}}">
-                                        <i class="fa fa-pencil-alt"></i>                                                 
-                                    </button>                                        
                                 </td>
                             </tr>
+                            @include('dashboard.locaux.edit')
+                            @include('dashboard.locaux.delete')
                             @endforeach
 
                         </tbody>
                     </table>
-                    {{ $locaux->links() }}                                            
+                    {{ $locaux->links() }}
                 </div>
             </div>
         </div>
