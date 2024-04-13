@@ -49,10 +49,6 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group col-md-2">
-                            <label for="number" class="mr-sm-2">Id :</label>
-                            <input type="text" class="form-control" name="number" id="number">
-                        </div>
                         {{-- number --}}
                         <div class="form-group col-md-5">
                             <label for="proprietaire_id" class="mr-sm-2">Choose un Proprietaire</label>
@@ -66,17 +62,15 @@
                                 <option value="">Select Denom Ilot</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label for="N_ilot" class="mr-sm-2">Numéro d\'îlot' :</label>
                             <input type="text" class="form-control" disabled name="N_ilot" id="N_ilot">
-                            {{-- <select class="custom-select" name="N_ilot">
-                            <option disabled>Select Numéro dîlot</option>
-                            @foreach ($ilotOptions as $ilot)
-                                <option value="{{ $ilot->Num_ilot }}">{{ $ilot->N_ilot }}</option>
-                            @endforeach
-                        </select> --}}
-                        </div>
 
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="number" class="mr-sm-2">Id :</label>
+                            <input type="text" class="form-control" name="number" id="number">
+                        </div>
                         <div class="form-group col-md-6">
                             <label for="date_inv" class="mr-sm-2">Date Inv</label>
                             <input type="date" class="form-control" name="date_inv" placeholder="">
