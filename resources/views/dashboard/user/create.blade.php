@@ -54,6 +54,16 @@
                                 @endif
                             </select>
                         </div>
+                        <div class="form-group col-md-6">
+                            <label for="sector" class="mr-sm-2">Sector :</label>
+                            <select class="custom-select" name="sector">
+                                <option disabled selected>Select Sector User</option>
+                                <option value="Sector 1">Sector 1</option>
+                                <option value="Sector 2">Sector 2</option>
+                                <option value="Sector 3">Sector 3</option>
+                                <option value="Sector 4">Sector 4</option>
+                            </select>
+                        </div>
                     </div>
                     <br><br>
             </div>

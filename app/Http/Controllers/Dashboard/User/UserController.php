@@ -75,6 +75,7 @@ class UserController extends Controller
             'is_active' => 1,
             'user_status' => 1,
             'role' => $request->input('role'),
+            'sector' => $request->input('sector'),
         ]);
         return redirect()->route('dashboard.users.index')->with('success', 'User Added Successfully.');
     }
@@ -134,6 +135,7 @@ class UserController extends Controller
         $user->password = $request->password;
 
        $user->role = $selectedRole;
+       $user->sector = $request->sector;
        $user->save();
 
 

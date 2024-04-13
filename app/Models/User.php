@@ -32,7 +32,7 @@ class User extends Authenticatable
         'is_active',
         'user_status',
         'role',
-
+        'sector'
     ];
 
     protected $hidden = [

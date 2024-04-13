@@ -49,6 +49,17 @@
                                 <option value="consultation_sous_direction">Consultation SousDirection</option>
                             </select>
                         </div>
+                        <div class="form-group col-md-6">
+                            <label for="sector" class="mr-sm-2">Sector :</label>
+                            <select class="custom-select" name="sector">
+                                <option selected value="{{ $user->sector }}">{{ $user->sector }}</option>
+
+                                <option value="Sector 1">Sector 1</option>
+                                <option value="Sector 2">Sector 2</option>
+                                <option value="Sector 3">Sector 3</option>
+                                <option value="Sector 4">Sector 4</option>
+                            </select>
+                        </div>
                     </div>
             </div>
             <div class="modal-footer">
