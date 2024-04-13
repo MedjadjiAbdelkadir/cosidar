@@ -28,7 +28,7 @@ SERVICE AFFECTATAIRE
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                <form action="{{ route('dashboard.proprietaires.store') }}" method="POST">
+                <form autocomplete="off" action="{{ route('dashboard.proprietaires.store') }}" method="POST">
                     <div class="modal-body">
                         @csrf
                         <div class="row">

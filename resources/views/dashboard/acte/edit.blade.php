@@ -12,7 +12,7 @@
             </div>
             <div class="modal-body">
                 <!-- add_form -->
-                <form action="{{ route('dashboard.actes.update' , 'test') }}" method="POST">
+                <form autocomplete="off" action="{{ route('dashboard.actes.update' , 'test') }}" method="POST">
                     @csrf
                     @method('PATH')
                     {{-- $batiment->Num_Bat --}}

@@ -10,7 +10,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('dashboard.actes.store') }}" method="POST">
+            <form autocomplete="off" action="{{ route('dashboard.actes.store') }}" method="POST">
                 <div class="modal-body">
                     @csrf
                     <div class="row">

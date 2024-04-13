@@ -45,7 +45,7 @@ LISTE DES ILOTS
                         </a>
                     </div>
                 </div> --}}
-                <form action="{{ route('dashboard.ilots.store') }}" method="POST" enctype="multipart/form-data">
+                <form  autocomplete="off" action="{{ route('dashboard.ilots.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     {{-- Start create Ilot --}}
                     <div class="row">

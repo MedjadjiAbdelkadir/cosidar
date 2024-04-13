@@ -12,7 +12,7 @@
             </div>
             <div class="modal-body">
                 <!-- add_form -->
-                <form action="{{ route('dashboard.users.store') }}" method="POST">
+                <form autocomplete="off" action="{{ route('dashboard.users.store') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="form-group col-md-6">

@@ -29,7 +29,7 @@
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                <form id="addArchiveIlot" action="{{ route('dashboard.ilots-archive.store') }}" method="POST"
+                <form autocomplete="off" id="addArchiveIlot" action="{{ route('dashboard.ilots-archive.store') }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="row">

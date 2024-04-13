@@ -27,7 +27,7 @@ LISTE DES ILOTS
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                <form action="{{ route('dashboard.ilots.update', $ilot->id) }}" method="POST" enctype="multipart/form-data">
+                <form autocomplete="off" action="{{ route('dashboard.ilots.update', $ilot->id) }}" method="POST" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
                     {{-- Start create Ilot --}}

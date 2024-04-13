@@ -27,7 +27,7 @@ Batiments
 <div class="row">
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
-            <form action="{{ route('dashboard.batiments.store') }}" method="POST">
+            <form autocomplete="off" action="{{ route('dashboard.batiments.store') }}" method="POST">
             <div class="card-body">
                 @csrf
                 <div class="row">

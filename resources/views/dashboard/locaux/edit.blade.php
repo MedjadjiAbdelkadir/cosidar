@@ -10,7 +10,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('dashboard.locaux.update', 'test') }}" method="POST">
+            <form autocomplete="off" action="{{ route('dashboard.locaux.update', 'test') }}" method="POST">
                 <div class="modal-body">
                     @csrf
                     @method('PUT')

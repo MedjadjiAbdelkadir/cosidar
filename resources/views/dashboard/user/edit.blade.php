@@ -12,7 +12,7 @@
             </div>
             <div class="modal-body">
                 <!-- add_form -->
-                <form action="{{ route('dashboard.users.update' , 'test') }}" method="POST">
+                <form autocomplete="off" action="{{ route('dashboard.users.update' , 'test') }}" method="POST">
                     @csrf
                     @method('PATH')
                     <input type="hidden" name="id" value="{{ $user->id }}" class="form-control">
