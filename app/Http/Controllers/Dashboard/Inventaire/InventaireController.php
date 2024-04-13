@@ -72,6 +72,7 @@ class InventaireController extends Controller
     {
         // dd($request->N_ilot);
         $inventaire = Inventaire::create([
+            'number'   => $request->number,
             'num_ilot' => $request->N_ilot,
             'date_inv' => $request->date_inv,
             'designation'=> $request->designation,

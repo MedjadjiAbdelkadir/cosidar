@@ -49,6 +49,11 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-group col-md-2">
+                            <label for="number" class="mr-sm-2">Id :</label>
+                            <input type="text" class="form-control" name="number" id="number">
+                        </div>
+                        {{-- number --}}
                         <div class="form-group col-md-5">
                             <label for="proprietaire_id" class="mr-sm-2">Choose un Proprietaire</label>
                             <select class="custom-select" name="Denomination_fr" id="proprietaire">

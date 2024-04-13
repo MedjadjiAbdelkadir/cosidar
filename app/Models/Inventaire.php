@@ -14,6 +14,7 @@ class Inventaire extends Model
     protected $table = 'inventaire';
 
     protected $fillable = [
+        'number',
         // 'denomination',
         // 'nature',
         // 'service_affectataire',
