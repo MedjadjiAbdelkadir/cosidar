@@ -30,14 +30,45 @@
             <form autocomplete="off" action="{{ route('dashboard.articles.store') }}"method="POST" enctype="multipart/form-data">
                 <div class="card-body">
                     @csrf
-                    <div class="row">
-                        @if (!empty($inventaire))
+                    <div class="row">                        
+                    <div class="form-group col-md-2">
+                        <label for="Statut" class="mr-sm-2">Pays</label>
+                        <select class="custom-select" id="paye_name" name="paye_name">
+                            @foreach ($pays as $pay)
+                                <option value="{{ $pay->name }}">
+                                    <img src="{{ url($pay->flag_1x1) }}" width="80" /> - {{ $pay->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="proprietaire_id" class="mr-sm-2">Choose un Proprietaire</label>
+                        <select class="custom-select" name="Denomination_fr" id="proprietaire">
+                            <option value="">Select Proprietaire</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="ilot" class="mr-sm-2">Ilot</label>
+                        <select class="custom-select" id="Denom_Ilot" name="Denom_Ilot">
+                            <option value="">Select Denom Ilot</option>
+                        </select>
+                    </div>
+
+                   
+                    <div class="form-group col-md-5">
+                        <label for="inventaire_id" class="mr-sm-2">Choose un Inventaire</label>
+                        <select class="custom-select" id="inventaire_id" name="inventaire_id">
+                            <option value="">Select Inventaire</option>
+                        </select>
+                    </div>
+
+                        {{-- @if (!empty($inventaire))
                             <div class="form-group col-md-6">
                                 <label for="inventaire_id" class="mr-sm-2">Choose un Inventaire</label>
                                 <input type="text" name="inventaire_id" value="{{ $inventaire->id }}">
                             </div>
-                        @else
-                            <div class="form-group col-md-6">
+                        @else --}}
+                            {{-- <div class="form-group col-md-6">
                                 <label for="inventaire_id" class="mr-sm-2">Choose un Inventaire</label>
                                 <select class="custom-select" name="inventaire_id">
                                     <option selected value="">Select Inventaire</option>
@@ -46,7 +77,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                        @endif
+                        @endif --}}
 
                         <div class="form-group col-md-6">
                             <label for="name" class="mr-sm-2">Nom du Produit:</label>
@@ -162,6 +193,89 @@
 <!-- row closed -->
 @endsection
 @section('js')
+<script>
+    $(document).ready(function() {
+        // addArchiveIlot
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $('#paye_name').on('change', function() {
+            var paye_name = $('#paye_name').val();
+            $.ajax({
+
+                url: '{{ route('dashboard.getProprietaireByPays') }}',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    paye_name: paye_name
+                },
+                success: function(response) {
+                    $('#proprietaire').empty();
+                    $.each(response, function(key, value) {
+                        $('#proprietaire').append('<option value="' + value
+                            .Denomination_fr + '">' +
+                            value.Denomination_fr + '</option>');
+                    });
+                }
+            })
+        })
+
+        $('#proprietaire').on('change', function() {
+            var Denomination_fr = $('#proprietaire').val();
+
+            $.ajax({
+
+                url: '{{ route('dashboard.ilots.getIlotByProprietaire') }}',
+                method: 'get',
+                dataType: 'json',
+                data: {
+                    Denomination_fr: Denomination_fr
+                },
+                success: function(response) {
+                    $('#N_ilot').val(response[1]['Num_ilot']);
+                    $('#Denom_Ilot').empty();
+                    $.each(response, function(key, value) {
+                        $('#Denom_Ilot').append('<option value="' + value
+                            .Denom_Ilot + '">' +
+                            value.Denom_Ilot + '</option>');
+                    });
+                }
+            })
+        })
+
+        $('#Denom_Ilot').on('change', function() {
+            var Denom_Ilot = $('#Denom_Ilot').val();
+
+            $.ajax({
+
+                url: '{{ route('dashboard.ilots.getNuméroIlotByDenom_Ilot') }}',
+                method: 'get',
+                dataType: 'json',
+                data: {
+                    Denom_Ilot: Denom_Ilot
+                },
+                success: function(response) {
+                    // console.log(response.ilot);
+                    // console.log(response.inventaires);
+                    $('#N_ilot').val('');
+                    $('#N_ilot').val(response.ilot.Num_ilot);
+
+                    $('#inventaire_id').empty();
+                    $.each(response.inventaires, function(key, value) {
+                        console.log('designation : ',value.designation);
+                        $('#inventaire_id').append('<option value="' + value
+                            .id + '">' +
+                            value.designation + '</option>');
+                    });
+
+                }
+            })
+            // 
+        })
+    });
+</script>
 <script>
     $(document).ready(function() {
         $('#quantity, #price').on('input', function() {

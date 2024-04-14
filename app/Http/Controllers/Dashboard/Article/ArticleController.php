@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Dashboard\Article;
 
+use App\Models\Pays;
 use App\Models\Product;
 use App\Models\Inventaire;
+use App\Models\Fournisseur;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Fournisseur;
 
 class ArticleController extends Controller
 {
@@ -17,8 +18,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
+        $pays = Pays::all();
         $articles = Product::with('inventaire')->paginate(PAGINATE_COUNT);
-        return view('dashboard.article.index', compact('articles'));
+        return view('dashboard.article.index', compact('articles','pays'));
     }
 
     /**
@@ -29,9 +31,10 @@ class ArticleController extends Controller
     public function create()
     {
         // dd("create artisv");
+        $pays = Pays::all();
         $inventaires = Inventaire::get();
         $fournisseurs = Fournisseur::get();
-        return view('dashboard.article.create',compact('inventaires','fournisseurs'));   
+        return view('dashboard.article.create',compact('pays','inventaires','fournisseurs'));   
         // return view('dashboard.articles.create', compact('fournisseur'));   
     }
 

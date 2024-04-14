@@ -32,13 +32,6 @@
                     @csrf
                     <div class="row">
 
-                        {{-- 'Denom_Ilot', 
-                    'Denomination_fr', 
-                    'paye_name', 
-                    'responsable_inventaire', 
-                    'statut_inventaire', 
-                    'TypeInventaire' --}}
-
                         <div class="form-group col-md-2">
                             <label for="Statut" class="mr-sm-2">Pays</label>
                             <select class="custom-select" id="paye_name" name="paye_name">
@@ -49,7 +42,6 @@
                                 @endforeach
                             </select>
                         </div>
-                        {{-- number --}}
                         <div class="form-group col-md-5">
                             <label for="proprietaire_id" class="mr-sm-2">Choose un Proprietaire</label>
                             <select class="custom-select" name="Denomination_fr" id="proprietaire">
@@ -68,7 +60,7 @@
 
                         </div>
                         <div class="form-group col-md-2">
-                            <label for="number" class="mr-sm-2">Id :</label>
+                            <label for="number" class="mr-sm-2">Number :</label>
                             <input type="text" class="form-control" name="number" id="number">
                         </div>
                         <div class="form-group col-md-6">
@@ -192,6 +184,7 @@
                     Denomination_fr: Denomination_fr
                 },
                 success: function(response) {
+                    // console.log(`response`,response );
                     $('#N_ilot').val(response[1]['Num_ilot']);
                     $('#Denom_Ilot').empty();
                     $.each(response, function(key, value) {
@@ -215,9 +208,9 @@
                     Denom_Ilot: Denom_Ilot
                 },
                 success: function(response) {
-                    // console.log(response);
+                    console.log(response);
                     $('#N_ilot').val('');
-                    $('#N_ilot').val(response.Num_ilot);
+                    $('#N_ilot').val(response.ilot.Num_ilot);
 
                 }
             })

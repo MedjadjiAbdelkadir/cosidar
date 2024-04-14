@@ -2,24 +2,25 @@
 
 namespace App\Http\Controllers\Dashboard\Ilots;
 
-use App\Http\Controllers\Controller;
 use App\Models\Ilot;
 use App\Models\Pays;
 use App\Models\Local;
 use BaconQrCode\Writer;
 use App\Models\Batiment;
+use App\Models\Inventaire;
 use App\Models\Proprietaire;
-use App\Models\ReferenceActe;
 use Illuminate\Http\Request;
+use App\Models\ReferenceActe;
 use Illuminate\Support\Facades\DB;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use BaconQrCode\Renderer\ImageRenderer;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Contracts\Service\Attribute\Required;
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
-use Symfony\Contracts\Service\Attribute\Required;
 
 class IlotController extends Controller
 {
@@ -900,6 +901,10 @@ class IlotController extends Controller
 
     public function getNuméroIlotByDenom_Ilot(Request $request){
         $ilot = Ilot::where('proprietaire_id', $request->Denom_Ilot)->first();          
-        return response()->json($ilot);
+        $inventaires = Inventaire::where('num_ilot',$ilot->Num_ilot)->get();
+        return response()->json([
+            'ilot' => $ilot,
+            'inventaires' => $inventaires,
+        ]);
     }
 }
